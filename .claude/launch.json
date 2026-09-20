@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "masahati",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8765", "--directory", "/Users/ammaryasser/Documents/3websites/3elm/site"],
+      "port": 8765
+    },
+    {
+      "name": "masahati-old",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8766", "--directory", "/Users/ammaryasser/Documents/3websites/3elm/_src/masahati"],
+      "port": 8766
+    }
+  ]
+}

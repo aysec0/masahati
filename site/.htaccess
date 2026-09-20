@@ -1,0 +1,59 @@
+# ============================================================
+#  مساحتي — إعدادات الخادم (Apache / LiteSpeed على Hostinger)
+#  يُرفع هذا الملف كما هو بجانب index.html
+# ============================================================
+
+AddDefaultCharset UTF-8
+Options -Indexes
+DirectoryIndex index.html
+
+# أنواع الملفات
+AddType application/manifest+json .webmanifest
+AddType application/javascript .js .mjs
+AddType image/svg+xml .svg
+AddType font/woff2 .woff2
+
+# الطريق القصير للوسيط: /api/tg  ->  /api/tg.php
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteRule ^api/tg/?$ api/tg.php [L,QSA]
+</IfModule>
+
+# صفحة غير موجودة -> الصفحة الرئيسية (الموقع صفحة واحدة يوجّه نفسه بالرابط بعد #)
+ErrorDocument 404 /index.html
+
+# ضغط النقل
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml application/javascript application/json application/manifest+json image/svg+xml
+</IfModule>
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/css application/javascript application/json application/manifest+json image/svg+xml
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+
+  # المكتبات والأيقونات تُحفظ طويلًا
+  <FilesMatch "\.(js|css|png|svg|ico|woff2?|jpe?g|webp)$">
+    Header set Cache-Control "public, max-age=2592000, immutable"
+  </FilesMatch>
+  # الصفحة وعامل الخدمة والبيان يُفحصان كل مرّة حتى تصل التحديثات فورًا
+  <FilesMatch "\.(html|webmanifest)$">
+    Header set Cache-Control "no-cache, must-revalidate"
+  </FilesMatch>
+  <Files "sw.js">
+    Header set Cache-Control "no-cache, must-revalidate"
+    Header set Service-Worker-Allowed "/"
+  </Files>
+  # الوسيط لا يُخزَّن
+  <Files "tg.php">
+    Header unset Cache-Control
+  </Files>
+</IfModule>
+
+# ملفات لا يجب أن تُقرأ مباشرة
+<FilesMatch "^(\.htaccess|\.git.*|patch\.py|extra\.css)$">
+  Require all denied
+</FilesMatch>

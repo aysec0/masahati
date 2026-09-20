@@ -1,0 +1,175 @@
+/* ================================================================
+   نسخة الاستضافة — تحسينات الهاتف والحاسوب والمظهر
+   ================================================================ */
+*{-webkit-tap-highlight-color:transparent}
+a,button,.chip,.seg,.tile,.row,.tabbar a{touch-action:manipulation}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%;scroll-padding-top:80px}
+body{line-height:1.7;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;
+  min-height:100dvh}
+:root{--bg:#f6f4ee;--bg2:#eeeae1;--line:#e2ddd1;--muted:#67706c;
+  --shadow:0 1px 2px rgba(24,38,34,.04),0 10px 26px -14px rgba(24,38,34,.16)}
+::selection{background:color-mix(in srgb,var(--acc) 22%,transparent)}
+@media(hover:hover){ *{scrollbar-width:thin;scrollbar-color:color-mix(in srgb,var(--muted) 35%,transparent) transparent} }
+b,strong{font-weight:700}
+h1,h2,h3{letter-spacing:0}
+
+/* ---------- الرأس ---------- */
+.hwrap{padding:9px 14px;gap:8px}
+.logo{border-radius:12px;font-size:17px;box-shadow:0 6px 16px -8px color-mix(in srgb,var(--acc) 70%,transparent)}
+.brand b{font-size:15.5px}
+.iconbtn{border-radius:12px;transition:transform .12s,border-color .15s,color .15s,background .15s}
+.iconbtn:active{transform:scale(.92)}
+@media(max-width:360px){.brand>span>span{display:none}.hbtns{gap:4px}.iconbtn{width:36px;height:36px;border-radius:11px}}
+
+/* ---------- البانر ---------- */
+.hero{border-radius:26px;padding:24px 22px 22px;
+  background:linear-gradient(140deg,color-mix(in srgb,var(--acc) 94%,#000),color-mix(in srgb,var(--acc) 62%,#000) 70%,color-mix(in srgb,var(--acc) 45%,#000))}
+.hero::after{opacity:.12}
+.hero h1{text-shadow:0 2px 12px rgba(0,0,0,.18)}
+.contbtn{border-radius:999px;padding:9px 15px}
+@media(max-width:819px){
+  .hero{padding:20px 16px 20px;border-radius:22px;margin-bottom:14px}
+  .hero h1{font-size:30px}
+  .hero p{font-size:13.5px}
+}
+
+/* ---------- البطاقات والصفوف ---------- */
+.row{padding:12px;border-radius:18px;transition:transform .15s,box-shadow .15s,border-color .15s}
+.tile{padding:14px 15px;border-radius:18px;transition:transform .15s,box-shadow .15s,border-color .15s}
+.badge{border-radius:15px}
+.favbtn{width:36px;height:36px;border-radius:11px}
+@media(hover:hover){
+  .tile:hover,.row:hover,.chcard:hover,.ncard:hover{transform:translateY(-1px);
+    box-shadow:0 2px 4px rgba(24,38,34,.04),0 16px 32px -16px rgba(24,38,34,.26)}
+}
+.sechead h2{font-size:17.5px}
+.sechead a,.sechead button{padding:4px 2px}
+
+/* ---------- الأزرار ---------- */
+.btn{min-height:40px;border-radius:13px;padding:8px 14px;transition:transform .12s,filter .15s,background .15s}
+.btn.pri{box-shadow:0 8px 18px -10px color-mix(in srgb,var(--acc) 75%,transparent)}
+.btn:active,.chip:active,.seg:active,.tgl:active,.qb:active{transform:scale(.97)}
+.chip,.seg,.tgl,.pdfnav .chip,.ptabs .chip,.ytswitch .chip,.vtools .chip,.wallbar .chip,.slink{min-height:36px}
+.seg,.chip{transition:background .15s,color .15s,border-color .15s}
+.playbtn{width:40px;height:40px}
+.acts{gap:8px}
+@media(max-width:819px){
+  .acts{display:flex;flex-wrap:nowrap;overflow-x:auto;padding:0 16px 14px;scrollbar-width:none;-webkit-overflow-scrolling:touch;
+    scroll-snap-type:x proximity;mask-image:linear-gradient(to left,transparent,#000 14px,#000 calc(100% - 14px),transparent);
+    -webkit-mask-image:linear-gradient(to left,transparent,#000 14px,#000 calc(100% - 14px),transparent)}
+  .acts::-webkit-scrollbar{display:none}
+  .acts .btn,.acts .ibtn{flex:none;white-space:nowrap;scroll-snap-align:start}
+}
+
+/* ---------- النماذج ---------- */
+.field input[type=text],.field input[type=url],.field input[type=number],.field select,textarea,select{border-radius:13px;
+  transition:border-color .15s,background .15s,box-shadow .15s}
+.field input:focus,.field select:focus,textarea:focus,.rich:focus,.sbox input:focus{
+  box-shadow:0 0 0 3px color-mix(in srgb,var(--acc) 16%,transparent)}
+.sbox input{border-radius:16px;padding-block:13px}
+/* على الهاتف: خط ١٦ بكسل في الحقول حتى لا يقرّب سفاري الشاشة عند الكتابة */
+@media(hover:none) and (pointer:coarse){
+  input:not([type=range]):not([type=color]):not([type=checkbox]):not([type=radio]):not([type=file]),select,textarea,
+  .rich,[contenteditable="true"]{font-size:max(16px,1em)}
+}
+
+/* ---------- الأوراق السفلية ---------- */
+.sheet{animation:shFade .18s ease-out;overscroll-behavior:contain;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.sheetcard{animation:shUp .32s cubic-bezier(.2,.9,.25,1);border-radius:26px 26px 0 0;max-height:min(88vh,88dvh);
+  overscroll-behavior:contain;padding-top:8px;will-change:transform;transition:transform .22s cubic-bezier(.2,.9,.25,1);
+  box-shadow:0 -20px 50px -20px rgba(0,0,0,.45)}
+.sheetcard::before{content:'';display:block;width:42px;height:5px;border-radius:99px;background:var(--line);margin:0 auto 12px}
+@media(min-width:820px){
+  .sheetcard{border-radius:24px;padding-top:18px;animation:shPop .22s cubic-bezier(.2,.9,.25,1)}
+  .sheetcard::before{display:none}
+}
+@keyframes shFade{from{opacity:0}to{opacity:1}}
+@keyframes shUp{from{transform:translateY(48px);opacity:.5}to{transform:none;opacity:1}}
+@keyframes shPop{from{transform:scale(.96);opacity:0}to{transform:none;opacity:1}}
+
+/* ---------- الشريط السفلي ---------- */
+.tabbar{padding-top:3px;box-shadow:0 -10px 26px -20px rgba(0,0,0,.4)}
+.tabbar a,.tabbar .moretab{padding:5px 2px 8px;font-size:11px;transition:color .15s}
+.tabbar svg,.tabbar .moretab svg{width:26px;height:26px;padding:3px;border-radius:10px;transition:background .18s,transform .18s}
+.tabbar a.on svg{background:var(--acc-soft)}
+.tabbar a:active svg{transform:scale(.9)}
+
+/* ---------- المسافات على الهاتف ---------- */
+@media(max-width:819px){
+  main{padding:14px 14px 40px}
+  .sechead{margin:22px 0 10px}
+  .grid{gap:10px}
+  .panel{border-radius:20px}
+  .phead{padding:15px 15px 12px}
+  .phead h1{font-size:20px}
+  .fieldset{padding:14px;border-radius:18px}
+  .article{padding:8px 16px 22px}
+}
+
+/* ---------- تنبيهات وشرائط ---------- */
+.updtoast{position:fixed;z-index:145;inset-inline:12px;bottom:calc(84px + var(--safeb));margin:auto;max-width:440px;
+  display:flex;align-items:center;gap:8px;padding:9px 10px 9px 14px;border-radius:16px;background:var(--ink);color:var(--bg);
+  font-size:13px;font-weight:700;box-shadow:0 14px 34px -12px rgba(0,0,0,.55);animation:shUp .3s cubic-bezier(.2,.9,.25,1)}
+.updtoast span{flex:1;min-width:0}
+.updtoast button{background:var(--acc);color:#fff;border-radius:10px;padding:7px 12px;font:inherit;font-weight:800;font-size:12.5px}
+.updtoast button.x{background:none;color:var(--bg);opacity:.7;padding:6px 8px}
+@media(min-width:900px){.updtoast{bottom:24px}}
+.pwastrip{display:flex;align-items:center;gap:10px;margin:0 0 14px;padding:10px 10px 10px 12px;border-radius:16px;
+  background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
+.pwastrip .ic{width:36px;height:36px;border-radius:11px;background:var(--acc-soft);color:var(--acc);display:grid;place-items:center;flex:none}
+.pwastrip .ic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.pwastrip>div{flex:1;min-width:0}
+.pwastrip b{display:block;font-size:13px}
+.pwastrip small{display:block;font-size:11.5px;color:var(--muted)}
+.pwastrip .x{width:28px;height:28px;border-radius:50%;color:var(--muted);font-size:14px;flex:none}
+@media(min-width:820px){.pwastrip{display:none}}
+.fontpick .seg{font-size:14px;padding:8px 14px;min-height:40px}
+.hintp{font-size:12px;color:var(--muted);line-height:1.8;margin:0}
+.fieldset .hintp{margin-top:-4px}
+
+/* ---------- الشريط العلوي (شاشة متوسطة) ---------- */
+nav.top a svg{display:none}
+nav.top a{transition:color .15s,border-color .15s}
+
+/* ---------- الحاسوب: شريط جانبي ---------- */
+@media(min-width:1100px){
+  body{display:grid;grid-template-columns:var(--side) minmax(0,1fr);align-items:start;padding-bottom:0}
+  header{position:sticky;top:0;height:100dvh;border-bottom:0;border-inline-end:1px solid var(--line);
+    background:var(--card);backdrop-filter:none;-webkit-backdrop-filter:none;display:flex;flex-direction:column;padding-top:0}
+  .hwrap{flex-direction:column;align-items:stretch;padding:24px 16px 10px;gap:16px}
+  .brand{gap:12px}
+  .logo{width:46px;height:46px;font-size:21px;border-radius:14px}
+  .brand b{font-size:18px}
+  .brand span{font-size:12px}
+  .hbtns{margin:0;gap:6px;flex-wrap:wrap}
+  .iconbtn{width:40px;height:40px}
+  nav.top{display:block;border:0;background:none;flex:1;overflow:auto;padding-bottom:16px;scrollbar-width:none}
+  nav.top .in{flex-direction:column;padding:4px 10px;gap:3px;flex-wrap:nowrap}
+  nav.top a{display:flex;align-items:center;gap:11px;border:0;border-radius:13px;padding:10px 12px;font-size:14px;color:var(--ink);font-weight:600}
+  nav.top a svg{display:block;width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;color:var(--muted)}
+  nav.top a.on{background:var(--acc-soft);color:var(--acc);font-weight:700}
+  nav.top a.on svg{color:var(--acc)}
+  nav.top a:hover{background:var(--bg2)}
+  main{margin:0;max-width:1120px;padding:28px 36px 100px}
+  #player{inset-inline-start:var(--side)}
+  .pin{padding-bottom:16px}
+  .planfab{inset-inline-start:calc(var(--side) + 22px)}
+  .nowhint{right:calc(var(--side) + 16px)}
+  .startbtn{inset-inline-start:var(--side)}
+  .sheet{align-items:center}
+  .hero{padding:34px 36px 30px}
+  .hero h1{font-size:44px}
+  .hero p{font-size:15px}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+}
+@media(min-width:1400px){ main{padding-inline:56px} }
+
+/* ---------- عمق بسيط للوضع الليلي ---------- */
+:root[data-theme="dark"] .tile,:root[data-theme="dark"] .row,:root[data-theme="dark"] .panel,:root[data-theme="dark"] .fieldset,
+:root[data-theme="dark"] .pcardx,:root[data-theme="dark"] .htcard{border-color:color-mix(in srgb,var(--line) 80%,#fff 5%)}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]):not([data-theme="sepia"]) .hero{box-shadow:0 20px 40px -24px rgba(0,0,0,.8)}
+}
+
+/* ---------- الطباعة ---------- */
+@media print{ header,nav.tabbar,#player,.planfab,.txpill,.startbtn,.nowhint,.updtoast,.pwastrip{display:none!important} }
