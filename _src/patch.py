@@ -8,7 +8,7 @@ SRC = ROOT / '_src' / 'masahati' / 'index.html'
 DST = ROOT / 'site' / 'index.html'
 html = SRC.read_text(encoding='utf-8')
 
-APP_VER = '2.2.0'
+APP_VER = '2.3.0'
 
 def rep(old, new, count=1):
     global html
@@ -211,20 +211,11 @@ rep("""  const born=Date.now();
   if(wire) wire(sheetEl);
   return sheetEl;""")
 
-# ---------------------------------------------------------------- downloads: anchor download + share
+# ---------------------------------------------------------------- share (Web Share) on top of the source's own download code
 rep("""function showImg(url,name){
   sheet(`<h3>احفظ الصورة</h3>
     <p style="margin:0 0 10px;font-size:12.5px;color:var(--muted)">اضغط مطوّلًا على الصورة ثم «حفظ الصورة» (أو بالزر الأيمن على الحاسوب).</p>
     <img src="${url}" style="width:100%;border-radius:14px">
-    <div class="sheetrow"><button class="btn" onclick="closeSheet()">إغلاق</button></div>`);
-}
-async function saveBlob(blob,name,isImg){
-  if(DL){ try{ await DL.save({filename:name,data:blob}); toast('تم الحفظ'); return; }
-    catch(e){ if(e&&e.code==='declined') return; } }
-  const url=URL.createObjectURL(blob);
-  if(isImg){ showImg(url,name); return; }
-  const w=window.open(url,'_blank','noopener');
-  if(!w) sheet(`<h3>${esc(name)}</h3><a class="btn pri" href="${url}" target="_blank" download>${ICON.dl} فتح الملف</a>
     <div class="sheetrow"><button class="btn" onclick="closeSheet()">إغلاق</button></div>`);
 }""",
 """function canShareFile(blob,name){
@@ -240,33 +231,18 @@ function showImg(url,name,blob){
   const sh = blob && canShareFile(blob,name);
   sheet(`<h3>الصورة جاهزة</h3>
     <img src="${url}" alt="" style="width:100%;border-radius:14px;max-height:52vh;object-fit:contain;background:var(--bg2)">
-    <p style="margin:10px 0 0;font-size:12px;color:var(--muted);line-height:1.8">${sh?'شاركها إلى أي تطبيق، أو نزّلها، أو اضغطها مطوّلًا لحفظها في الصور.':'نزّلها، أو اضغطها مطوّلًا ثم «حفظ الصورة» (بالزر الأيمن على الحاسوب).'}</p>
+    <p class="hintp" style="margin:10px 0 0">${sh?'شاركها إلى أي تطبيق، أو نزّلها، أو اضغطها مطوّلًا لحفظها في الصور.':'نزّلها، أو اضغطها مطوّلًا ثم «حفظ الصورة» (بالزر الأيمن على الحاسوب).'}</p>
     <div class="sheetrow">
       ${sh?`<button class="btn pri" id="shareImg">${ICON.ext} مشاركة</button>`:''}
       <a class="btn ${sh?'':'pri'}" href="${url}" download="${esc(name)}">${ICON.dl} تنزيل</a>
       <button class="btn" onclick="closeSheet()">إغلاق</button></div>`, el=>{
     const b=el.querySelector('#shareImg'); if(b) b.onclick=async()=>{ if(await shareBlob(blob,name)) closeSheet(); else toast('تعذّرت المشاركة — نزّلها بدلًا من ذلك'); };
   });
-}
-async function saveBlob(blob,name,isImg){
-  if(DL){ try{ await DL.save({filename:name,data:blob}); toast('تم الحفظ'); return; }
-    catch(e){ if(e&&e.code==='declined') return; } }
-  const url=URL.createObjectURL(blob);
-  if(isImg){ showImg(url,name,blob); return; }
-  /* رابط تنزيل مباشر — يعمل على الهاتف والحاسوب بلا نوافذ منبثقة */
-  try{ const a=document.createElement('a'); a.href=url; a.download=name; a.rel='noopener';
-    document.body.appendChild(a); a.click(); setTimeout(()=>a.remove(),1000); toast('جارٍ التنزيل: '+name); }
-  catch(e){ const w=window.open(url,'_blank','noopener');
-    if(!w) sheet(`<h3>${esc(name)}</h3><a class="btn pri" href="${url}" target="_blank" download="${esc(name)}">${ICON.dl} فتح الملف</a>
-      <div class="sheetrow"><button class="btn" onclick="closeSheet()">إغلاق</button></div>`); }
-  if(canShareFile(blob,name) && matchMedia('(max-width:819px)').matches){
-    setTimeout(()=>{ const t=document.createElement('div'); t.className='updtoast';
-      t.innerHTML=`<span>أو شاركه إلى تطبيق آخر</span><button>مشاركة</button><button class="x" aria-label="إغلاق">✕</button>`;
-      t.querySelector('button').onclick=async()=>{ t.remove(); await shareBlob(blob,name); };
-      t.querySelector('.x').onclick=()=>t.remove();
-      document.body.appendChild(t); setTimeout(()=>t.remove(),7000); },300);
-  }
 }""")
+rep("""  if(isImg){ showImg(url,name); return; }
+  /* رابط تنزيل باسمه الصحيح""",
+"""  if(isImg){ showImg(url,name,blob); return; }
+  /* رابط تنزيل باسمه الصحيح""")
 
 # card designer: share button
 rep("""      <button class="btn" data-c2="dl">${ICON.dl} تنزيل الصورة</button>""",
@@ -289,28 +265,12 @@ rep("""    <div class="field"><label>وسيط الجلب من تيليجرام (
       <p style="font-size:11.5px;color:var(--muted);line-height:1.8;margin:6px 0 0">
         على استضافتك يعمل وسيط مساحتي الخاص تلقائيًا (الملف api/tg.php) وهو الأوثق. اترك هذا فارغًا إلا إن كان لك وسيط آخر.</p></div>""")
 
-rep("""    <div class="sheetrow" style="margin:0"><button class="btn pri" id="setSave">${ICON.chk} حفظ</button></div>
-  </div>
-  <div class="fieldset" style="margin-top:14px">
-    <div class="field"><label>نسخة احتياطية</label>
-      <p style="margin:0 0 10px;font-size:12.5px;color:var(--muted);line-height:1.9">
-        ملفاتك ومحتواك محفوظة في متصفح هذا الجهاز وحده — لا يراها أحد غيرك.
-        يمكنك تصدير نسخة من البنية (الأقسام والأسماء والفوائد والاقتباسات والبطاقات) لنقلها إلى جهاز آخر.
-        الملفات المرفوعة نفسها لا تُصدَّر، تُعاد إضافتها في الجهاز الجديد.</p>
-      <div class="sheetrow" style="margin:0">
-        <button class="btn" id="expBtn">${ICON.dl} تصدير</button>
-        <button class="btn" id="impBtn">${ICON.plus} استيراد</button>
-        <button class="btn" id="diagBtn">${ICON.info} فحص التخزين</button>
-      </div>
-      <div id="diagOut" style="font-size:12.5px;color:var(--muted);line-height:1.9;margin-top:10px"></div></div>
-  </div>`;""",
-"""    <div class="sheetrow" style="margin:0"><button class="btn pri" id="setSave">${ICON.chk} حفظ</button></div>
-  </div>
-  ${fontPickHTML()}
+rep("""  <div class="fieldset" style="margin-top:14px">
+    <div class="field"><label>نسخة احتياطية</label>""",
+"""  ${fontPickHTML()}
   <div class="fieldset" style="margin-top:14px">
     <div class="field"><label>مساحتي كتطبيق على جهازك</label>
-      <p style="margin:0 0 10px;font-size:12.5px;color:var(--muted);line-height:1.9">
-        ثبّته على شاشة هاتفك ليفتح كتطبيق بلا شريط عناوين، ويعمل حتى بلا إنترنت.</p>
+      <p class="hintp" style="margin:0 0 10px">ثبّته على شاشة هاتفك ليفتح كتطبيق بلا شريط عناوين، ويعمل حتى بلا إنترنت.</p>
       <div class="sheetrow" style="margin:0">
         <button class="btn pri" data-pwa="install">${ICON.plus} ثبّت على الجهاز</button>
         <button class="btn" data-pwa="check">${ICON.info} فحص الاستضافة والتطبيق</button>
@@ -318,24 +278,18 @@ rep("""    <div class="sheetrow" style="margin:0"><button class="btn pri" id="se
       <div id="hostOut" style="font-size:12.5px;color:var(--muted);line-height:1.9;margin-top:10px"></div></div>
   </div>
   <div class="fieldset" style="margin-top:14px">
-    <div class="field"><label>نسخة احتياطية</label>
-      <p style="margin:0 0 10px;font-size:12.5px;color:var(--muted);line-height:1.9">
-        ملفاتك ومحتواك محفوظة في متصفح هذا الجهاز وحده — لا يراها أحد غيرك.
-        <b>النسخة الكاملة</b> ملفٌ واحد (zip) فيه كل شيء: الأقسام والفوائد والاقتباسات والجدول والبطاقات
-        <u>والملفات المرفوعة نفسها</u> — تستوردها في أي جهاز فتعود مساحتك كما هي.</p>
-      <div class="sheetrow" style="margin:0">
-        <button class="btn pri" data-bk="full">${ICON.dl} نسخة كاملة مع الملفات</button>
-        <button class="btn" data-bk="restore">${ICON.plus} استيراد نسخة</button>
-      </div>
-      <div id="bkState" style="font-size:12.5px;color:var(--muted);line-height:1.9;margin-top:8px"></div>
-      <div class="sheetrow" style="margin:8px 0 0">
-        <button class="btn" id="expBtn">${ICON.dl} تصدير البنية فقط</button>
-        <button class="btn" id="impBtn">${ICON.plus} استيراد البنية</button>
-        <button class="btn" id="diagBtn">${ICON.info} فحص التخزين</button>
-      </div>
-      <div id="diagOut" style="font-size:12.5px;color:var(--muted);line-height:1.9;margin-top:10px"></div></div>
+    <div class="field"><label>نسخة احتياطية</label>""")
+rep("""      <div id="diagOut" style="font-size:12.5px;color:var(--muted);line-height:1.9;margin-top:10px"></div></div>
+  </div>`;
+}
+
+/* ================= item view ================= */""",
+"""      <div id="diagOut" style="font-size:12.5px;color:var(--muted);line-height:1.9;margin-top:10px"></div></div>
   </div>
-  <p class="hintp" style="text-align:center;margin:18px 0 0">مساحتي — الإصدار ${APP_VER}</p>`;""".replace('${APP_VER}', APP_VER))
+  <p class="hintp" style="text-align:center;margin:18px 0 0">مساحتي — الإصدار __APP_VER__</p>`;
+}
+
+/* ================= item view ================= */""".replace('__APP_VER__', APP_VER))
 
 # ---------------------------------------------------------------- home: install strip
 rep("""    ${lastRow&&uiOn('cont')?`<a class="contbtn" href="#/i/${lastRow.it.id}" ${lastRow.it.type==='audio'?`data-cont="${lastRow.it.id}"`:''}>
@@ -347,133 +301,6 @@ rep("""    ${lastRow&&uiOn('cont')?`<a class="contbtn" href="#/i/${lastRow.it.id
   </section>
   ${installStrip()}
 """)
-
-# ---------------------------------------------------------------- backup: zip with files
-rep("""function backupAll(){
-  const data={v:1,at:Date.now(),""",
-"""/* ===== ملف zip بسيط (تخزين بلا ضغط) — يكفي للنسخة الكاملة ولا يحتاج مكتبة ===== */
-const CRC_T=(()=>{ const t=new Int32Array(256); for(let n=0;n<256;n++){ let c=n; for(let k=0;k<8;k++) c=c&1?(0xEDB88320^(c>>>1)):(c>>>1); t[n]=c; } return t; })();
-async function crc32Blob(blob){ let c=-1; const CH=4*1024*1024;
-  for(let o=0;o<blob.size;o+=CH){ const b=new Uint8Array(await blob.slice(o,o+CH).arrayBuffer());
-    for(let i=0;i<b.length;i++) c=CRC_T[(c^b[i])&255]^(c>>>8); }
-  return (c^-1)>>>0; }
-async function makeZip(entries,onProgress){
-  const enc=new TextEncoder(), parts=[], cd=[]; let off=0; const d=new Date();
-  const tm=((d.getHours()<<11)|(d.getMinutes()<<5)|(d.getSeconds()>>1))&0xffff;
-  const dt=(((d.getFullYear()-1980)<<9)|((d.getMonth()+1)<<5)|d.getDate())&0xffff;
-  for(let i=0;i<entries.length;i++){ const e=entries[i]; const nm=enc.encode(e.name); const crc=await crc32Blob(e.blob); const sz=e.blob.size;
-    const lh=new DataView(new ArrayBuffer(30)); lh.setUint32(0,0x04034b50,true); lh.setUint16(4,20,true); lh.setUint16(6,0x0800,true);
-    lh.setUint16(8,0,true); lh.setUint16(10,tm,true); lh.setUint16(12,dt,true); lh.setUint32(14,crc,true); lh.setUint32(18,sz,true); lh.setUint32(22,sz,true);
-    lh.setUint16(26,nm.length,true); lh.setUint16(28,0,true);
-    parts.push(lh.buffer,nm,e.blob);
-    const ch=new DataView(new ArrayBuffer(46)); ch.setUint32(0,0x02014b50,true); ch.setUint16(4,20,true); ch.setUint16(6,20,true); ch.setUint16(8,0x0800,true);
-    ch.setUint16(10,0,true); ch.setUint16(12,tm,true); ch.setUint16(14,dt,true); ch.setUint32(16,crc,true); ch.setUint32(20,sz,true); ch.setUint32(24,sz,true);
-    ch.setUint16(28,nm.length,true); ch.setUint32(42,off,true);
-    cd.push(ch.buffer,nm); off+=30+nm.length+sz;
-    if(onProgress) onProgress(i+1,entries.length); }
-  const cdSize=cd.reduce((a,p)=>a+p.byteLength,0);
-  const end=new DataView(new ArrayBuffer(22)); end.setUint32(0,0x06054b50,true); end.setUint16(8,entries.length,true); end.setUint16(10,entries.length,true);
-  end.setUint32(12,cdSize,true); end.setUint32(16,off,true);
-  return new Blob([...parts,...cd,end.buffer],{type:'application/zip'});
-}
-async function readZip(blob){
-  const tail=new DataView(await blob.slice(Math.max(0,blob.size-70000)).arrayBuffer()); let p=-1;
-  for(let i=tail.byteLength-22;i>=0;i--){ if(tail.getUint32(i,true)===0x06054b50){ p=i; break; } }
-  if(p<0) throw new Error('not zip');
-  const n=tail.getUint16(p+10,true), cdSize=tail.getUint32(p+12,true), cdOff=tail.getUint32(p+16,true);
-  const cd=new DataView(await blob.slice(cdOff,cdOff+cdSize).arrayBuffer()); const dec=new TextDecoder(); const out=[]; let o=0;
-  for(let i=0;i<n;i++){ if(cd.getUint32(o,true)!==0x02014b50) break;
-    const method=cd.getUint16(o+10,true), csz=cd.getUint32(o+20,true), nl=cd.getUint16(o+28,true), el=cd.getUint16(o+30,true), cl=cd.getUint16(o+32,true), lo=cd.getUint32(o+42,true);
-    out.push({name:dec.decode(new Uint8Array(cd.buffer,o+46,nl)),method,csz,lo}); o+=46+nl+el+cl; }
-  return { entries:out, async get(e){
-    const lh=new DataView(await blob.slice(e.lo,e.lo+30).arrayBuffer()); const start=e.lo+30+lh.getUint16(26,true)+lh.getUint16(28,true);
-    const data=blob.slice(start,start+e.csz);
-    if(e.method===0) return data;
-    if(e.method===8&&typeof DecompressionStream!=='undefined') return await new Response(data.stream().pipeThrough(new DecompressionStream('deflate-raw'))).blob();
-    throw new Error('unsupported'); } };
-}
-async function allFileKeys(){ const d=await db(); if(!d) return [];
-  return new Promise(res=>{ const q=d.transaction('f','readonly').objectStore('f').getAllKeys(); q.onsuccess=()=>res(q.result||[]); q.onerror=()=>res([]); }); }
-async function backupFull(){
-  const st=document.getElementById('bkState'); const say=t=>{ if(st) st.textContent=t; };
-  say('جارٍ جمع الملفات…');
-  const keys=await allFileKeys(); const data=backupData(); data.v=2; data.files={};
-  const entries=[]; let total=0;
-  for(const k of keys){ const b=await getFile(k); if(!b) continue;
-    data.files[k]={type:b.type||'',size:b.size,name:b.name||''}; entries.push({name:'files/'+k,blob:b}); total+=b.size; }
-  if(total>3.9e9){ say('الملفات أكبر من ٤ جيجا — صدّر البنية وحدها ثم انسخ الملفات الكبيرة يدويًا.'); return; }
-  entries.unshift({name:'masahati.json',blob:new Blob([JSON.stringify(data)],{type:'application/json'})});
-  try{ const zip=await makeZip(entries,(i,n)=>say(`جارٍ التجهيز… ${AR(i)} من ${AR(n)}`));
-    say('النسخة جاهزة — '+mb(zip.size)+' — '+AR(entries.length-1)+' ملف');
-    saveBlob(zip,'نسخة-مساحتي-كاملة.zip',false);
-  }catch(e){ say('تعذّر إنشاء النسخة: '+(e.message||e)); }
-}
-async function restoreZip(f){
-  const st=document.getElementById('bkState'); const say=t=>{ if(st) st.textContent=t; else toast(t); };
-  say('جارٍ قراءة النسخة…');
-  const z=await readZip(f);
-  const meta=z.entries.find(e=>e.name==='masahati.json'); if(!meta) throw new Error('no meta');
-  const d=JSON.parse(await (await z.get(meta)).text());
-  const files=z.entries.filter(e=>e.name.startsWith('files/')); let i=0;
-  for(const e of files){ const key=e.name.slice(6); const info=(d.files||{})[key]||{};
-    const b=await z.get(e); await putFile(key,new Blob([b],{type:info.type||''})); say(`جارٍ استعادة الملفات… ${AR(++i)} من ${AR(files.length)}`); }
-  applyBackup(d);
-  say('استُعيدت — يُعاد تحميل الموقع'); toast('استُعيدت النسخة كاملة');
-  setTimeout(()=>location.reload(),900);
-}
-document.addEventListener('click',ev=>{
-  const b=ev.target.closest('[data-bk]'); if(!b) return;
-  if(b.dataset.bk==='full') backupFull(); else if(b.dataset.bk==='restore') restoreAll();
-});
-function backupData(){
-  return {v:1,at:Date.now(),""")
-
-rep("""    writes:S.get('writes',[]),wkinds:S.get('wkinds',[]),moods:S.get('moods',[]),mode:S.get('mode','full')};
-  const blob=new Blob([JSON.stringify(data)],{type:'application/json'});
-  saveBlob(blob,'نسخة-مساحتي.json',false);
-  toast('الملفات المرفوعة لا تدخل في النسخة — انسخها من جهازك');
-}
-function restoreAll(){
-  const i=document.createElement('input'); i.type='file'; i.accept='.json,application/json';
-  i.onchange=async()=>{ const f=i.files[0]; if(!f) return;
-    try{
-      const d=JSON.parse(await f.text());
-      if(d.site) S.set('site',d.site);""",
-"""    writes:S.get('writes',[]),wkinds:S.get('wkinds',[]),moods:S.get('moods',[]),mode:S.get('mode','full'),
-    fonts:S.get('fonts',{}),theme:S.get('theme',null),fonts2:S.get('fonts2',[])};
-}
-function backupAll(){
-  const blob=new Blob([JSON.stringify(backupData())],{type:'application/json'});
-  saveBlob(blob,'نسخة-مساحتي.json',false);
-  toast('هذه البنية فقط — «النسخة الكاملة» في الإعدادات تحفظ الملفات أيضًا');
-}
-function restoreAll(){
-  const i=document.createElement('input'); i.type='file'; i.accept='.json,.zip,application/json,application/zip';
-  i.onchange=async()=>{ const f=i.files[0]; if(!f) return;
-    try{
-      if(/\\.zip$/i.test(f.name)||f.type==='application/zip'||f.type==='application/x-zip-compressed'){ await restoreZip(f); return; }
-      const d=JSON.parse(await f.text());
-      applyBackup(d);
-      toast('استُوردت — يُعاد تحميل الموقع');
-      setTimeout(()=>location.reload(),700);
-    }catch(e){ toast('ملف غير صالح'); }
-  };
-  i.click();
-}
-function applyBackup(d){
-      if(d.fonts) S.set('fonts',d.fonts);
-      if(d.theme) S.set('theme',d.theme);
-      if(d.fonts2) S.set('fonts2',d.fonts2);
-      if(d.site) S.set('site',d.site);""")
-rep("""      if(d.mode) S.set('mode',d.mode);
-      toast('استُوردت — يُعاد تحميل الموقع');
-      setTimeout(()=>location.reload(),700);
-    }catch(e){ toast('ملف غير صالح'); }
-  };
-  i.click();
-}""",
-"""      if(d.mode) S.set('mode',d.mode);
-}""")
 
 # ask for persistent storage the first time a file is stored
 rep("""async function ingest(files, target){

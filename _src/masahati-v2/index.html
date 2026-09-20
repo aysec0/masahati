@@ -2046,11 +2046,13 @@ function vSettings(){
   <div class="fieldset" style="margin-top:14px">
     <div class="field"><label>نسخة احتياطية</label>
       <p style="margin:0 0 10px;font-size:12.5px;color:var(--muted);line-height:1.9">
-        مساحتك محفوظة في متصفّح هذا الجهاز وحده — لا يراها أحد غيرك.
-        خذ نسخة شاملة تحمل كلّ شيء ومعه ملفاتك، أو نسخة خفيفة بلا الملفات،
-        ثمّ استعدها في أيّ جهاز فيعود كلّ شيء كما تركته.</p>
+        ملفاتك ومحتواك محفوظة في متصفح هذا الجهاز وحده — لا يراها أحد غيرك.
+        يمكنك تصدير نسخة من البنية (الأقسام والأسماء والفوائد والاقتباسات والبطاقات) لنقلها إلى جهاز آخر.
+        الملفات المرفوعة نفسها لا تُصدَّر، تُعاد إضافتها في الجهاز الجديد.</p>
       <div class="sheetrow" style="margin:0">
-        <button class="btn pri" id="bkBtn">${ICON.dl} النسخة الاحتياطية والاستعادة</button>
+        <button class="btn" id="expBtn">${ICON.dl} تصدير</button>
+        <button class="btn" id="impBtn">${ICON.plus} استيراد</button>
+        <button class="btn" id="diagBtn">${ICON.info} فحص التخزين</button>
       </div>
       <div id="diagOut" style="font-size:12.5px;color:var(--muted);line-height:1.9;margin-top:10px"></div></div>
   </div>`;
@@ -3164,15 +3166,8 @@ async function saveBlob(blob,name,isImg){
     catch(e){ if(e&&e.code==='declined') return; } }
   const url=URL.createObjectURL(blob);
   if(isImg){ showImg(url,name); return; }
-  /* رابط تنزيل باسمه الصحيح — فلا يُحفظ الملف باسمٍ مبهم */
-  try{
-    const a=document.createElement('a'); a.href=url; a.download=name; a.rel='noopener';
-    a.style.display='none'; document.body.appendChild(a); a.click();
-    setTimeout(()=>{ a.remove(); URL.revokeObjectURL(url); }, 60000);
-    return;
-  }catch(e){}
   const w=window.open(url,'_blank','noopener');
-  if(!w) sheet(`<h3>${esc(name)}</h3><a class="btn pri" href="${url}" target="_blank" download="${esc(name)}">${ICON.dl} فتح الملف</a>
+  if(!w) sheet(`<h3>${esc(name)}</h3><a class="btn pri" href="${url}" target="_blank" download>${ICON.dl} فتح الملف</a>
     <div class="sheetrow"><button class="btn" onclick="closeSheet()">إغلاق</button></div>`);
 }
 
@@ -3839,7 +3834,35 @@ function wire(h){
       S.set('ytalt',(document.getElementById('setYtAlt').value.trim()||'https://yewtu.be'));
       saveSite(); applyTheme(); toast('حُفظ'); render();
     };
-    document.getElementById('bkBtn').onclick=()=>bkSheet();
+    document.getElementById('expBtn').onclick=()=>{
+      const data={site,tree:tree.map(s=>({...s,items:(s.items||[]).map(stripFile),subs:(s.subs||[]).map(u=>({...u,items:(u.items||[]).map(stripFile)}))})),
+        quotes,notes,hls,fav,cards,v:1};
+      saveBlob(new Blob([JSON.stringify(data,null,1)],{type:'application/json'}), (site.name||'مساحتي')+'.json', false);
+    };
+    document.getElementById('diagBtn').onclick=async()=>{
+      const out=document.getElementById('diagOut'); out.textContent='جارٍ الفحص…';
+      const d=await db();
+      if(!d){ out.innerHTML='<b style="color:#b4472e">تخزين الملفات غير متاح في هذا المتصفح</b> — قد تكون في وضع التصفّح الخفي أو التخزين محظور. جرّب متصفحًا آخر أو أوقف الوضع الخفي.'; return; }
+      const files=allItems().filter(r=>r.it.file);
+      let ok=0, miss=[], bytes=0;
+      for(const r of files){ const b=await getFile(r.it.file);
+        if(b){ ok++; bytes+=b.size||0; } else miss.push(r.it); }
+      out.innerHTML = `عدد العناصر ذات ملفات: <b>${AR(files.length)}</b> — موجودة: <b>${AR(ok)}</b>`
+        + (miss.length? ` — <b style="color:#b4472e">مفقودة: ${AR(miss.length)}</b>`:'')
+        + `<br>حجم ما هو محفوظ: <b>${mb(bytes)}</b>`
+        + (miss.length? '<br>المفقودة: '+miss.map(x=>esc(x.name)).join('، ')+' — افتح كل واحد واضغط «أعد رفع الملف».':'');
+    };
+    document.getElementById('impBtn').onclick=()=>{
+      const inp=document.createElement('input'); inp.type='file'; inp.accept='.json,application/json';
+      inp.onchange=async()=>{ const f=inp.files[0]; if(!f) return;
+        try{ const d=JSON.parse(await f.text());
+          if(d.site) site=d.site; if(d.tree) tree=d.tree; if(d.quotes) quotes=d.quotes;
+          if(d.notes) notes=d.notes; if(d.hls) hls=d.hls; if(d.fav) fav=d.fav; if(d.cards) cards=d.cards;
+          saveSite(); saveTree(); saveQuotes(); saveNotes(); saveHls(); saveFav(); saveCards();
+          toast('تم الاستيراد'); render();
+        }catch(e){ toast('ملف غير صالح'); } };
+      inp.click();
+    };
   }
   // cards
   document.querySelectorAll('[data-preview]').forEach(async cvs=>{
@@ -6047,45 +6070,13 @@ function txPick(it, resume) {
     <div class="rows" style="display:flex;flex-direction:column;gap:8px">
       ${M.map(([id, t, s]) => `<button class="tile" data-txm="${id}"><div class="ic">${ICON.audio}</div>
         <div><b>${t}</b><small>${s}</small></div></button>`).join('')}
-    </div>
-    <div class="sheetrow"><button class="btn" data-txdiag="1">${ICON.info} افحص التفريغ</button></div>
-    <div id="txDiag" style="font-size:12px;color:var(--muted);line-height:1.85;margin-top:8px"></div>`, el => {
+    </div>`, el => {
     el.addEventListener('click', ev => {
       const b = ev.target.closest('[data-txm]'); if (!b) return;
       closeSheet(); txRun(it, b.dataset.txm, resume);
     });
   });
 }
-/* فحصٌ يقول أين تعطّل التفريغ بالضبط، لا «تعذّر» فحسب */
-async function txDiag(out) {
-  if (!out) return;
-  const L = [];
-  const say = () => out.innerHTML = L.join('<br>');
-  const ok = '<b style="color:var(--acc)">✓</b>', no = '<b style="color:#b4472e">✗</b>';
-  L.push('جارٍ الفحص…'); say();
-  L.length = 0;
-  L.push(`المصدر: <b dir="ltr">${esc(location.protocol + '//' + (location.host || 'ملف من الجهاز'))}</b>`);
-  L.push(`عزل المصدر (COOP/COEP): ${self.crossOriginIsolated ? ok + ' مفعّل' : no + ' غير مفعّل — نستعمل خيطًا واحدًا'}`);
-  L.push(`بطاقة رسوميّة (WebGPU): ${navigator.gpu ? ok : '—'}`);
-  say();
-  let r = null;
-  try {
-    const w = txWorkerStart();
-    r = (await txAsk({ cmd: 'probe', model: 'Xenova/whisper-tiny' }, null, 120000)).r;
-  } catch (e) {
-    L.push(`${no} تعذّر تشغيل عامل الخلفية: ${esc(String(e.message || e))}`); say(); return;
-  }
-  L.push(`${ok} عامل الخلفية يعمل`);
-  if (r.libErr) L.push(`${no} تنزيل مكتبة التفريغ من cdn.jsdelivr.net: ${esc(r.libErr)}`);
-  else L.push(`${ok} مكتبة التفريغ وصلت (${AR(Math.round(r.lib / 1000))} ثانية)`);
-  if (r.hfErr) L.push(`${no} الوصول إلى huggingface.co: ${esc(r.hfErr)}`);
-  else if (r.hfStatus != null) L.push(`${r.hfStatus === 200 ? ok : no} خادم النماذج huggingface.co — الحالة ${AR(r.hfStatus)}`);
-  if (r.libErr || r.hfErr || r.hfStatus !== 200)
-    L.push('<br>أكثر ما يمنعه: شبكة تحجب هذين العنوانين (شبكة عمل أو مدرسة أو مزوّد)، أو مانع إعلانات، أو تصفّح خفيّ. جرّب شبكة أخرى أو متصفّحًا آخر.');
-  else L.push('<br>كل شيء سليم — ابدأ التفريغ، وأوّل مرّة يُنزَّل النموذج فاصبر عليه.');
-  say();
-}
-
 /* ===== محرّك التفريغ: يعمل على دفعات، يحفظ أوّلًا بأوّل، ويكمل في الخلفية ===== */
 let TXJOB = null;        /* {itemId,name,total,i,segs,state,model,t0} */
 let txPipe = null, txPipeName = '';
@@ -6179,28 +6170,12 @@ async function load(model,gpu){
     opt={quantized:true};
   }
   try{ T.env.useBrowserCache=false; T.env.useCustomCache=true; T.env.customCache=MCACHE; }catch(e){}
-  /* خيطٌ واحد: الاستضافات العامّة (مثل صفحات github) لا ترسل ترويسات
-     العزل التي تحتاجها الخيوط المتعدّدة، فبدونها يفشل المحرّك أصلًا */
-  try{ if(!self.crossOriginIsolated){ T.env.backends.onnx.wasm.numThreads=1; } }catch(e){}
-  try{ T.env.backends.onnx.wasm.proxy=false; }catch(e){}
   opt.progress_callback=p=>{ try{ postMessage({t:'dl',p:{status:p.status,loaded:p.loaded,total:p.total}}); }catch(e){} };
   pipe=await T.pipeline('automatic-speech-recognition',model,opt); name=model;
 }
 onmessage=async e=>{
   const d=e.data||{};
   try{
-    if(d.cmd==='probe'){
-      const r={worker:true, iso:!!self.crossOriginIsolated, sab:typeof SharedArrayBuffer!=='undefined'};
-      try{ const t0=Date.now();
-        const T=await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
-        r.lib=Date.now()-t0; r.libv=(T.env&&T.env.version)||'ok';
-      }catch(err){ r.libErr=String((err&&err.message)||err); }
-      if(!r.libErr){ try{ const t1=Date.now();
-        const res=await fetch('https://huggingface.co/'+d.model+'/resolve/main/config.json');
-        r.hfStatus=res.status; r.hf=Date.now()-t1;
-      }catch(err){ r.hfErr=String((err&&err.message)||err); } }
-      postMessage({t:'probe',id:d.id,r}); return;
-    }
     if(d.cmd==='load'){ if(!pipe||name!==d.model) await load(d.model,d.gpu); postMessage({t:'ready',id:d.id}); }
     else if(d.cmd==='run'){
       let out;
@@ -6259,8 +6234,6 @@ async function txLoad(model, onp) {
     T.env.allowLocalModels = false;
     opt = { quantized: true, progress_callback: onp };
   }
-  try { if (!self.crossOriginIsolated) T.env.backends.onnx.wasm.numThreads = 1; } catch (e) {}
-  try { T.env.backends.onnx.wasm.proxy = false; } catch (e) {}
   txPipe = await T.pipeline('automatic-speech-recognition', model, opt);
   txPipeName = model;
   return txPipe;
@@ -6354,15 +6327,11 @@ function txFail(e) {
   const card = document.querySelector('.sheet .sheetcard');
   const msg = txMsg(e);
   if (TXJOB) { TXJOB.state = 'err'; }
-  const raw = String((e && e.message) || e || '');
   if (card) card.innerHTML = `<h3>تعذّر التفريغ</h3>
     <p class="mkempty">${esc(msg)}<br>
       ${TXJOB && TXJOB.segs.length ? 'ما فُرّغ قبل العطل محفوظ، ويمكنك إكماله من زر «أكمل التفريغ».' :
         'جرّب حجمًا أصغر، أو تأكّد من الاتصال، أو ألصق النصّ بنفسك.'}</p>
-    ${raw && raw !== msg ? `<p class="mkempty" style="font-size:11.5px;direction:ltr;text-align:left">${esc(raw)}</p>` : ''}
-    <div class="sheetrow"><button class="btn" data-txdiag="1">${ICON.info} افحص التفريغ</button>
-      <button class="btn" onclick="closeSheet()">إغلاق</button></div>
-    <div id="txDiag" style="font-size:12px;color:var(--muted);line-height:1.85;margin-top:8px"></div>`;
+    <div class="sheetrow"><button class="btn" onclick="closeSheet()">إغلاق</button></div>`;
   else toast('تعذّر التفريغ: ' + msg);
   TXJOB = null; txPill();
 }
@@ -6376,9 +6345,6 @@ function txRefresh(id) {
   else if (!box && html) { const mk = document.querySelector('.mkbox'); if (mk) mk.insertAdjacentHTML('afterend', html); }
 }
 document.addEventListener('click', ev => {
-  if (ev.target.closest('[data-txdiag]')) {
-    const o = document.getElementById('txDiag'); if (o) txDiag(o); return;
-  }
   const b = ev.target.closest('[data-txj]'); if (!b) return;
   const k = b.dataset.txj;
   if (!TXJOB) { txPill(); return; }
@@ -8803,212 +8769,6 @@ document.addEventListener('change',ev=>{
 async function drawCardAny(cv,c){
   if(c&&(c.v===3||c.v===2)){ await c2Draw(cv,Object.assign({layers:[],d:{}},c)); return; }
   try{ drawCard(cv,c); }catch(e){}
-}
-
-
-/* ================= النسخة الاحتياطية الكاملة =================
-   نسختان:
-   1) نسخة المساحة (.json) — كل ما في هذا الجهاز من إعدادات ومحتوى: الأقسام
-      وأسماؤها وترتيبها، الفوائد والتظليلات والاقتباسات والكتابات والمذكّرات
-      والخرائط الذهنية والعلامات المرجعية والتفريغ والجدول والأهداف والأولويات
-      والمهام وأوقات الصلاة والبطاقات والمفضّلة والتأريخ والإنجازات وكل تخصيصٍ
-      اخترته. ما لا تحمله: الملفات المرفوعة نفسها (PDF/صوت/فيديو/صور).
-   2) نسخة شاملة (.mspace) — كلّ ما سبق ومعه الملفات المرفوعة بذاتها،
-      في ملفٍ واحد يُستعاد في أي جهاز فيعود كل شيء كما تركته.
-
-   صيغة الملف الشامل (ثنائيّة، تُكتب تدفّقًا فلا تُرهق ذاكرة الجهاز):
-     "MSHBK001"  ثمانية أحرف
-     ثمانية أرقام  = طول ترويسة JSON بالبايت
-     ترويسة JSON  = {v, ls:{...}, files:[{k,type,size}]}
-     ثم بايتات الملفات متتابعةً بالترتيب نفسه.
-*/
-const BK_MAGIC = 'MSHBK001';
-
-function lsAll() {
-  const o = {};
-  try {
-    for (let i = 0; i < localStorage.length; i++) {
-      const k = localStorage.key(i);
-      if (k && k.slice(0, 3) === 'ws_') o[k] = localStorage.getItem(k);
-    }
-  } catch (e) {}
-  return o;
-}
-/* كل مفاتيح الملفات المذكورة في المساحة: المقرّرات وصور الجدار والصورة الشخصية */
-function bkFileKeys() {
-  const keys = new Set();
-  try {
-    (tree || []).forEach(s => {
-      (s.items || []).forEach(it => { if (it.file) keys.add(it.file); });
-      (s.subs || []).forEach(u => (u.items || []).forEach(it => { if (it.file) keys.add(it.file); }));
-    });
-  } catch (e) {}
-  try { (quotes || []).forEach(q => { if (q.img) keys.add(q.img); }); } catch (e) {}
-  try { if (site && site.avatar) keys.add(site.avatar); } catch (e) {}
-  try { (cards || []).forEach(c => {
-    if (c.img) keys.add(c.img); if (c.logo) keys.add(c.logo);
-    if (c.free && c.free.imgKey) keys.add(c.free.imgKey);
-    if (c.free && c.free.layers) c.free.layers.forEach(l => { if (l.imgKey) keys.add(l.imgKey); });
-  }); } catch (e) {}
-  /* أي مفتاح آخر مخزَّن في الكتابات أو العلامات */
-  try {
-    const raw = JSON.stringify([S.get('writes', []), S.get('marks', {}), S.get('minds', [])]);
-    (raw.match(/"(f|wq|av|im)[a-z0-9]{4,}"/gi) || []).forEach(m => keys.add(m.replace(/"/g, '')));
-  } catch (e) {}
-  return [...keys];
-}
-function bkPad8(n) { return String(n).padStart(8, '0'); }
-
-async function bkSize() {
-  let bytes = 0, n = 0;
-  for (const k of bkFileKeys()) { const b = await getFile(k); if (b) { bytes += b.size || 0; n++; } }
-  return { bytes, n };
-}
-
-/* ---------- تصدير ---------- */
-async function bkExport(withFiles) {
-  const name = (site.name || 'مساحتي').replace(/[\\/:*?"<>|]/g, '');
-  const stamp = ymd(new Date());
-  if (!withFiles) {
-    const head = { v: 2, at: Date.now(), ls: lsAll(), files: [] };
-    await saveBlob(new Blob([JSON.stringify(head)], { type: 'application/json' }),
-      `${name}-${stamp}.json`, false);
-    return;
-  }
-  toast('جارٍ تجميع الملفات…');
-  const parts = [], meta = [];
-  for (const k of bkFileKeys()) {
-    const b = await getFile(k);
-    if (!b) continue;
-    meta.push({ k, type: b.type || '', size: b.size || 0 });
-    parts.push(b);
-  }
-  const head = JSON.stringify({ v: 2, at: Date.now(), ls: lsAll(), files: meta });
-  const hb = new TextEncoder().encode(head);
-  const blob = new Blob([BK_MAGIC, bkPad8(hb.length), hb, ...parts], { type: 'application/octet-stream' });
-  await saveBlob(blob, `${name}-${stamp}.mspace`, false);
-}
-
-/* ---------- استيراد ---------- */
-async function bkRead(file) {
-  const first = await file.slice(0, 16).text();
-  if (first.slice(0, 8) === BK_MAGIC) {
-    const hlen = +first.slice(8, 16);
-    const head = JSON.parse(await file.slice(16, 16 + hlen).text());
-    return { head, body: file.slice(16 + hlen) };
-  }
-  const d = JSON.parse(await file.text());
-  return { head: d, body: null };
-}
-async function bkImport(file, mode) {
-  const { head, body } = await bkRead(file);
-  /* الصيغة القديمة: {site,tree,quotes,notes,hls,fav,cards} */
-  if (!head.ls) {
-    const old = head;
-    if (old.site) S.set('site', old.site);
-    if (old.tree) S.set('tree', old.tree);
-    if (old.quotes) S.set('quotes', old.quotes);
-    if (old.notes) S.set('notes', old.notes);
-    if (old.hls) S.set('hls', old.hls);
-    if (old.fav) S.set('fav', old.fav);
-    if (old.cards) S.set('cards', old.cards);
-    return { keys: 7, files: 0, miss: 0 };
-  }
-  if (mode === 'replace') {
-    try {
-      const drop = [];
-      for (let i = 0; i < localStorage.length; i++) {
-        const k = localStorage.key(i); if (k && k.slice(0, 3) === 'ws_') drop.push(k);
-      }
-      drop.forEach(k => localStorage.removeItem(k));
-    } catch (e) {}
-  }
-  let keys = 0;
-  Object.keys(head.ls || {}).forEach(k => {
-    try { localStorage.setItem(k, head.ls[k]); keys++; } catch (e) {}
-  });
-  let files = 0, miss = 0;
-  if (body && (head.files || []).length) {
-    let off = 0;
-    for (const f of head.files) {
-      const slice = body.slice(off, off + f.size, f.type || '');
-      off += f.size;
-      try { await putFile(f.k, slice); files++; } catch (e) { miss++; }
-    }
-  } else if ((head.files || []).length) miss = head.files.length;
-  return { keys, files, miss };
-}
-
-/* ---------- اللوحة ---------- */
-function bkSheet() {
-  sheet(`<h3>النسخة الاحتياطية</h3>
-    <p class="mkempty" style="line-height:1.95">مساحتك محفوظة في متصفّح هذا الجهاز وحده.
-      خذ منها نسخة متى شئت، واستعدها في أيّ جهاز فيعود كلّ شيء كما تركته.</p>
-    <div class="pcardx" style="margin:10px 0 0;padding:12px">
-      <b style="font-size:13.5px">نسخة شاملة — كلّ شيء ومعه ملفاتك</b>
-      <p class="hintp" style="margin:6px 0 9px">الأقسام والفوائد والتظليلات والاقتباسات والكتابات
-        والخرائط والعلامات والتفريغ والجدول والأهداف والمهام والبطاقات والتأريخ وكلّ تخصيصاتك —
-        ومعها ملفات المقرّرات نفسها (PDF وصوت وفيديو وصور).</p>
-      <div class="sheetrow" style="margin:0">
-        <button class="btn pri" data-bkp="full">${ICON.dl} نسخة شاملة</button>
-        <span class="empty2s" id="bkSz">…</span></div>
-    </div>
-    <div class="pcardx" style="margin:10px 0 0;padding:12px">
-      <b style="font-size:13.5px">نسخة المساحة — بلا الملفات</b>
-      <p class="hintp" style="margin:6px 0 9px">كلّ ما سبق إلّا ملفات المقرّرات، فتكون صغيرة
-        سريعة تصلح للنقل السريع بين أجهزتك.</p>
-      <div class="sheetrow" style="margin:0">
-        <button class="btn" data-bkp="lite">${ICON.dl} تصدير</button></div>
-    </div>
-    <div class="pcardx" style="margin:10px 0 0;padding:12px">
-      <b style="font-size:13.5px">استعادة</b>
-      <p class="hintp" style="margin:6px 0 9px">اختر ملف النسخة (.mspace أو .json).
-        «دمج» يُبقي ما عندك ويضيف إليه، و«استبدال» يمسح ما في هذا الجهاز ويضع النسخة مكانه.</p>
-      <div class="sheetrow" style="margin:0">
-        <button class="btn" data-bkp="merge">${ICON.plus} دمج</button>
-        <button class="btn" data-bkp="replace">${ICON.refresh} استبدال</button></div>
-    </div>
-    <div class="sheetrow"><button class="btn" data-bkp="diag">${ICON.info} فحص التخزين</button>
-      <button class="btn" onclick="closeSheet()">إغلاق</button></div>
-    <div id="bkOut" style="font-size:12.5px;color:var(--muted);line-height:1.9;margin-top:10px"></div>`, el => {
-    bkSize().then(s => { const e = el.querySelector('#bkSz');
-      if (e) e.textContent = s.n ? `${AR(s.n)} ملفًا · ${mb(s.bytes)}` : 'لا ملفات بعد'; });
-    el.addEventListener('click', async ev => {
-      const b = ev.target.closest('[data-bkp]'); if (!b) return;
-      const a = b.dataset.bkp, out = el.querySelector('#bkOut');
-      if (a === 'full' || a === 'lite') {
-        out.textContent = 'جارٍ التجهيز…';
-        try { await bkExport(a === 'full'); out.textContent = 'تمّ — احفظ الملف في مكان تعود إليه.'; }
-        catch (e) { out.innerHTML = '<b style="color:#b4472e">تعذّر التصدير</b> — قد تكون النسخة أكبر من طاقة المتصفّح؛ جرّب «بلا الملفات».'; }
-        return;
-      }
-      if (a === 'diag') { out.textContent = 'جارٍ الفحص…';
-        const s = await bkSize();
-        const all = bkFileKeys().length;
-        out.innerHTML = `الملفات المذكورة: <b>${AR(all)}</b> — الموجودة فعلًا: <b>${AR(s.n)}</b>`
-          + (all - s.n ? ` — <b style="color:#b4472e">مفقودة: ${AR(all - s.n)}</b>` : '')
-          + `<br>حجم المحفوظ: <b>${mb(s.bytes)}</b>`;
-        return;
-      }
-      /* استعادة */
-      const inp = document.createElement('input');
-      /* بلا تضييق: بعض المتصفّحات تحفظ الملف باسمٍ بلا امتداد، والصيغة تُعرَف من داخله */
-      inp.type = 'file';
-      inp.onchange = async () => {
-        const f = inp.files[0]; if (!f) return;
-        out.textContent = 'جارٍ الاستعادة…';
-        try {
-          const r = await bkImport(f, a);
-          out.innerHTML = `تمّت الاستعادة — <b>${AR(r.keys)}</b> من الإعدادات والمحتوى`
-            + (r.files ? ` و<b>${AR(r.files)}</b> ملفًا` : '')
-            + (r.miss ? ` — <b style="color:#b4472e">${AR(r.miss)}</b> لم تُستعد (النسخة بلا ملفات)</b>` : '')
-            + '<br>سيُعاد تحميل الصفحة…';
-          setTimeout(() => location.reload(), 1200);
-        } catch (e) { out.innerHTML = '<b style="color:#b4472e">ملف غير صالح</b> — تأكّد أنّه ملف نسخة من «مساحتي».'; }
-      };
-      inp.click();
-    });
-  });
 }
 
 applyTheme();
