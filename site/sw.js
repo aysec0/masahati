@@ -2,7 +2,7 @@
    عامل خدمة مساحتي — يجعل الموقع يفتح بلا إنترنت ويحدّث نفسه
    غيّر رقم VER عند كل رفع جديد ليُبدَّل المخزون القديم.
    ============================================================ */
-const VER = 'masahati-v2.3.0';
+const VER = 'masahati-v2.3.1';
 const SHELL = VER + '-shell';
 const RUNTIME = VER + '-runtime';
 const PRECACHE = [
@@ -32,7 +32,9 @@ self.addEventListener('message', e => { if (e.data === 'skip') self.skipWaiting(
 
 const sameOrigin = u => u.origin === self.location.origin;
 const isFont = u => /fonts\.(googleapis|gstatic)\.com$/.test(u.hostname);
-const isCDN = u => /cdn\.jsdelivr\.net$|huggingface\.co$/.test(u.hostname);
+const isCDN = u => /cdn\.jsdelivr\.net$/.test(u.hostname);
+/* نماذج التفريغ يخزّنها الموقع بنفسه في قاعدة بياناته — لا نكرّرها هنا */
+const isModel = u => /huggingface\.co$|hf\.co$|cdn-lfs/.test(u.hostname);
 
 async function networkFirst(req, cacheName, fallbackUrl, preload) {
   const c = await caches.open(cacheName);
@@ -67,6 +69,7 @@ self.addEventListener('fetch', e => {
   if (sameOrigin(u) && /\/api\//.test(u.pathname)) return;
   if (/t\.me$|telegram\.org$|youtube\.com$|youtube-nocookie\.com$|googlevideo\.com$/.test(u.hostname)) return;
   if (u.protocol !== 'http:' && u.protocol !== 'https:') return;
+  if (isModel(u)) return;
 
   if (req.mode === 'navigate') {
     e.respondWith(networkFirst(req, SHELL, './index.html', e.preloadResponse));

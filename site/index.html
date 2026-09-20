@@ -2426,7 +2426,7 @@ function vSettings(){
       </div>
       <div id="diagOut" style="font-size:12.5px;color:var(--muted);line-height:1.9;margin-top:10px"></div></div>
   </div>
-  <p class="hintp" style="text-align:center;margin:18px 0 0">مساحتي — الإصدار 2.3.0</p>`;
+  <p class="hintp" style="text-align:center;margin:18px 0 0">مساحتي — الإصدار 2.3.1</p>`;
 }
 
 /* ================= item view ================= */
@@ -9446,7 +9446,7 @@ function bkSheet() {
 
 
 /* ================= التطبيق: تثبيت وتحديث وعمل بلا إنترنت ================= */
-const APP_VER='2.3.0';
+const APP_VER='2.3.1';
 let pwaPrompt=null;
 const isStandalone=()=>{ try{ return matchMedia('(display-mode: standalone)').matches || navigator.standalone===true; }catch(e){ return false; } };
 const isIOS=()=>/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
