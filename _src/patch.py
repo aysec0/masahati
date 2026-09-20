@@ -8,7 +8,7 @@ SRC = ROOT / '_src' / 'masahati' / 'index.html'
 DST = ROOT / 'site' / 'index.html'
 html = SRC.read_text(encoding='utf-8')
 
-APP_VER = '2.3.1'
+APP_VER = '2.4.0'
 
 def rep(old, new, count=1):
     global html
@@ -93,6 +93,19 @@ rep("""      list.push(u=>'/api/tg?url='+encodeURIComponent(u));
       list.push(u=>base+'api/tg.php?url='+encodeURIComponent(u));
       list.push(u=>base+'api/tg?url='+encodeURIComponent(u));
       list.push(u=>'/.netlify/functions/tg?url='+encodeURIComponent(u));""")
+
+
+# ---------------------------------------------------------------- grabAny: a 200 page is not proof it is the right page
+rep("""      const t=unwrapBody(await res.text());
+      if(!t||t.length<200) throw new Error('رد فارغ');
+      lastGrabLog.push('✓ '+host(target));""",
+"""      const t=unwrapBody(await res.text());
+      if(!t||t.length<200) throw new Error('رد فارغ');
+      /* بعض الوسطاء يردّون صفحة خطأ برمز ٢٠٠، وبعض الاستضافات تردّ صفحة الموقع نفسه.
+         فلا نقبل الردّ إلا إذا كان صفحة تيليجرام حقًّا — وإلا سبق الوسيط الفاسد الصحيحَ. */
+      if(/(^|\\/\\/)(t|telegram)\\.me\\//i.test(url) && !/class=["'][^"']*tgme_/i.test(t))
+        throw new Error('ليست صفحة تيليجرام');
+      lastGrabLog.push('✓ '+host(target));""")
 
 # ---------------------------------------------------------------- fonts system (inserted before NAV)
 FONTS_JS = r'''

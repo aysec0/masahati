@@ -205,11 +205,8 @@ h1,h2,h3,b,strong,.brand b,.tile b,.rmeta b,.sechead h2{font-weight:700}
 .logo{font-family:'Aref Ruqaa','Amiri',serif;box-shadow:none;border-radius:11px}
 .brand span span,#brandTag{font-size:11px}
 
-/* الرأس على الهاتف: بحث وإعدادات فقط — والباقي في «المزيد» */
-@media(max-width:819px){
-  .hbtns .iconbtn[data-tool],#btnFav{display:none}
-  .hwrap{padding:10px 16px}
-}
+/* الرأس على الهاتف: كل الأزرار ظاهرة — والمصدر يصغّرها عند الضيق */
+@media(max-width:819px){ .hwrap{padding:10px 14px} }
 
 /* البانر: هادئ بلا نقوش */
 .hero{border-radius:20px;padding:26px 22px 24px;box-shadow:none;
@@ -283,3 +280,19 @@ body[data-route="#/"] .planfab{display:none}
 .fieldset{grid-template-columns:minmax(0,1fr)}
 .field,.rtools,.acts,.mkhead,.txbox,.mkbox{min-width:0;max-width:100%}
 html,body{overflow-x:clip}
+
+/* ---------- زرّ البداية: صفّ مستوٍ وزرّ إغلاق مستدير في وسطه ---------- */
+.startbtn{align-items:center;gap:8px;padding-inline:16px}
+.startbtn button{min-height:44px;padding:0 18px;line-height:1;font-weight:700;font-size:13.5px}
+.startbtn button svg{flex:none}
+.startbtn .x{margin:0;flex:none;width:34px;height:34px;min-height:34px;padding:0;border-radius:50%;
+  display:grid;place-items:center;font-size:17px;line-height:1;box-shadow:var(--shadow)}
+
+/* ---------- التذكير العائم: أسفل الصفحة فلا يغطّي البانر ---------- */
+.nowhint{top:auto;right:auto;inset-inline-end:12px;
+  inset-block-end:calc(112px + env(safe-area-inset-bottom));
+  transform:translateY(150%);opacity:0;
+  transition:transform .42s cubic-bezier(.2,.9,.25,1),opacity .3s}
+.nowhint.on{transform:translateY(0);opacity:1}
+@media(min-width:900px){.nowhint{inset-block-end:76px}}
+@media(min-width:1100px){.nowhint{right:auto;inset-inline-end:16px;inset-block-end:24px}}
