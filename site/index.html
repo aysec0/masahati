@@ -1261,6 +1261,117 @@ nav.top a{transition:color .15s,border-color .15s}
 /* ---------- الطباعة ---------- */
 @media print{ header,nav.tabbar,#player,.planfab,.txpill,.startbtn,.nowhint,.updtoast,.pwastrip{display:none!important} }
 
+/* ================================================================
+   مظهر أبسط وأكثر احترافًا — طبقة نهائية تغلب ما قبلها
+   ================================================================ */
+:root{--radius:16px;--shadow:0 1px 2px rgba(24,38,34,.04);--gold:#9a7a3a;--gold-soft:#f5efe0}
+:root[data-theme="dark"]{--shadow:0 1px 2px rgba(0,0,0,.25)}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]):not([data-theme="sepia"]){--shadow:0 1px 2px rgba(0,0,0,.25)}}
+body{font-size:15px}
+h1,h2,h3,b,strong,.brand b,.tile b,.rmeta b,.sechead h2{font-weight:700}
+
+/* بطاقات مسطّحة: حدّ خفيف، وظلّ عند المرور فقط */
+.tile,.row,.panel,.fieldset,.pcardx,.htcard,.ncard,.chcard,.cthumb,.c2pane,.srow,.tev,.bohcard,.achbox,.nlist,.nitem,.tgpost,.tgcell,.pwastrip{
+  box-shadow:var(--shadow);border-radius:var(--radius)}
+.panel,.fieldset{border-radius:18px}
+@media(hover:hover){
+  .tile:hover,.row:hover,.chcard:hover,.ncard:hover{transform:none;box-shadow:0 6px 18px -12px rgba(24,38,34,.25);
+    border-color:color-mix(in srgb,var(--acc) 35%,var(--line))}
+}
+.badge{border-radius:13px;width:46px;height:46px}
+.badge svg{width:20px;height:20px}
+.tile .ic{border-radius:12px;width:40px;height:40px}
+
+/* أزرار أهدأ */
+.btn{box-shadow:none;background:var(--card);border-color:var(--line);font-weight:600}
+.btn.pri{background:var(--acc);color:#fff;border-color:transparent;box-shadow:none;font-weight:700}
+.btn.gold{background:var(--gold)}
+.chip,.seg,.qb,.hbtn,.slink,.pinchip{font-weight:600}
+.chip.on,.seg.on{font-weight:700}
+.iconbtn{border-color:transparent;background:transparent}
+.iconbtn:hover{background:var(--bg2);border-color:transparent}
+.logo{font-family:'Aref Ruqaa','Amiri',serif;box-shadow:none;border-radius:11px}
+.brand span span,#brandTag{font-size:11px}
+
+/* الرأس على الهاتف: بحث وإعدادات فقط — والباقي في «المزيد» */
+@media(max-width:819px){
+  .hbtns .iconbtn[data-tool],#btnFav{display:none}
+  .hwrap{padding:10px 16px}
+}
+
+/* البانر: هادئ بلا نقوش */
+.hero{border-radius:20px;padding:26px 22px 24px;box-shadow:none;
+  background:linear-gradient(135deg,color-mix(in srgb,var(--acc) 96%,#000),color-mix(in srgb,var(--acc) 72%,#000))}
+.hero::after{display:none}
+.hero h1{font-family:var(--disp);font-size:28px;font-weight:700;text-shadow:none;margin-bottom:8px;line-height:1.4}
+.hero p{font-size:14px;opacity:.86;line-height:1.85}
+.hero .contbtn{display:none}
+.heroi{background:transparent;border-color:rgba(255,255,255,.28);opacity:.75}
+@media(min-width:820px){.hero h1{font-size:34px}}
+@media(min-width:1100px){.hero{padding:34px 34px 30px}.hero h1{font-size:38px}}
+/* ورقة الاقتباس فوق البانر: بطاقة زجاجية بلا ميل ولا دبّوس */
+.bnote,.bnote:active{transform:none;border-radius:14px;background:rgba(255,255,255,.13)!important;color:#fff;
+  box-shadow:none;border:1px solid rgba(255,255,255,.22);padding:11px 13px;width:150px;line-height:1.75;font-size:12.5px}
+.bnote::before{display:none}
+.bnote .wt{font-size:12.5px!important}
+.bnote.bare{background:none!important;border:0}
+@media(min-width:820px){.bnote{width:190px}}
+.herotop{gap:14px}
+
+/* الصفحة الأولى: بلا تكرار */
+body[data-route="#/"] .planfab{display:none}
+.pwastrip{box-shadow:none;background:var(--acc-soft);border-color:transparent;margin-top:2px}
+.pwastrip .ic{background:var(--card)}
+.qbar{margin:-2px 0 16px}
+.qb{background:transparent;border-color:var(--line)}
+.qb.now{background:var(--acc-soft)}
+.sechead{margin:26px 0 12px}
+.sechead h2{font-size:16px;letter-spacing:0}
+.sechead .ln{opacity:.7}
+
+/* الصفوف */
+.row{padding:11px 12px;gap:12px}
+.rmeta b{font-size:14px}
+.favbtn{background:transparent;border-color:transparent;color:var(--muted)}
+.favbtn:hover{background:var(--bg2)}
+.favbtn.on{background:var(--gold-soft)}
+
+/* النماذج والمحرّر */
+.field label{font-size:12px}
+.rtools{background:transparent;border:0;padding:0;gap:4px}
+.rtools button{border-radius:8px;min-width:32px;height:32px;font-size:12.5px}
+@media(max-width:819px){
+  .rtools{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch;padding-bottom:4px;
+    mask-image:linear-gradient(to left,transparent,#000 12px,#000 calc(100% - 12px),transparent);
+    -webkit-mask-image:linear-gradient(to left,transparent,#000 12px,#000 calc(100% - 12px),transparent)}
+  .rtools::-webkit-scrollbar{display:none}
+  .rtools>*{flex:none}
+}
+
+/* الشريط السفلي والأوراق */
+.tabbar{box-shadow:none;border-top:1px solid var(--line);background:color-mix(in srgb,var(--card) 97%,transparent)}
+.tabbar a.on svg{background:transparent}
+.tabbar a.on{color:var(--acc)}
+.tabbar a.on::after{content:'';display:block;width:18px;height:3px;border-radius:3px;background:var(--acc);margin:3px auto 0}
+.tabbar a::after{content:'';display:block;width:18px;height:3px;margin:3px auto 0}
+.sheetcard{box-shadow:0 -10px 40px -20px rgba(0,0,0,.35)}
+
+/* الشريط الجانبي */
+@media(min-width:1100px){
+  header{background:var(--bg)}
+  nav.top a{font-weight:500}
+  nav.top a.on{font-weight:700}
+  .hbtns .iconbtn{background:var(--card);border-color:var(--line)}
+}
+
+/* العناصر العائمة: واحد يكفي في اللحظة */
+.planfab{box-shadow:0 6px 18px -10px rgba(20,30,28,.3);background:var(--card)}
+.startbtn button{box-shadow:0 8px 20px -12px rgba(13,110,95,.6)}
+/* لا يتّسع أي شريط أدوات خارج الشاشة */
+.fieldset{grid-template-columns:minmax(0,1fr)}
+.field,.rtools,.acts,.mkhead,.txbox,.mkbox{min-width:0;max-width:100%}
+html,body{overflow-x:clip}
+
 </style>
 
 <header>
@@ -1545,7 +1656,7 @@ function loadDesignerFonts(){
   l.href='https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800&family=Aref+Ruqaa:wght@400;700&family=Almarai:wght@400;700;800&family=Cairo:wght@400;700;800&family=Reem+Kufi:wght@400;700&family=El+Messiri:wght@400;700&family=Changa:wght@400;700&family=Markazi+Text:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&family=Rakkas&family=Lalezar&family=Readex+Pro:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;700&family=Alexandria:wght@400;700&family=Kufam:wght@400;700&family=Scheherazade+New:wght@400;700&family=Aref+Ruqaa+Ink:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Katibeh&family=Mirza:wght@400;700&family=Gulzar&family=Qahiri&family=Jomhuria&family=Marhey:wght@400;700&family=Vibes&family=Blaka&family=Lateef:wght@400;700&family=Amiri+Quran&family=Harmattan:wght@400;700&family=Mada:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;700&family=Rubik:wght@400;700&display=swap'; document.head.appendChild(l);
   Object.keys(GFAM).forEach(k=>_gf.add(k));
 }
-function fontPrefs(){ return Object.assign({ui:'plex',rd:'amiri',dp:'ruqaa'},S.get('fonts',{})||{}); }
+function fontPrefs(){ return Object.assign({ui:'plex',rd:'amiri',dp:'ui'},S.get('fonts',{})||{}); }
 function applyFonts(){
   const p=fontPrefs(); gfLoad([p.ui,p.rd,p.dp].filter(k=>k!=='ui'));
   const ui=(UIF[p.ui]||UIF.plex)[0];
@@ -2323,7 +2434,7 @@ function vSettings(){
       </div>
       <div id="diagOut" style="font-size:12.5px;color:var(--muted);line-height:1.9;margin-top:10px"></div></div>
   </div>
-  <p class="hintp" style="text-align:center;margin:18px 0 0">مساحتي — الإصدار 2.1.0</p>`;
+  <p class="hintp" style="text-align:center;margin:18px 0 0">مساحتي — الإصدار 2.2.0</p>`;
 }
 
 /* ================= item view ================= */
@@ -3983,6 +4094,7 @@ try{ document.body.classList.toggle('lite', S.get('mode','full')==='lite'); }cat
   document.body.style.overflow=''; fsbar.classList.remove('on');
   view.innerHTML=html;
   const nk=navKey(h);
+  document.body.dataset.route=nk;
   document.querySelectorAll('[data-h]').forEach(a=>a.classList.toggle('on',a.dataset.h===nk));
   try{ const tb=document.getElementById('tabbar'), on=tb.querySelector('a.on');
     if(on&&tb.scrollWidth>tb.clientWidth) on.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
@@ -5827,6 +5939,8 @@ PARTS.forEach(p=>{ if(!UI.parts.find(x=>x.h===p.h)) UI.parts.push({h:p.h,t:p.d,o
 saveUIsafe();
 BITS.forEach(([k])=>{ if(UI.bits[k]===undefined) UI.bits[k]=true; });
 const saveUI=()=>S.set('ui',UI);
+/* الصفحة الأولى أهدأ: شبكة «كل الأقسام» تُطفأ افتراضيًا (الأقسام كلّها في الشريط وقائمة «المزيد») — مرّة واحدة فقط */
+if(!S.get('simpleHome',false)){ UI.bits.quick=false; S.set('simpleHome',true); saveUI(); }
 function saveUIsafe(){ try{ S.set('ui',UI); }catch(e){} }
 const uiOn=k=>UI.bits[k]!==false;
 const partOn=h=>{ const p=UI.parts.find(x=>x.h===h); return !p||p.on!==false; };
@@ -9192,7 +9306,7 @@ async function drawCardAny(cv,c){
 
 
 /* ================= التطبيق: تثبيت وتحديث وعمل بلا إنترنت ================= */
-const APP_VER='2.1.0';
+const APP_VER='2.2.0';
 let pwaPrompt=null;
 const isStandalone=()=>{ try{ return matchMedia('(display-mode: standalone)').matches || navigator.standalone===true; }catch(e){ return false; } };
 const isIOS=()=>/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);

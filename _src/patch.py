@@ -8,7 +8,7 @@ SRC = ROOT / '_src' / 'masahati' / 'index.html'
 DST = ROOT / 'site' / 'index.html'
 html = SRC.read_text(encoding='utf-8')
 
-APP_VER = '2.1.0'
+APP_VER = '2.2.0'
 
 def rep(old, new, count=1):
     global html
@@ -67,6 +67,7 @@ rep("""  document.getElementById('topnav').innerHTML=list.map(n=>`<a href="${n.h
     """  document.getElementById('topnav').innerHTML=list.map(n=>`<a href="${n.h}" data-h="${n.h}">${n.ic}<span>${esc(n.t)}</span></a>`).join('');""")
 rep("""  document.querySelectorAll('[data-h]').forEach(a=>a.classList.toggle('on',a.dataset.h===h));""",
     """  const nk=navKey(h);
+  document.body.dataset.route=nk;
   document.querySelectorAll('[data-h]').forEach(a=>a.classList.toggle('on',a.dataset.h===nk));""")
 rep("""/* ================= router ================= */
 function render(){""",
@@ -124,7 +125,7 @@ function loadDesignerFonts(){
   l.href='__DESIGNER_FONTS_URL__'; document.head.appendChild(l);
   Object.keys(GFAM).forEach(k=>_gf.add(k));
 }
-function fontPrefs(){ return Object.assign({ui:'plex',rd:'amiri',dp:'ruqaa'},S.get('fonts',{})||{}); }
+function fontPrefs(){ return Object.assign({ui:'plex',rd:'amiri',dp:'ui'},S.get('fonts',{})||{}); }
 function applyFonts(){
   const p=fontPrefs(); gfLoad([p.ui,p.rd,p.dp].filter(k=>k!=='ui'));
   const ui=(UIF[p.ui]||UIF.plex)[0];
@@ -582,6 +583,12 @@ try{buildNav();}catch(e){}
 try{startHints();}catch(e){}
 render();
 """)
+
+# ---------------------------------------------------------------- simpler home (one-time default)
+rep("""const saveUI=()=>S.set('ui',UI);""",
+"""const saveUI=()=>S.set('ui',UI);
+/* الصفحة الأولى أهدأ: شبكة «كل الأقسام» تُطفأ افتراضيًا (الأقسام كلّها في الشريط وقائمة «المزيد») — مرّة واحدة فقط */
+if(!S.get('simpleHome',false)){ UI.bits.quick=false; S.set('simpleHome',true); saveUI(); }""")
 
 DST.write_text(html, encoding='utf-8')
 print('built', DST, len(html), 'bytes')
