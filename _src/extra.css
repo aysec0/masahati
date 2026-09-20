@@ -19,7 +19,6 @@ h1,h2,h3{letter-spacing:0}
 .brand b{font-size:15.5px}
 .iconbtn{border-radius:12px;transition:transform .12s,border-color .15s,color .15s,background .15s}
 .iconbtn:active{transform:scale(.92)}
-@media(max-width:360px){.brand>span>span{display:none}.hbtns{gap:4px}.iconbtn{width:36px;height:36px;border-radius:11px}}
 
 /* ---------- البانر ---------- */
 .hero{border-radius:26px;padding:24px 22px 22px;

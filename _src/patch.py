@@ -8,7 +8,7 @@ SRC = ROOT / '_src' / 'masahati' / 'index.html'
 DST = ROOT / 'site' / 'index.html'
 html = SRC.read_text(encoding='utf-8')
 
-APP_VER = '2.0.0'
+APP_VER = '2.1.0'
 
 def rep(old, new, count=1):
     global html

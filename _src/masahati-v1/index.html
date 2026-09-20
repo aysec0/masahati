@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0d6e5f">
 <title>مساحتي</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230d6e5f'/%3E%3Cpath d='M18 16h10v32H18zM32 16h6v32h-6z' fill='%23fff' opacity='.92'/%3E%3Cpath d='m44 18 6 28' stroke='%23fff' stroke-width='5' stroke-linecap='round' opacity='.92'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Tajawal:wght@400;500;700;800&family=Aref+Ruqaa:wght@400;700&family=Almarai:wght@400;700;800&family=Cairo:wght@400;700;800&family=Reem+Kufi:wght@400;700&family=El+Messiri:wght@400;700&family=Changa:wght@400;700&family=Markazi+Text:wght@400;700&family=Noto+Kufi+Arabic:wght@400;700&family=Rakkas&family=Lalezar&family=Readex+Pro:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;700&family=Alexandria:wght@400;700&family=Kufam:wght@400;700&family=Scheherazade+New:wght@400;700&family=Aref+Ruqaa+Ink:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Katibeh&family=Mirza:wght@400;700&family=Gulzar&family=Qahiri&family=Jomhuria&family=Marhey:wght@400;700&family=Vibes&family=Blaka&family=Lateef:wght@400;700&family=Amiri+Quran&family=Harmattan:wght@400;700&family=Mada:wght@400;700&family=Baloo+Bhaijaan+2:wght@400;700&family=Rubik:wght@400;700&display=swap" rel="stylesheet">
@@ -58,10 +57,6 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
 .logo{width:36px;height:36px;border-radius:11px;background:linear-gradient(145deg,var(--acc),color-mix(in srgb,var(--acc) 55%,#000));
   display:grid;place-items:center;color:#fff;font-weight:800;font-size:16px;flex:none;box-shadow:var(--shadow);font-family:var(--disp)}
 .brand b{font-size:15.5px;font-weight:800;display:block;line-height:1.25}
-.logo.haspic{background-size:cover;background-position:center;color:transparent;font-size:0}
-.avprev{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;flex:none;
-  background:var(--acc-soft);color:var(--acc);font-weight:800;font-size:17px;
-  background-size:cover;background-position:center;border:1px solid var(--line)}
 .brand span{font-size:11.5px;color:var(--muted)}
 .hbtns{margin-inline-start:auto;display:flex;gap:6px}
 .iconbtn{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;border:1px solid var(--line);
@@ -69,14 +64,6 @@ header{position:sticky;top:env(safe-area-inset-top,0px);z-index:40;
 .iconbtn:hover{border-color:var(--acc);color:var(--acc)}
 .iconbtn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
 .iconbtn.on svg{fill:var(--gold);stroke:var(--gold)}
-@media(max-width:520px){
-  .hwrap{padding:9px 12px;gap:8px}
-  #brandTag{display:none}
-  .hbtns{gap:4px}
-  .iconbtn{width:34px;height:34px;border-radius:10px}
-  .iconbtn svg{width:17px;height:17px}
-}
-@media(max-width:360px){ .iconbtn{width:31px;height:31px} .iconbtn svg{width:16px;height:16px} }
 nav.top{display:none;border-bottom:1px solid var(--line);background:var(--bg)}
 nav.top .in{max-width:1100px;margin:0 auto;padding:0 16px;display:flex;gap:2px;flex-wrap:wrap}
 nav.top a{padding:11px 13px;font-size:14px;font-weight:500;color:var(--muted);border-bottom:2px solid transparent}
@@ -365,17 +352,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:13px;heigh
 input[type=range]::-moz-range-thumb{width:13px;height:13px;border:0;border-radius:50%;background:var(--acc)}
 .tabbar{position:fixed;inset-inline:0;bottom:0;z-index:70;background:color-mix(in srgb,var(--card) 94%,transparent);
   backdrop-filter:blur(16px);border-top:1px solid var(--line);display:flex;padding-bottom:var(--safeb)}
-.tabbar a{flex:1;padding:8px 2px 9px;text-align:center;color:var(--muted);font-size:10.5px;font-weight:700;
-  min-width:0;overflow:hidden}
-.tabbar a span{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* إن كثُرت الأقسام ضاقت الخانات ثم انزلق الشريط أفقيًّا — ولا «مزيد» */
-.tabbar.many{overflow-x:auto;scrollbar-width:none}
-.tabbar.many::-webkit-scrollbar{display:none}
-.tabbar.many a{flex:0 0 auto;min-width:16.4vw;font-size:9.6px;padding-inline:1px}
-.tabbar.many::after{content:'';position:sticky;inset-inline-start:0;width:18px;flex:0 0 0;
-  background:linear-gradient(to right,var(--card),transparent);pointer-events:none;align-self:stretch}
-.tabbar.many svg{width:19px;height:19px}
-@media(min-width:560px){.tabbar.many a{min-width:0;flex:1}}
+.tabbar a{flex:1;padding:8px 2px 9px;text-align:center;color:var(--muted);font-size:10.5px;font-weight:700}
 .tabbar a.on{color:var(--acc)}
 .tabbar .moretab{flex:1;padding:8px 2px 9px;text-align:center;color:var(--muted);font-size:10.5px;
   font-weight:700;background:none;border:0;font-family:inherit;cursor:pointer}
@@ -968,9 +945,6 @@ body.notab main{padding-bottom:28px}
 .bmbtn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linejoin:round}
 .bmbtn:active{transform:scale(.94)}
 .pdfnav .bmbtn{width:34px;height:32px;border-radius:10px}
-.acts .bmbtn{width:40px;height:38px;border-radius:13px}
-#pBm svg{stroke:currentColor;fill:none;stroke-width:1.8;stroke-linejoin:round}
-#pBm{color:var(--acc)}
 .mkhead svg{width:16px;height:16px;stroke:var(--acc);fill:none;stroke-width:1.8}
 .mkempty{margin:10px 0 0;font-size:12px;color:var(--muted);line-height:1.9}
 .mklist{display:flex;flex-direction:column;gap:2px;margin-top:10px}
@@ -1077,11 +1051,11 @@ body.notab main{padding-bottom:28px}
     <a class="brand" href="#/"><span class="logo" id="logoCh">م</span>
       <span><b id="brandName">مساحتي</b><span id="brandTag">مكتبتي الشخصية</span></span></a>
     <div class="hbtns">
-      <button class="iconbtn" data-tool="idea" title="فكرة سريعة"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.6.5.9 1.1.9 1.7V16h5.4v-.5c0-.6.3-1.2.9-1.7A6 6 0 0 0 12 3z"/></svg></button>
-      <a class="iconbtn" href="#/search" title="بحث"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg></a>
-      <button class="iconbtn" data-tool="theme" title="لون الصفحة"><svg viewBox="0 0 24 24"><path d="M12 3.5 6.8 9.6a7 7 0 1 0 10.4 0z"/></svg></button>
       <a class="iconbtn" href="#/fav" id="btnFav" title="المفضلة"><svg viewBox="0 0 24 24"><path d="m12 4 2.4 5 5.6.8-4 3.9 1 5.5-5-2.6-5 2.6 1-5.5-4-3.9 5.6-.8z"/></svg></a>
-      <a class="iconbtn" href="#/settings" title="الإعدادات"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 14.5a1.5 1.5 0 0 0 .3 1.7l.1.1a1.8 1.8 0 1 1-2.6 2.6l-.1-.1a1.5 1.5 0 0 0-2.5 1v.3a1.8 1.8 0 1 1-3.6 0V20a1.5 1.5 0 0 0-2.6-1l-.1.1a1.8 1.8 0 1 1-2.6-2.6l.1-.1a1.5 1.5 0 0 0-1-2.5h-.3a1.8 1.8 0 1 1 0-3.6H4a1.5 1.5 0 0 0 1-2.6l-.1-.1a1.8 1.8 0 1 1 2.6-2.6l.1.1a1.5 1.5 0 0 0 2.5-1V4a1.8 1.8 0 1 1 3.6 0v.2a1.5 1.5 0 0 0 2.5 1l.1-.1a1.8 1.8 0 1 1 2.6 2.6l-.1.1a1.5 1.5 0 0 0 1 2.5h.2a1.8 1.8 0 1 1 0 3.6H20a1.5 1.5 0 0 0-1.4.9z"/></svg></a>
+      <a class="iconbtn" href="#/search" title="بحث"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.2-3.2"/></svg></a>
+      <a class="iconbtn" href="#/settings" title="الإعدادات"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-1.8-.3 1.6 1.6 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1A1.6 1.6 0 0 0 9 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0 .3-1.8 1.6 1.6 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1A1.6 1.6 0 0 0 4.6 9a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.6 1.6 0 0 0 1.8.3H9a1.6 1.6 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.6 1.6 0 0 0 1 1.5 1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z"/></svg></a>
+      <button class="iconbtn" id="btnIdea" title="فكرة سريعة"><svg viewBox="0 0 24 24"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.5.4.8 1 .9 1.6l.1.6h5.2l.1-.6c.1-.6.4-1.2.9-1.6A6 6 0 0 0 12 3z"/></svg></button>
+      <button class="iconbtn" id="btnTheme" title="الوضع الليلي"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg></button>
     </div>
   </div>
   <nav class="top"><div class="in" id="topnav"></div></nav>
@@ -1096,7 +1070,6 @@ body.notab main{padding-bottom:28px}
     <button class="pbtn main" id="pPlay"><svg viewBox="0 0 24 24" id="pIcon"><path d="M8 5v14l11-7z"/></svg></button>
     <button class="pbtn" id="pFwd" title="تقديم ١٥ ثانية"><svg viewBox="0 0 24 24"><path d="M13.5 4 19 8.5 13.5 13"/><path d="M18.5 8.5H11a6.5 6.5 0 1 0 6.4 7.7"/></svg></button>
     <button class="rate" id="pRate">1×</button>
-    <button class="pbtn" id="pBm" title="علامة مرجعية عند هذه اللحظة"><svg viewBox="0 0 24 24"><path d="M6.5 3.5h11a1 1 0 0 1 1 1v16l-6.5-4.2L5.5 20.5v-16a1 1 0 0 1 1-1z"/></svg></button>
     <button class="pbtn" id="pClose"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></svg></button>
   </div>
   <div class="seek"><span id="pCur">0:00</span><input type="range" id="pSeek" value="0" min="0" max="1000" aria-label="الموضع"><span id="pDur">0:00</span></div>
@@ -1199,40 +1172,12 @@ document.addEventListener('click',e=>{
   if(LP.fired){ LP.fired=false; e.preventDefault(); e.stopPropagation(); }
 },true);
 
-const ALLOWED={B:1,STRONG:1,I:1,EM:1,U:1,S:1,STRIKE:1,DEL:1,MARK:1,BR:1,DIV:1,P:1,SPAN:1,
-  H2:1,H3:1,UL:1,OL:1,LI:1,FONT:1,A:1};
-/* نُبقي ما يلوّن ويكبّر ويحاذي — ونحذف ما سواه */
-const STYLE_OK=['color','background-color','font-weight','font-style','text-decoration',
-  'font-size','text-align','background'];
-function cleanStyle(el){
-  const st=el.getAttribute('style')||'';
-  if(!st) return '';
-  const out=[];
-  st.split(';').forEach(part=>{
-    const i=part.indexOf(':'); if(i<0) return;
-    const k=part.slice(0,i).trim().toLowerCase(), v=part.slice(i+1).trim();
-    if(!STYLE_OK.includes(k)) return;
-    if(/url\s*\(|expression|javascript:/i.test(v)) return;
-    out.push(k+':'+v);
-  });
-  return out.join(';');
-}
+const ALLOWED={B:1,STRONG:1,I:1,EM:1,U:1,BR:1,DIV:1,P:1,SPAN:1};
 function clean(html){
   const d=document.createElement('div'); d.innerHTML=html||'';
   (function w(n){ [...n.childNodes].forEach(c=>{
-    if(c.nodeType===1){
-      if(!ALLOWED[c.tagName]){ c.replaceWith(...c.childNodes); return; }
-      const st=cleanStyle(c);
-      const col=c.tagName==='FONT'? c.getAttribute('color') : '';
-      const sz =c.tagName==='FONT'? c.getAttribute('size')  : '';
-      const href=c.tagName==='A'? (c.getAttribute('href')||'') : '';
-      [...c.attributes].forEach(a=>c.removeAttribute(a.name));
-      if(st) c.setAttribute('style',st);
-      if(col) c.setAttribute('color',col);
-      if(sz) c.setAttribute('size',sz);
-      if(href&&/^(https?:|#|mailto:)/i.test(href)){ c.setAttribute('href',href); c.setAttribute('target','_blank'); }
-      w(c);
-    }
+    if(c.nodeType===1){ if(!ALLOWED[c.tagName]){ c.replaceWith(document.createTextNode(c.textContent)); return; }
+      [...c.attributes].forEach(a=>c.removeAttribute(a.name)); w(c); }
     else if(c.nodeType!==3) c.remove(); }); })(d);
   return d.innerHTML.trim();
 }
@@ -1312,14 +1257,7 @@ function applyTheme(){
   document.documentElement.style.setProperty('--acc', site.acc||'#0d6e5f');
   document.getElementById('brandName').textContent = site.name || 'مساحتي';
   document.getElementById('brandTag').textContent  = site.tag || '';
-  const lg=document.getElementById('logoCh');
-  lg.textContent = (site.name||'م').trim().charAt(0);
-  /* صورة شخصية بدل الحرف، إن وضعتَ واحدة */
-  lg.classList.remove('haspic'); lg.style.backgroundImage='';
-  if(site.avatar){
-    fileURL(site.avatar).then(u=>{ if(!u) return;
-      lg.style.backgroundImage='url("'+u+'")'; lg.classList.add('haspic'); });
-  }
+  document.getElementById('logoCh').textContent = (site.name||'م').trim().charAt(0);
   document.title = site.name || 'مساحتي';
 }
 
@@ -1342,19 +1280,12 @@ const THEMES=[['light','ورق أبيض'],['sepia','شامواه مريح'],['da
 function setTheme(t){ root.dataset.theme=t; S.set('theme',t);
   const m=document.querySelector('meta[name=theme-color]');
   if(m) m.content = t==='dark'?'#101413' : t==='sepia'?'#f2e8d5' : '#0d6e5f'; }
-const btnTheme=document.getElementById('btnTheme');
-if(btnTheme) btnTheme.onclick=()=>{
+document.getElementById('btnTheme').onclick=()=>{
   const cur=root.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
   const i=THEMES.findIndex(x=>x[0]===cur);
   const nx=THEMES[(i+1+THEMES.length)%THEMES.length] || THEMES[0];
   setTheme(nx[0]); toast(nx[1]);
 };
-function cycleTheme(){
-  const cur=root.dataset.theme||(matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light');
-  const i=THEMES.findIndex(x=>x[0]===cur);
-  const nx=THEMES[(i+1+THEMES.length)%THEMES.length]||THEMES[0];
-  setTheme(nx[0]); toast(nx[1]); render();
-}
 
 /* ================= shared bits ================= */
 const head=(t,more)=>`<div class="sechead"><h2>${t}</h2><div class="ln"></div>${more||''}</div>`;
@@ -1601,10 +1532,6 @@ function vHome(){
     ${UI.parts.filter(p=>p.on!==false).map(p=>{
       const ic=(typeof partIcon==='function')? partIcon(p.h) : ICON.lib;
       return `<a class="tile" href="${p.h}"><div class="ic">${ic}</div><div><b>${esc(p.t||partName(p.h))}</b></div></a>`; }).join('')}
-    <button class="tile" data-tool="idea"><div class="ic">${ICON.mind}</div><div><b>فكرة سريعة</b></div></button>
-    <a class="tile" href="#/fav"><div class="ic">${ICON.star}</div><div><b>المفضلة</b></div></a>
-    <button class="tile" data-tool="theme"><div class="ic">${ICON.pen}</div><div><b>لون الصفحة</b></div></button>
-    <a class="tile" href="#/settings"><div class="ic">${ICON.more}</div><div><b>الإعدادات</b></div></a>
     <a class="tile" href="#/custom"><div class="ic">${ICON.pen}</div><div><b>تخصيص الموقع</b></div></a>
   </div>`:''}`;
 }
@@ -1801,15 +1728,13 @@ function vNotes(){
   const T=notesTree();
   let total=0; T.forEach(n=>{ n.items.forEach(x=>total+=1+x.hl.length); n.subs.forEach(sb=>sb.items.forEach(x=>total+=1+x.hl.length)); });
   if(!T.length)
-    return `${head('فوائدي', helpBtn('notes'))}
+    return `${head('فوائدي', `${helpBtn('notes')}<a class="chip" href="#/mind">${ICON.mind} خرائطي الذهنية</a>`)}
       ${writesPanel()}
-      ${mindsPanel()}
       <div class="empty">لم تدوّن فائدة على عنصر بعد.<br>
       افتح أي عنصر واكتب فائدتك أسفله، أو ظلّل نصًا أو موضعًا في ملف ثم اكتب عليه.</div>`;
   const flat=S.get('nflat',false);
-  return `${head('فوائدي', `${helpBtn('notes')}${adv()?`<button class="chip" id="copyAll">نسخ الكل</button>`:''}`)}
+  return `${head('فوائدي', `${helpBtn('notes')}<a class="chip" href="#/mind">${ICON.mind} خرائطي</a>${adv()?`<button class="chip" id="copyAll">نسخ الكل</button>`:''}`)}
   ${writesPanel()}
-  ${mindsPanel()}
   <div class="chips" style="margin:-4px 0 12px">
     <button class="chip ${flat?'':'on'}" data-nview="0">مرتَّبة بالأقسام</button>
     <button class="chip ${flat?'on':''}" data-nview="1">قائمة واحدة</button>
@@ -2014,15 +1939,7 @@ function runSearch(){
 
 function vSettings(){
   return `${head('تخصيص المساحة', `<a class="chip" href="#/custom">إظهار وإخفاء الأقسام</a>`)}
-  ${timeCard()}
   <div class="fieldset">
-    <div class="field"><label>صورتك في ركن الصفحة</label>
-      <div class="sheetrow" style="margin:0">
-        <span class="avprev ${site.avatar?'has':''}" id="avPrev">${esc((site.name||'م').trim().charAt(0))}</span>
-        <button class="btn" data-av="pick">${ICON.plus} اختر صورة</button>
-        ${site.avatar?`<button class="lnk danger" data-av="del">أزلها</button>`:''}
-      </div>
-      <p class="hintp" style="margin-top:6px">تُحفظ في جهازك وحده، وتظهر مكان الحرف الأول.</p></div>
     <div class="field"><label>اسم الموقع</label><input type="text" id="setName" value="${esc(site.name||'')}" placeholder="مساحتي"></div>
     <div class="field"><label>سطر تعريفي صغير</label><input type="text" id="setTag" value="${esc(site.tag||'')}" placeholder="مكتبتي الشخصية"></div>
     <div class="field"><label>عنوان الصفحة الأولى</label><input type="text" id="setGreet" value="${esc(site.greet||'')}" placeholder="اتركه فارغًا ليظهر اسم الموقع"></div>
@@ -2145,7 +2062,6 @@ function vItem(id){
 
   const acts=[];
   if(it.type==='audio') acts.push(`<button class="btn pri" data-play="${it.id}">${ICON.play} تشغيل</button>`);
-  if(canMark(it)) acts.push(`<button class="bmbtn" data-mk="add" data-lp="mkadd" data-id="${it.id}" title="علامة مرجعية عند هذه اللحظة">${ICON.bm}</button>`);
   if(it.type==='pdf')   acts.push(`<button class="btn" id="fsBtn">${ICON.ext} ملء الشاشة</button>`);
   if(['youtube','link','telegram'].includes(it.type)) acts.push(`<a class="btn" href="${esc(it.url)}" target="_blank" rel="noopener">${ICON.ext} فتح في الموقع الأصلي</a>`);
   if(it.src) acts.push(`<a class="btn" href="${esc(it.src)}" target="_blank" rel="noopener">${ICON.tg} المنشور الأصلي</a>`);
@@ -2175,42 +2091,6 @@ function vItem(id){
   </section>
   ${marksPanel(it)}
   ${txPanel(it)}`;
-}
-/* اختيار الصورة الشخصية */
-document.addEventListener('click',e=>{
-  const b=e.target.closest('[data-av]'); if(!b) return;
-  if(b.dataset.av==='del'){
-    if(site.avatar) dropFile(site.avatar);
-    delete site.avatar; S.set('site',site); applyTheme(); render(); toast('أُزيلت'); return;
-  }
-  const i=document.createElement('input'); i.type='file'; i.accept='image/*';
-  i.onchange=async()=>{
-    const f=i.files&&i.files[0]; if(!f) return;
-    try{
-      const small=await shrinkImg(f,256);
-      const key='av'+Date.now().toString(36);
-      await putFile(key,small);
-      if(site.avatar) dropFile(site.avatar);
-      site.avatar=key; S.set('site',site); applyTheme(); render(); toast('حُفظت صورتك');
-    }catch(err){ toast('تعذّر حفظ الصورة'); }
-  };
-  i.click();
-});
-/* تصغير الصورة قبل حفظها — لئلا تثقل مساحتك */
-function shrinkImg(file,max){
-  return new Promise((res,rej)=>{
-    const u=URL.createObjectURL(file), im=new Image();
-    im.onload=()=>{
-      const sc=Math.min(1,max/Math.max(im.width,im.height));
-      const w=Math.max(1,Math.round(im.width*sc)), h=Math.max(1,Math.round(im.height*sc));
-      const c=document.createElement('canvas'); c.width=w; c.height=h;
-      c.getContext('2d').drawImage(im,0,0,w,h);
-      URL.revokeObjectURL(u);
-      c.toBlob(bl=>bl?res(bl):rej(new Error('no blob')),'image/jpeg',0.86);
-    };
-    im.onerror=()=>{ URL.revokeObjectURL(u); rej(new Error('bad image')); };
-    im.src=u;
-  });
 }
 function done(){ return S.get('done',{}); }
 function setDone(id,v){ const d=done(); if(v) d[id]=Date.now(); else delete d[id]; S.set('done',d); }
@@ -2441,57 +2321,19 @@ function rtColor(cmd,color,rich,onChange){
   if(onChange) onChange();
 }
 function bindRich(el,rich,onChange){
-  /* شريط الأدوات قد يكون خارج المحرِّر — فنبحث عن أقرب شريط يسبقه */
-  (function(){
-    let tools=null, n=rich;
-    while(n && n!==document.body && !tools){
-      let s=n.previousElementSibling;
-      while(s && !tools){
-        if(s.classList && s.classList.contains('rtools')) tools=s;
-        else if(s.querySelector) tools=s.querySelector('.rtools');
-        s=s.previousElementSibling;
-      }
-      if(!tools) n=n.parentElement;
-    }
-    if(tools) el=tools;
-    else if(!el || !el.querySelector || !el.querySelector('.rtools')) el=rich.parentElement||rich;
-  })();
-  /* الكيبورد لا يختفي ولا يضيع ما حدّدته:
-     نمنع الزرّ من خطف التركيز، ونحفظ آخر تحديد داخل المحرِّر ونعيده قبل التنفيذ. */
-  let last=null;
-  const remember=()=>{
-    const s=getSelection();
-    if(!s||!s.rangeCount) return;
-    const r=s.getRangeAt(0);
-    if(rich.contains(r.commonAncestorContainer)) last=r.cloneRange();
-  };
-  rich.addEventListener('keyup',remember);
-  rich.addEventListener('mouseup',remember);
-  rich.addEventListener('touchend',remember);
-  document.addEventListener('selectionchange',()=>{ if(document.activeElement===rich) remember(); });
-  const restore=()=>{
-    rich.focus({preventScroll:true});
-    if(!last) return;
-    try{ const s=getSelection(); s.removeAllRanges(); s.addRange(last); }catch(e){}
-  };
-  /* أي ضغطة على شريط الأدوات لا تسحب التركيز من المحرِّر */
-  const hold=ev=>{ if(ev.target.closest('[data-rt],[data-rthl],[data-rtfg],[data-rtmore]')) ev.preventDefault(); };
-  el.addEventListener('pointerdown',hold,true);
-  el.addEventListener('mousedown',hold,true);
-  el.addEventListener('touchstart',hold,{capture:true,passive:false});
-
-  /* css=true للألوان فقط، وأمّا العريض وأخواته فوسومٌ صريحة تبقى بعد التنظيف */
-  const run=(fn,css)=>{ restore();
-    try{ document.execCommand('styleWithCSS',false,!!css); }catch(e){}
-    try{ fn(); }catch(e){} remember(); if(onChange) onChange(); };
-
+  /* الألوان الجاهزة: ضغطة واحدة تلوّن المحدَّد */
+  el.addEventListener('pointerdown',ev=>{
+    const sw=ev.target.closest('[data-rthl],[data-rtfg],[data-rtmore]');
+    if(sw) ev.preventDefault();          /* لا يضيع التحديد */
+  });
   el.addEventListener('click',ev=>{
     const hl=ev.target.closest('[data-rthl]');
-    if(hl){ ev.preventDefault(); run(()=>document.execCommand('hiliteColor',false,hl.dataset.rthl),true); return; }
+    if(hl){ ev.preventDefault(); rtColor('hiliteColor',hl.dataset.rthl,rich,onChange); return; }
     const fg=ev.target.closest('[data-rtfg]');
-    if(fg){ ev.preventDefault(); run(()=>document.execCommand('foreColor',false,fg.dataset.rtfg),true); return; }
+    if(fg){ ev.preventDefault(); rtColor('foreColor',fg.dataset.rtfg,rich,onChange); return; }
     const mo=ev.target.closest('[data-rtmore]');
-    if(mo){ ev.preventDefault(); remember();
+    if(mo){ ev.preventDefault();
+      const sel=getSelection(), rg=sel&&sel.rangeCount?sel.getRangeAt(0).cloneRange():null;
       sheet(`<h3>ألوان أخرى</h3>
         <div class="field"><label>لون الحرف</label><input type="color" id="rcF" value="#0d6e5f"></div>
         <div class="field"><label>لون التظليل</label><input type="color" id="rcH" value="#ffe9a3"></div>
@@ -2501,27 +2343,29 @@ function bindRich(el,rich,onChange){
         sh.addEventListener('click',e2=>{
           const b=e2.target.closest('[data-rcx]'); if(!b) return;
           const c=sh.querySelector(b.dataset.rcx==='f'?'#rcF':'#rcH').value;
-          closeSheet();
-          run(()=>document.execCommand(b.dataset.rcx==='f'?'foreColor':'hiliteColor',false,c),true);
+          closeSheet(); rich.focus();
+          if(rg){ const s2=getSelection(); s2.removeAllRanges(); s2.addRange(rg); }
+          rtColor(b.dataset.rcx==='f'?'foreColor':'hiliteColor', c, rich, onChange);
         });
       });
       return; }
     const rt=ev.target.closest('[data-rt]'); if(!rt) return;
-    ev.preventDefault();
+    ev.preventDefault(); rich.focus();
     const k=rt.dataset.rt;
-    run(()=>{
+    try{
       if(k==='h2') document.execCommand('formatBlock',false, /h2/i.test(document.queryCommandValue('formatBlock')||'')?'p':'h2');
       else if(k==='bigger'||k==='smaller'){
         const cur=+(document.queryCommandValue('fontSize')||3);
         document.execCommand('fontSize',false,String(Math.max(1,Math.min(7,cur+(k==='bigger'?1:-1)))));
       }
       else document.execCommand(k);
-    });
+    }catch(e){}
+    if(onChange) onChange();
   });
-  rich.addEventListener('input',()=>{ remember(); if(onChange) onChange(); });
+  rich.addEventListener('input',()=>{ if(onChange) onChange(); });
   rich.addEventListener('paste',e=>{ /* لصق نصًّا نظيفًا */
     const t=(e.clipboardData||window.clipboardData).getData('text/plain');
-    if(t){ e.preventDefault(); document.execCommand('insertText',false,t); if(onChange) onChange(); }
+    if(t){ e.preventDefault(); document.execCommand('insertText',false,t); }
   });
 }
 function openNote(ref){
@@ -2557,7 +2401,7 @@ function openNote(ref){
 function openQuote(id){
   const q = quotes.find(x=>x.id===id); if(!q) return;
   sheet(`<h3>اقتباس</h3>
-    ${rtoolsHTML()}
+    <div class="rtools"><button data-rt="bold">B</button><button data-rt="italic" style="font-style:italic">I</button></div>
     <div class="rich" id="richBox" contenteditable="true" dir="rtl">${noteHtml(q.t)}</div>
     <div class="field" style="margin-top:10px"><label>المصدر</label>
       <input type="text" id="qs" value="${esc(q.src||'')}"></div>
@@ -2568,8 +2412,8 @@ function openQuote(id){
       <button class="btn" data-n="card">${ICON.card} بطاقة</button>
       <span style="flex:1"></span><button class="danger" data-n="del">حذف</button></div>`, el=>{
     const rich=el.querySelector('#richBox');
-    bindRich(el,rich,null);
     el.addEventListener('click',ev=>{
+      const rt=ev.target.closest('[data-rt]'); if(rt){ ev.preventDefault(); rich.focus(); document.execCommand(rt.dataset.rt); return; }
       const qc=ev.target.closest('[data-qc]');
       if(qc){ q.c=+qc.dataset.qc; saveQuotes(); el.querySelectorAll('[data-qc]').forEach(b=>b.classList.toggle('on',+b.dataset.qc===q.c)); return; }
       const n=ev.target.closest('[data-n]'); if(!n) return;
@@ -2898,19 +2742,6 @@ function trackPdf(box){
     } else delete ppos[id];
     S.set('ppos',ppos); },400); },{passive:true});
 }
-/* كتابة الموضع في الحال — لا بعد ثمانِ مئة جزء من الثانية */
-function savePdfNow(box){
-  try{
-    if(!box||!box.__pdf) return;
-    const id=box.dataset.item, pg=pageAtTop(box);
-    const h=box.querySelector(`.pg[data-p="${pg}"]`);
-    const off=h? (box.scrollTop-h.offsetTop)/Math.max(1,h.offsetHeight) : 0;
-    const old=ppos[id]||{};
-    ppos[id]={p:pg,o:Math.max(0,Math.min(1,off)),n:box.__pdf.numPages||old.n||0,
-      max:Math.max(old.max||0,pg)};
-    S.set('ppos',ppos);
-  }catch(e){}
-}
 function restorePdf(box){
   const sv=ppos[box.dataset.item]; if(!sv||sv.p<1) return;
   const h=box.querySelector(`.pg[data-p="${sv.p}"]`); if(!h) return;
@@ -3053,30 +2884,6 @@ P.play.onclick=toggle;
 document.getElementById('pBack').onclick=()=>seekTo(au.currentTime-15);
 document.getElementById('pFwd').onclick=()=>seekTo(au.currentTime+15);
 document.getElementById('pClose').onclick=()=>{ au.pause(); stash(); P.el.classList.remove('up'); };
-/* علامة مرجعية من المشغّل نفسه — ولو كنت في صفحة أخرى */
-document.getElementById('pBm').onclick=()=>{
-  if(!current){ toast('لا مقطع يعمل الآن'); return; }
-  const id=current.id, t=Math.round(au.currentTime||0);
-  marks[id]=marks[id]||[];
-  if(marks[id].some(x=>Math.abs((x.t||0)-t)<2)){ toast('هذه اللحظة معلَّمة سلفًا'); return; }
-  marks[id].push({id:uid('m'),t,e:0,n:'',c:curColor||'y',at:Date.now()});
-  saveMarks(); toast('علامة عند '+arTime(t));
-  try{ if(location.hash==='#/i/'+id) mkRefresh(id); }catch(e){}
-};
-document.getElementById('pBm').addEventListener('pointerdown',e=>{
-  /* ضغطة مطوّلة: افتح التفاصيل */
-  clearTimeout(window.__pbmT);
-  window.__pbmT=setTimeout(()=>{ if(!current) return;
-    try{ if(navigator.vibrate) navigator.vibrate(14); }catch(_){}
-    window.__pbmLong=1;
-    const r=findItem(current.id); if(r) mkSheet(r.it,{t:Math.round(au.currentTime||0)});
-  },480);
-});
-['pointerup','pointercancel','pointerleave'].forEach(k=>
-  document.getElementById('pBm').addEventListener(k,()=>clearTimeout(window.__pbmT)));
-document.getElementById('pBm').addEventListener('click',e=>{
-  if(window.__pbmLong){ window.__pbmLong=0; e.preventDefault(); e.stopPropagation(); }
-},true);
 P.rate.onclick=()=>{ const i=(RATES.indexOf(au.playbackRate)+1)%RATES.length; au.playbackRate=RATES[i];
   S.set('rate',RATES[i]); P.rate.textContent=String(RATES[i]).replace('.','٫')+'×'; };
 const IC_PLAY='M8 5v14l11-7z', IC_PAUSE='M7 5h3.5v14H7zM13.5 5H17v14h-3.5z';
@@ -3620,7 +3427,7 @@ function editItem(id, target, type){
 /* ================= router ================= */
 function render(){
   applyTheme();
-try{ const bi=document.getElementById('btnIdea'); if(bi) bi.onclick=()=>quickIdea(); }catch(e){}
+try{ document.getElementById('btnIdea').onclick=()=>quickIdea(); }catch(e){}
 try{ document.body.classList.toggle('lite', S.get('mode','full')==='lite'); }catch(e){}
   const h=location.hash||'#/';
   const view=document.getElementById('view');
@@ -3645,33 +3452,15 @@ try{ document.body.classList.toggle('lite', S.get('mode','full')==='lite'); }cat
   else if(h==='#/settings') html=vSettings();
   else if(h.startsWith('#/search')) html=vSearch();
   else html=vHome();
-  /* احفظ موضع القراءة بدقّة قبل أن تُبنى الصفحة من جديد */
-  let wasReading=false, readItem='';
-  try{
-    const ob=document.getElementById('pdfbox');
-    if(ob&&ob.__pdf){ savePdfNow(ob); readItem=ob.dataset.item; }
-    wasReading = (typeof RD!=='undefined') && RD.on;
-  }catch(e){}
   drawOn=false; hideSel(); closeSheet();
   document.body.style.overflow=''; fsbar.classList.remove('on');
   view.innerHTML=html;
   document.querySelectorAll('[data-h]').forEach(a=>a.classList.toggle('on',a.dataset.h===h));
-  try{ const tb=document.getElementById('tabbar'), on=tb.querySelector('a.on');
-    if(on&&tb.scrollWidth>tb.clientWidth) on.scrollIntoView({inline:'center',block:'nearest',behavior:'smooth'});
-  }catch(e){}
-  try{ document.getElementById('btnFav').classList.toggle('on', Object.keys(fav).length>0); }catch(e){}
+  document.getElementById('btnFav').classList.toggle('on', Object.keys(fav).length>0);
   wire(h);
   try{ startBtn(); }catch(e){}
   try{ planFab(); }catch(e){}
   try{ txPill(); }catch(e){}
-  /* إن كنت تقرأ ملء الشاشة فلا يخرجك زرٌّ ضغطته */
-  try{
-    if(wasReading){
-      const nb=document.getElementById('pdfbox');
-      if(nb&&nb.dataset.item===readItem) rdReenter(nb);
-      else { document.body.classList.remove('reading','bars'); RD.on=false; }
-    }
-  }catch(e){}
   if(h.startsWith('#/tg/')) { try{ if(chMode()==='live') watchPosts(); else fillFeed(false); }catch(e){} }
   if(h==='#/card'){ try{ c2Render(); c2Thumbs(); bindFreeDrag(); }catch(e){} }
   if(h.startsWith('#/mind/')){ try{ bindMind(); }catch(e){} }
@@ -3815,10 +3604,6 @@ function wire(h){
       quotes.unshift({id:uid('q'),t,src:document.getElementById('qSrc').value.trim(),
         pin:document.getElementById('qPin').checked,c:qc,ts:Date.now()});
       saveQuotes(); render(); }; }
-  // avatar preview inside settings
-  try{ const ap=document.getElementById('avPrev');
-    if(ap&&site.avatar) fileURL(site.avatar).then(u=>{ if(u){ ap.style.backgroundImage='url("'+u+'")'; ap.textContent=''; } });
-  }catch(e){}
   // settings
   const ss=document.getElementById('setSave');
   if(ss){
@@ -4805,14 +4590,6 @@ function startHints(){
   if(!plan.hint.on) return;
   if(typeof uiOn==='function'&&!uiOn('hint')) return;
   setTimeout(()=>{ const h=taskHint(); if(h) showHint(h,'task'); }, 5000);
-  /* إن كان تنبيه الصلاة مفتوحًا ولا موقع — ذكّره مرّة واحدة */
-  setTimeout(()=>{ try{
-    if(plan.hint.pray===false) return;
-    if(prayTimes(new Date())) return;
-    if(S.get('prayAsk',false)) return;
-    S.set('prayAsk',true);
-    showHint('<b>أوقات الصلاة</b><span>اختر مدينتك ليُنبّهك الموقع بدخول الوقت</span><small>الجدول ← أوقات الصلاة</small>','task',8000);
-  }catch(e){} }, 9000);
   hintTimer=setInterval(hintTick, Math.max(1,+plan.hint.every||10)*60000);
   minTimer=setInterval(()=>{ try{ prayWatch(); const t=taskHint(); if(t) showHint(t,'task'); }catch(e){} }, 60000);
 }
@@ -5459,19 +5236,19 @@ function watchPosts(){
 
 
 /* ================= تخصيص الموقع: إظهار وإخفاء وترتيب وتسمية ================= */
-/* الأقسام كلّها في الشريط السفلي — ولا «مزيد».
-   الخرائط داخل الفوائد، والتأريخ داخل الإعدادات، والمفضلة أعلى الصفحة. */
 const PARTS=[
   {h:'#/plan',   d:'جدولي',    ic:'cal'},
   {h:'#/lib',    d:'المكتبة',  ic:'lib'},
-  {h:'#/notes',  d:'فوائدي',   ic:'pen'},
-  {h:'#/boh',    d:'بوح',      ic:'boh'},
-  {h:'#/quotes', d:'اقتباسات', ic:'quote'},
   {h:'#/tg',     d:'قنواتي',   ic:'tg'},
+  {h:'#/quotes', d:'اقتباسات', ic:'quote'},
+  {h:'#/notes',  d:'فوائدي',   ic:'pen'},
+  {h:'#/mind',   d:'خرائطي الذهنية', ic:'mind'},
+  {h:'#/boh',    d:'بوح',      ic:'boh'},
+  {h:'#/time',   d:'تأريخي',   ic:'hist'},
   {h:'#/cards',  d:'بطاقاتي',  ic:'card'},
+  {h:'#/fav',    d:'المفضلة',  ic:'star'},
   {h:'#/search', d:'بحث',      ic:'search'}
 ];
-const GONE=['#/mind','#/time','#/fav'];   /* صارت داخل أقسامها */
 const BITS=[
   ['today', 'جدول اليوم في الصفحة الأولى'],
   ['wall',  'ورقة الاقتباس الصغيرة بجانب العنوان'],
@@ -5491,13 +5268,10 @@ if(!UI||!UI.parts){
   UI={parts:PARTS.map(p=>({h:p.h,t:p.d,on:true})), bits:{}};
   BITS.forEach(([k])=>UI.bits[k]=true);
 }
-/* أي جزء جديد يُضاف لاحقًا يظهر تلقائيًا، وما انتقل إلى مكان آخر يُرفع من الشريط */
-UI.parts=UI.parts.filter(p=>!GONE.includes(p.h));
+/* أي جزء جديد يُضاف لاحقًا يظهر تلقائيًا */
 PARTS.forEach(p=>{ if(!UI.parts.find(x=>x.h===p.h)) UI.parts.push({h:p.h,t:p.d,on:true}); });
-saveUIsafe();
 BITS.forEach(([k])=>{ if(UI.bits[k]===undefined) UI.bits[k]=true; });
 const saveUI=()=>S.set('ui',UI);
-function saveUIsafe(){ try{ S.set('ui',UI); }catch(e){} }
 const uiOn=k=>UI.bits[k]!==false;
 const partOn=h=>{ const p=UI.parts.find(x=>x.h===h); return !p||p.on!==false; };
 const partName=h=>{ const p=UI.parts.find(x=>x.h===h); const d=PARTS.find(x=>x.h===h);
@@ -5512,16 +5286,13 @@ function buildNav(){
   const list=navList();
   document.getElementById('topnav').innerHTML=list.map(n=>`<a href="${n.h}" data-h="${n.h}">${esc(n.t)}</a>`).join('');
   const tb=document.getElementById('tabbar');
-  tb.innerHTML=list.map(n=>`<a href="${n.h}" data-h="${n.h}">${n.ic}<span>${esc(n.t)}</span></a>`).join('');
-  /* تضيق الخانات حتى ستّ، وما زاد ينزلق أفقيًّا */
-  tb.classList.toggle('many', list.length>6);
+  const main=list.filter(n=>!['#/search','#/fav'].includes(n.h));
+  const shown=main.slice(0,5);
+  const rest=main.slice(5);
+  tb.innerHTML=shown.map(n=>`<a href="${n.h}" data-h="${n.h}">${n.ic}<span>${esc(n.t)}</span></a>`).join('')
+    + `<button data-more="1" class="moretab">${ICON.more}<span>المزيد</span></button>`;
   tb.style.display = uiOn('tabbar')? '' : 'none';
   document.body.classList.toggle('notab',!uiOn('tabbar'));
-  /* اجعل القسم الذي أنت فيه ظاهرًا في الشريط دائمًا */
-  setTimeout(()=>{ try{
-    const on=tb.querySelector('a.on')||tb.querySelector('a');
-    if(on&&tb.scrollWidth>tb.clientWidth) on.scrollIntoView({inline:'center',block:'nearest'});
-  }catch(e){} },30);
 }
 /* كل الأقسام في متناول يدك — ولو كثُرت */
 function moreSheet(){
@@ -5778,17 +5549,6 @@ function toSec(s) {
 }
 const arTime = s => AR(mmss(s));
 
-/* تحديث لوحة العلامات في مكانها — بلا إعادة بناء الصفحة */
-function mkRefresh(id) {
-  const r = findItem(id); if (!r) return;
-  const box = document.querySelector('.mkbox');
-  const html = marksPanel(r.it);
-  if (box && html) {
-    const d = document.createElement('div'); d.innerHTML = html;
-    if (d.firstElementChild) box.replaceWith(d.firstElementChild);
-  }
-  try { if (RD.on) rdBars(); } catch (e) {}
-}
 /* ---------- المواضع المحفوظة في الكتب ---------- */
 function nowPage() {
   const box = document.getElementById('pdfbox');
@@ -5850,10 +5610,10 @@ function pgSheet(it, m) {
         if (!marks[it.id]) marks[it.id] = [];
         if (m.id) { const o = marks[it.id].find(x => x.id === m.id); if (o) { o.p = p; o.n = n; o.c = col; } }
         else marks[it.id].push({ id: uid('m'), p, n, c: col, at: Date.now() });
-        saveMarks(); closeSheet(); mkRefresh(it.id); toast('حُفظ الموضع');
+        saveMarks(); closeSheet(); render(); toast('حُفظ الموضع');
       } else if (k === 'del') {
         marks[it.id] = (marks[it.id] || []).filter(x => x.id !== m.id);
-        saveMarks(); closeSheet(); mkRefresh(it.id);
+        saveMarks(); closeSheet(); render();
       }
     });
   });
@@ -5926,10 +5686,10 @@ function mkSheet(it, m) {
           const o = marks[it.id].find(x => x.id === m.id);
           if (o) { o.t = a; o.e = bb || 0; o.n = n; o.c = col; }
         } else marks[it.id].push({ id: uid('m'), t: a, e: bb || 0, n, c: col, at: Date.now() });
-        saveMarks(); closeSheet(); mkRefresh(it.id); toast('حُفظت');
+        saveMarks(); closeSheet(); render(); toast('حُفظت');
       } else if (k === 'del') {
         marks[it.id] = (marks[it.id] || []).filter(x => x.id !== m.id);
-        saveMarks(); closeSheet(); mkRefresh(it.id);
+        saveMarks(); closeSheet(); render();
       }
     });
   });
@@ -6399,7 +6159,7 @@ document.addEventListener('click', ev => {
       if (near) { toast('هذه اللحظة معلَّمة سلفًا'); return; }
       marks[it.id].push({ id: uid('m'), t: Math.round(t), e: 0, n: '', c: curColor || 'y', at: Date.now() });
       saveMarks(); toast('علامة عند ' + arTime(t));
-      mkRefresh(it.id);
+      if (document.querySelector('.mkbox')) render();
     } else if (k === 'go') {
       const m = (marks[it.id] || []).find(x => x.id === b.dataset.mid); if (!m) return;
       seekItem(it, m.t, m.e);
@@ -6414,7 +6174,7 @@ document.addEventListener('click', ev => {
       if (has) { toast('صفحة ' + AR(p) + ' معلَّمة سلفًا'); return; }
       marks[it.id].push({ id: uid('m'), p, n: '', c: curColor || 'y', at: Date.now() });
       saveMarks(); toast('علامة على صفحة ' + AR(p));
-      mkRefresh(it.id);
+      if (document.querySelector('.mkbox')) render();
     }
     else if (k === 'pgo') {
       const m = (marks[it.id] || []).find(x => x.id === b.dataset.mid);
@@ -6540,11 +6300,6 @@ function helpSheet(k) {
     <div class="sheetrow"><button class="btn" onclick="closeSheet()">فهمت</button></div>`);
 }
 document.addEventListener('click', ev => {
-  const t = ev.target.closest('[data-tool]');
-  if (t) { ev.preventDefault();
-    if (t.dataset.tool === 'idea') quickIdea();
-    else if (t.dataset.tool === 'theme') cycleTheme();
-    return; }
   const b = ev.target.closest('[data-help]'); if (!b) return;
   ev.preventDefault(); ev.stopPropagation(); helpSheet(b.dataset.help);
 });
@@ -6614,40 +6369,7 @@ function setupStep(n) {
       <p class="mkempty">تبدّلها متى شئت من الإعدادات.</p>`, el => {
       el.addEventListener('click', ev => {
         const b = ev.target.closest('[data-sm]'); if (!b) return;
-        setMode(b.dataset.sm); setupStep(2.5);
-      });
-    });
-    return;
-  }
-  if (n === 2.5) {
-    const cur = (typeof plan !== 'undefined' && plan.loc) ? plan.loc.name : '';
-    sheet(`<h3>أوقات الصلاة</h3>
-      <p class="mkempty">اختر مدينتك ليُنبّهك الموقع بدخول وقت الصلاة، ويمرّ عليك ذِكر بين الحين والحين.</p>
-      <div class="field"><label>مدينتك</label>
-        <select id="suCity">
-          <option value="">— لاحقًا —</option>
-          ${CITIES.map((c, i) => `<option value="${i}" ${cur === c[0] ? 'selected' : ''}>${esc(c[0])}</option>`).join('')}
-        </select></div>
-      <div class="sheetrow" style="margin:6px 0 0"><button class="btn" data-sg="geo">${ICON.pin} حدّد موقعي تلقائيًا</button></div>
-      <div class="sheetrow"><button class="btn pri" data-sn="3">التالي</button>
-        <button class="btn" data-sn="3">تخطّي</button></div>`, el => {
-      const save = i => { const c = CITIES[i]; if (!c) return;
-        plan.loc = { name: c[0], lat: c[1], lng: c[2] }; plan.pray.method = c[3] || plan.pray.method;
-        plan.pray.use = 'auto'; savePlan(); };
-      el.addEventListener('click', ev => {
-        if (ev.target.closest('[data-sg]')) {
-          if (!navigator.geolocation) { toast('جهازك لا يدعم تحديد الموقع'); return; }
-          navigator.geolocation.getCurrentPosition(pos => {
-            plan.loc = { name: 'موقعي', lat: +pos.coords.latitude.toFixed(4), lng: +pos.coords.longitude.toFixed(4) };
-            plan.pray.use = 'auto'; savePlan(); toast('حُدِّد موقعك');
-          }, () => toast('تعذّر تحديد الموقع — اختر مدينتك'));
-          return;
-        }
-        if (ev.target.closest('[data-sn]')) {
-          const v = el.querySelector('#suCity').value;
-          if (v !== '') save(+v);
-          setupStep(3);
-        }
+        setMode(b.dataset.sm); setupStep(3);
       });
     });
     return;
@@ -7057,24 +6779,6 @@ function mindBounds(m) {
   return { x1, y1, w: Math.max(320, x2 - x1 + 40), h: Math.max(220, y2 - y1 + 40) };
 }
 
-/* لوحة الخرائط داخل صفحة الفوائد */
-function mindsPanel(){
-  const list=minds.slice(0,8);
-  return `<section class="fieldset" style="margin:0 16px 14px">
-    <div class="mkhead"><b>${ICON.mind} خرائطي الذهنية</b>
-      <span style="flex:1"></span>
-      ${helpBtn('mind')}
-      <button class="btn pri" style="padding:7px 12px" data-mm="new">${ICON.plus} خريطة</button></div>
-    ${list.length? `<div class="mklist">${list.map(m=>`
-      <a class="mkrow" href="#/mind/${m.id}" style="text-decoration:none">
-        <span class="mktime" style="background:var(--acc-soft);color:var(--acc)">${AR(m.nodes.length)}</span>
-        <span class="mktext"><b style="font-size:13.5px">${esc(m.name)}</b>
-          ${m.sec&&findSec(m.sec)?`<small style="display:block;font-size:11.5px;color:var(--muted)">${esc(findSec(m.sec).name)}</small>`:''}</span>
-      </a>`).join('')}</div>
-      ${minds.length>8?`<p class="mkempty">وغيرها ${AR(minds.length-8)}…</p>`:''}`
-      : `<p class="mkempty">شجّر فكرة: عقدة في الوسط وفروع تتشعّب، واربط خريطة بأخرى.</p>`}
-  </section>`;
-}
 /* ---------- القوائم ---------- */
 function vMinds() {
   const name = partName('#/mind') || 'خرائطي الذهنية';
@@ -7576,23 +7280,6 @@ function heatStrip(days) {
   return `<div class="heat">${cells.join('')}</div>`;
 }
 
-/* بطاقة التأريخ داخل الإعدادات */
-function timeCard(){
-  try{
-    const s=stats();
-    return `<div class="fieldset" style="margin-bottom:14px">
-      <div class="mkhead"><b>${ICON.hist} ${esc(partName('#/time')||'تأريخي')}</b>
-        <span style="flex:1"></span>${helpBtn('time')}
-        <a class="chip" href="#/time">افتحه</a></div>
-      <div class="achwk" style="margin-top:10px">
-        <i>${AR(s.doneN)} أتممت</i>
-        ${s.pages?`<i>${AR(s.pages)} صفحة</i>`:''}
-        ${s.hours>=0.02?`<i>${s.hours>=1?AR(s.hours.toFixed(1)).replace('.','٫')+' ساعة':AR(Math.round(s.hours*60))+' دقيقة'}</i>`:''}
-        <i>سلسلة ${AR(s.cur)}</i>
-      </div>
-    </div>`;
-  }catch(e){ return ''; }
-}
 /* ---------- صفحة التأريخ ---------- */
 let tkFilter = 'all', tkMore = 120;
 function vTime() {
@@ -7608,8 +7295,7 @@ function vTime() {
     if (g && g.k === k) g.list.push(e); else groups.push({ k, list: [e] });
   });
   const kinds = Object.keys(TKIND).filter(k => s.ev.some(e => e.k === k));
-  return `<a class="back" href="#/settings">${ICON.back} الإعدادات</a>
-  ${head(name, helpBtn('time'))}
+  return `${head(name, helpBtn('time'))}
   ${achBox(true)}
   <div class="chips" style="margin:14px 0 12px">
     <button class="chip ${tkFilter === 'all' ? 'on' : ''}" data-tk="all">الكل</button>
@@ -7719,14 +7405,6 @@ function rdEnter(box) {
   document.body.classList.remove('bars');
   rdBars(); layoutPdf(box, { keep: true });
   rdTip('اضغط على الصفحة لتظهر الأدوات');
-}
-/* العودة إلى وضع القراءة بعد إعادة بناء الصفحة — بلا وميض ولا قفزة */
-function rdReenter(box) {
-  RD.box = box; RD.on = true;
-  box.classList.add('full');
-  document.body.classList.add('reading');
-  rdBars();
-  layoutPdf(box, { restore: true });
 }
 function rdExit() {
   const box = RD.box || document.getElementById('pdfbox');
@@ -8545,9 +8223,8 @@ function fontOpts(cur){
   return FONTS.concat(userFonts.map(f=>[f.id,f.name]))
     .map(([k,n])=>`<option value="${k}" ${cur===k?'selected':''}>${n}</option>`).join('');
 }
-function showPop(force){
+function showPop(){
   const el=document.getElementById('lpop'); if(!el) return;
-  if(!force&&popBusy()){ el.classList.toggle('on',C2.sel!=null); return; }
   el.innerHTML=popHTML();
   el.classList.toggle('on',C2.sel!=null);
 }
@@ -8566,18 +8243,11 @@ function drawSelBox(){
   d.style.cssText=`left:${x*100}%;top:${y*100}%;width:${w*100}%;height:${h*100}%`;
   ov.appendChild(d);
 }
-async function c2Render(keepPop){
+async function c2Render(){
   const cv=document.getElementById('c2cv'); if(!cv) return;
   const {W,H}=c2Size(); cv.width=W; cv.height=H;
   await c2Draw(cv,C2);
-  drawSelBox();
-  /* لا نعيد بناء لوحة الأدوات وأنت تكتب فيها — وإلا اختفى الكيبورد */
-  if(!keepPop) showPop();
-}
-/* حارسٌ عامّ: لا يُعاد بناء لوحة فيها حقل تكتب فيه */
-function popBusy(){
-  const el=document.getElementById('lpop'), a=document.activeElement;
-  return !!(el&&a&&el.contains(a)&&/^(INPUT|TEXTAREA|SELECT)$/.test(a.tagName));
+  drawSelBox(); showPop();
 }
 async function c2Thumbs(){
   const st={tpl:'',d:C2.d,layers:[],img:C2.img,logo:C2.logo,imgPan:C2.imgPan};
@@ -8695,7 +8365,7 @@ document.addEventListener('click',async ev=>{
   const lp=ev.target.closest('[data-lp]');
   if(lp){
     const k=lp.dataset.lp;
-    if(k==='close'){ C2.sel=null; saveC2(); c2Render(true); return; }
+    if(k==='close'){ C2.sel=null; saveC2(); c2Render(); return; }
     if(k==='movebox'){ C2.panMode=false; showPop(); return; }
     if(k==='movepic'){ C2.panMode=true; showPop(); return; }
     if(k==='del'){
@@ -8709,7 +8379,7 @@ document.addEventListener('click',async ev=>{
     else if(k==='shadow') L.shadow=!L.shadow;
     else if(k==='band') L.band = L.band? null : '#000000';
     else if(k.startsWith('a_')) L.align=k.slice(2);
-    saveC2(); c2Render(true); return; }
+    saveC2(); c2Render(); return; }
   const b=ev.target.closest('[data-c2]'); if(!b) return;
   const k=b.dataset.c2;
   if(k==='pickimg') c2PickImg('img');
@@ -8745,26 +8415,26 @@ document.addEventListener('click',async ev=>{
 document.addEventListener('input',ev=>{
   const t=ev.target; if(!t.id) return;
   const D=C2.d;
-  if(t.id==='c2acc'){ D.acc=t.value; saveC2(); c2Render(true); return; }
-  if(t.id==='c2paper'){ D.paper=t.value; saveC2(); c2Render(true); return; }
-  if(t.id==='c2ink'){ D.ink=t.value; saveC2(); c2Render(true); return; }
-  if(t.id==='c2dim'){ D.dim=+t.value/100; saveC2(); c2Render(true); return; }
-  if(t.id==='c2alpha'){ D.imgAlpha=+t.value/100; saveC2(); c2Render(true); return; }
+  if(t.id==='c2acc'){ D.acc=t.value; saveC2(); c2Render(); return; }
+  if(t.id==='c2paper'){ D.paper=t.value; saveC2(); c2Render(); return; }
+  if(t.id==='c2ink'){ D.ink=t.value; saveC2(); c2Render(); return; }
+  if(t.id==='c2dim'){ D.dim=+t.value/100; saveC2(); c2Render(); return; }
+  if(t.id==='c2alpha'){ D.imgAlpha=+t.value/100; saveC2(); c2Render(); return; }
   if(t.id==='fW'){ if(C2.sel==='logo'){ const L=logoBoxOf().slice(); L[2]=+t.value/100; C2.logoBox=L; }
     else { const f=(frameOf()||[0.1,0.1,0.5,0.5,0]).slice(); f[2]=+t.value/100; C2.frame=f; }
-    saveC2(); c2Render(true); return; }
-  if(t.id==='fH'){ const f=(frameOf()||[0.1,0.1,0.5,0.5,0]).slice(); f[3]=+t.value/100; C2.frame=f; saveC2(); c2Render(true); return; }
-  if(t.id==='fZ'){ C2.imgPan.z=+t.value/100; saveC2(); c2Render(true); return; }
+    saveC2(); c2Render(); return; }
+  if(t.id==='fH'){ const f=(frameOf()||[0.1,0.1,0.5,0.5,0]).slice(); f[3]=+t.value/100; C2.frame=f; saveC2(); c2Render(); return; }
+  if(t.id==='fZ'){ C2.imgPan.z=+t.value/100; saveC2(); c2Render(); return; }
   const L=C2.layers[C2.sel]; if(!L) return;
-  if(t.id==='lT'){ L.t=t.value; saveC2(); c2Render(true); }
-  else if(t.id==='lS'){ L.size=+t.value; saveC2(); c2Render(true); }
-  else if(t.id==='lW'){ L.w=+t.value/100; saveC2(); c2Render(true); }
-  else if(t.id==='lH'){ L.lh=+t.value/100; saveC2(); c2Render(true); }
-  else if(t.id==='lC'){ L.color=t.value; saveC2(); c2Render(true); }
-  else if(t.id==='lB'){ L.band=t.value; saveC2(); c2Render(true); }
+  if(t.id==='lT'){ L.t=t.value; saveC2(); c2Render(); }
+  else if(t.id==='lS'){ L.size=+t.value; saveC2(); c2Render(); }
+  else if(t.id==='lW'){ L.w=+t.value/100; saveC2(); c2Render(); }
+  else if(t.id==='lH'){ L.lh=+t.value/100; saveC2(); c2Render(); }
+  else if(t.id==='lC'){ L.color=t.value; saveC2(); c2Render(); }
+  else if(t.id==='lB'){ L.band=t.value; saveC2(); c2Render(); }
 });
 document.addEventListener('change',ev=>{
-  if(ev.target.id==='lF'){ const L=C2.layers[C2.sel]; if(L){ L.font=ev.target.value; saveC2(); c2Render(true); } }
+  if(ev.target.id==='lF'){ const L=C2.layers[C2.sel]; if(L){ L.font=ev.target.value; saveC2(); c2Render(); } }
 });
 async function drawCardAny(cv,c){
   if(c&&(c.v===3||c.v===2)){ await c2Draw(cv,Object.assign({layers:[],d:{}},c)); return; }
