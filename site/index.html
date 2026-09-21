@@ -1705,6 +1705,36 @@ textarea.mhfbody{width:100%;resize:none;color:var(--ink)}
 /* الزرّ العائم للجدول لا يغطّي الدفتر */
 body[data-route^="#/nb/"] .planfab,body[data-route^="#/nb/"] #startBtn{display:none!important}
 
+/* ==== feat: 36-notepages.css ==== */
+/* ---------- فوائد المقرَّر: دفتر صفحات ---------- */
+.npw{display:flex;flex-direction:column;gap:8px}
+.nppaper{border-radius:14px;border:1px solid var(--line);background:var(--card);box-shadow:0 1px 0 var(--line),0 3px 0 -1px var(--card),0 4px 0 -1px var(--line);
+  overflow:hidden;transform-origin:center;margin-bottom:4px}
+.nptop{display:flex;align-items:center;gap:6px;padding:6px 10px 0}
+.npno{font-size:11.5px;font-weight:700;color:var(--muted)}
+.nppaper .rich.npg{border:0;border-radius:0;min-height:150px;max-height:34vh;overflow:auto;padding:4px 14px 12px;margin:0;
+  line-height:30px;background-color:transparent;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 29px,color-mix(in srgb,var(--acc) 14%,transparent) 29px,color-mix(in srgb,var(--acc) 14%,transparent) 30px);
+  background-attachment:local;background-position:0 4px}
+.nppaper .rich.npg:focus{outline:none}
+.nppaper:focus-within{border-color:color-mix(in srgb,var(--acc) 45%,var(--line))}
+.npnav{display:flex;align-items:center;gap:6px}
+.npic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--bg2);border:1px solid var(--line);color:var(--ink);cursor:pointer;flex:none}
+.npic svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.npic:disabled{opacity:.35;pointer-events:none}
+.nptop .npic{width:28px;height:28px;background:none;border:0;color:var(--muted)}
+.nptop .npic svg{width:15px;height:15px}
+.npdots{display:flex;gap:5px;align-items:center;padding:0 4px}
+.npdots i{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;transition:all .2s}
+.npdots i.on{background:var(--acc);width:18px;border-radius:4px}
+.npdots b{font-size:12px;color:var(--muted)}
+.npnew{padding:8px 14px!important;font-size:13px}
+.npnew svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2}
+.nppaper.np-l{animation:npL .28s ease-out}
+.nppaper.np-r{animation:npR .28s ease-out}
+@keyframes npL{from{opacity:.2;transform:translateX(-26px) rotateY(10deg)}to{opacity:1;transform:none}}
+@keyframes npR{from{opacity:.2;transform:translateX(26px) rotateY(-10deg)}to{opacity:1;transform:none}}
+
 /* ==== feat: 40-read.css ==== */
 /* ---------- طبقة نصّ PDF: تحديدٌ صحيح من اليمين لليسار ---------- */
 .pdfbox .pg{position:relative;isolation:isolate}
@@ -3054,7 +3084,7 @@ function vSettings(){
       </div>
       <div id="diagOut" style="font-size:12.5px;color:var(--muted);line-height:1.9;margin-top:10px"></div></div>
   </div>
-  <p class="hintp" style="text-align:center;margin:18px 0 0">مساحتي — الإصدار 3.2.0</p>`;
+  <p class="hintp" style="text-align:center;margin:18px 0 0">مساحتي — الإصدار 3.2.1</p>`;
 }
 
 /* ================= item view ================= */
@@ -11287,7 +11317,7 @@ document.addEventListener('click', async ev => {
 });
 
 /* ================= التطبيق: تثبيت وتحديث وعمل بلا إنترنت ================= */
-const APP_VER='3.2.0';
+const APP_VER='3.2.1';
 let pwaPrompt=null;
 const isStandalone=()=>{ try{ return matchMedia('(display-mode: standalone)').matches || navigator.standalone===true; }catch(e){ return false; } };
 const isIOS=()=>/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
@@ -12640,6 +12670,130 @@ function mhSaveGathered(id, ref, html) {
     if (ref.startsWith('mk:')) { const m = (marks[id] || []).find(x => x.id === ref.slice(3)); if (m) { m.n = html; saveMarks(); } return; }
   } catch (e) {}
 }
+/* ==== feat: 36-notepages.js ==== */
+/* ================================================================
+   فوائد المقرَّر كدفتر: كل فائدة في صفحة صغيرة، وزرّ «فائدة جديدة»
+   يقلب إلى صفحة بيضاء. تُحفظ الصفحات معًا في notes[id] يفصل بينها <hr>،
+   فتبقى بقيّة الموقع (البحث، فوائدي، البطاقات، التصدير) تعمل كما هي.
+   ================================================================ */
+ALLOWED.HR = 1;                       /* لا يمسح التنظيفُ الفاصلَ بين الصفحات */
+const NP_SPLIT = /<hr\s*\/?>/i;
+const NP_IC = {
+  prev: '<svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></svg>',
+  next: '<svg viewBox="0 0 24 24"><path d="m15 6-6 6 6 6"/></svg>',
+  plus: '<svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>',
+  del: '<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>'
+};
+function npPages(id) {
+  const p = String(notes[id] || '').split(NP_SPLIT).map(s => s.trim()).filter(s => noteText(s));
+  return p.length ? p : [''];
+}
+let NPCUR = {};                       /* آخر صفحة فتحتها لكل مقرَّر (في هذه الجلسة) */
+
+mhAfter(h => {
+  if (!/^#\/i\//.test(h)) return;
+  const old = document.getElementById('noteBox'); if (!old || old.closest('.npw')) return;
+  const id = old.dataset.note; if (!id) return;
+  const field = old.parentElement;
+  /* شريط التنسيق القديم مربوط بالمحرِّر القديم — نستبدله بنسخة نظيفة */
+  const oldTools = field.querySelector('.rtools');
+  const tools = oldTools ? oldTools.cloneNode(true) : null;
+  if (oldTools) oldTools.replaceWith(tools);
+  const lbl = field.querySelector('label'); if (lbl) lbl.textContent = 'فوائدي من هذا المقرَّر — كل فائدة في صفحة';
+
+  const pages = npPages(id);
+  let cur = Math.min(NPCUR[id] != null ? NPCUR[id] : pages.length - 1, pages.length - 1);
+
+  const w = document.createElement('div'); w.className = 'npw';
+  w.innerHTML = `
+    <div class="nppaper">
+      <div class="nptop"><span class="npno"></span><span style="flex:1"></span>
+        <button type="button" class="npic" data-np="del" title="احذف هذه الصفحة">${NP_IC.del}</button></div>
+      <div class="rich npg" id="noteBox" data-note="${id}" contenteditable="true" dir="rtl" data-ph="اكتب فائدة…"></div>
+    </div>
+    <div class="npnav">
+      <button type="button" class="npic" data-np="prev" title="الصفحة السابقة">${NP_IC.prev}</button>
+      <span class="npdots"></span>
+      <button type="button" class="npic" data-np="next" title="الصفحة التالية">${NP_IC.next}</button>
+      <span style="flex:1"></span>
+      <button type="button" class="btn pri npnew" data-np="new">${NP_IC.plus} فائدة جديدة</button>
+    </div>`;
+  old.replaceWith(w);
+  const ed = w.querySelector('#noteBox'), paper = w.querySelector('.nppaper');
+  const st = () => document.getElementById('nstate');
+
+  const show = anim => {
+    ed.innerHTML = noteHtml(pages[cur] || '');
+    NPCUR[id] = cur;
+    w.querySelector('.npno').textContent = 'صفحة ' + AR(cur + 1) + ' من ' + AR(pages.length);
+    const n = pages.length, dots = n <= 9
+      ? pages.map((_, i) => `<i class="${i === cur ? 'on' : ''}" data-npgo="${i}"></i>`).join('')
+      : `<b>${AR(cur + 1)} / ${AR(n)}</b>`;
+    w.querySelector('.npdots').innerHTML = dots;
+    w.querySelector('[data-np="prev"]').disabled = cur === 0;
+    w.querySelector('[data-np="next"]').disabled = cur === n - 1;
+    if (anim) { paper.classList.remove('np-l', 'np-r'); void paper.offsetWidth; paper.classList.add(anim); }
+  };
+  let t = null;
+  const persist = () => {
+    const keep = pages.map(p => clean(p)).filter(p => noteText(p));
+    const v = keep.join('<hr>');
+    if (v === (notes[id] || '')) return;
+    if (v) { notes[id] = v; try { touchNote(id); } catch (e) {} } else delete notes[id];
+    saveNotes();
+  };
+  const save = () => {
+    if (st()) st().textContent = 'جارٍ الحفظ…';
+    clearTimeout(t);
+    t = setTimeout(() => { pages[cur] = clean(ed.innerHTML); persist(); if (st()) st().textContent = 'محفوظة ✓'; }, 400);
+  };
+  const flush = () => { clearTimeout(t); pages[cur] = clean(ed.innerHTML); persist(); };
+  bindRich(tools || field, ed, save);
+
+  const go = (i, anim) => {
+    flush();
+    /* صفحةٌ فارغة تركتها لا تبقى */
+    if (!noteText(pages[cur]) && pages.length > 1) { pages.splice(cur, 1); if (i > cur) i--; }
+    cur = Math.max(0, Math.min(i, pages.length - 1)); show(anim);
+  };
+  const newPage = () => {
+    flush();
+    if (!noteText(pages[cur])) { ed.focus(); toast('اكتب في هذه الصفحة أوّلًا'); return; }
+    const empty = pages.findIndex(p => !noteText(p));
+    if (empty >= 0) pages.splice(empty, 1);
+    pages.push(''); cur = pages.length - 1; show('np-l');
+    ed.focus();
+  };
+  w.addEventListener('click', ev => {
+    const d = ev.target.closest('[data-npgo]');
+    if (d) { const i = +d.dataset.npgo; if (i !== cur) go(i, i > cur ? 'np-l' : 'np-r'); return; }
+    const b = ev.target.closest('[data-np]'); if (!b || b.disabled) return;
+    const k = b.dataset.np;
+    if (k === 'prev') go(cur - 1, 'np-r');
+    else if (k === 'next') go(cur + 1, 'np-l');
+    else if (k === 'new') newPage();
+    else if (k === 'del') {
+      flush();
+      if (noteText(pages[cur]) && !confirm('تحذف هذه الفائدة؟')) return;
+      pages.splice(cur, 1); if (!pages.length) pages.push('');
+      cur = Math.min(cur, pages.length - 1); persist(); show('np-r'); toast('حُذفت الصفحة');
+    }
+  });
+  /* Ctrl/⌘ + Enter = فائدة جديدة */
+  ed.addEventListener('keydown', ev => { if (ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey)) { ev.preventDefault(); newPage(); } });
+  /* سحب أفقي على شريط الصفحات يقلب */
+  let sx = null;
+  const nav = w.querySelector('.npnav');
+  nav.addEventListener('touchstart', e => { sx = e.touches[0].clientX; }, { passive: true });
+  nav.addEventListener('touchend', e => {
+    if (sx == null) return; const dx = e.changedTouches[0].clientX - sx; sx = null;
+    if (Math.abs(dx) < 50) return;
+    if (dx > 0 && cur < pages.length - 1) go(cur + 1, 'np-l'); else if (dx < 0 && cur > 0) go(cur - 1, 'np-r');
+  });
+  addEventListener('hashchange', flush, { once: true });
+  show();
+});
+
 /* ==== feat: 40-read.js ==== */
 /* ================================================================
    القراءة: نصّ PDF قابل للتحديد والنسخ والتظليل، وتقليب الصفحات،

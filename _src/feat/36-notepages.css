@@ -1,0 +1,28 @@
+/* ---------- فوائد المقرَّر: دفتر صفحات ---------- */
+.npw{display:flex;flex-direction:column;gap:8px}
+.nppaper{border-radius:14px;border:1px solid var(--line);background:var(--card);box-shadow:0 1px 0 var(--line),0 3px 0 -1px var(--card),0 4px 0 -1px var(--line);
+  overflow:hidden;transform-origin:center;margin-bottom:4px}
+.nptop{display:flex;align-items:center;gap:6px;padding:6px 10px 0}
+.npno{font-size:11.5px;font-weight:700;color:var(--muted)}
+.nppaper .rich.npg{border:0;border-radius:0;min-height:150px;max-height:34vh;overflow:auto;padding:4px 14px 12px;margin:0;
+  line-height:30px;background-color:transparent;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent 29px,color-mix(in srgb,var(--acc) 14%,transparent) 29px,color-mix(in srgb,var(--acc) 14%,transparent) 30px);
+  background-attachment:local;background-position:0 4px}
+.nppaper .rich.npg:focus{outline:none}
+.nppaper:focus-within{border-color:color-mix(in srgb,var(--acc) 45%,var(--line))}
+.npnav{display:flex;align-items:center;gap:6px}
+.npic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--bg2);border:1px solid var(--line);color:var(--ink);cursor:pointer;flex:none}
+.npic svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.npic:disabled{opacity:.35;pointer-events:none}
+.nptop .npic{width:28px;height:28px;background:none;border:0;color:var(--muted)}
+.nptop .npic svg{width:15px;height:15px}
+.npdots{display:flex;gap:5px;align-items:center;padding:0 4px}
+.npdots i{width:7px;height:7px;border-radius:50%;background:var(--line);cursor:pointer;transition:all .2s}
+.npdots i.on{background:var(--acc);width:18px;border-radius:4px}
+.npdots b{font-size:12px;color:var(--muted)}
+.npnew{padding:8px 14px!important;font-size:13px}
+.npnew svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2.2}
+.nppaper.np-l{animation:npL .28s ease-out}
+.nppaper.np-r{animation:npR .28s ease-out}
+@keyframes npL{from{opacity:.2;transform:translateX(-26px) rotateY(10deg)}to{opacity:1;transform:none}}
+@keyframes npR{from{opacity:.2;transform:translateX(26px) rotateY(-10deg)}to{opacity:1;transform:none}}
