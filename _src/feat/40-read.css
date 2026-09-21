@@ -1,14 +1,14 @@
 /* ---------- طبقة نصّ PDF: تحديدٌ صحيح من اليمين لليسار ---------- */
-.pdfbox .pg{position:relative}
+.pdfbox .pg{position:relative;isolation:isolate}
 .textLayer{position:absolute;inset:0;overflow:clip;opacity:1;line-height:1;text-align:initial;direction:ltr;
-  transform-origin:0 0;z-index:2;forced-color-adjust:none}
+  transform-origin:0 0;forced-color-adjust:none;pointer-events:auto}
 .textLayer :is(span,br){color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0 0}
 .textLayer span{unicode-bidi:plaintext}
 .textLayer ::selection{background:color-mix(in srgb,var(--acc) 45%,transparent);color:transparent}
-.textLayer .endOfContent{position:absolute;inset:0;z-index:0;cursor:default;user-select:none}
-.pdfbox .hlayer{z-index:3}
-.hlayer.draw{z-index:4}
-.hrect.tx{mix-blend-mode:multiply;border:0}
+.textLayer .endOfContent{position:absolute;inset:0;cursor:default;user-select:none}
+/* التظليل يُلوّن ولا يغطّي: المزج «ضرب» يعمل الآن بعد رفع العزل، والخلفيّة شبه شفّافة احتياطًا */
+.pdfbox .hrect{mix-blend-mode:multiply}
+.hrect.tx{border:0}
 .hrect.mhflash,mark.hl.mhflash{animation:mhFlash 1.4s ease-in-out 2}
 @keyframes mhFlash{0%,100%{box-shadow:0 0 0 0 var(--acc)}50%{box-shadow:0 0 0 4px var(--acc),0 0 14px 3px var(--acc)}}
 
@@ -45,3 +45,15 @@ body.reading .pdfbox.paged{gap:0}
 
 /* ---------- طرق القراءة في «المزيد» ---------- */
 .tile[data-rdx] .ic svg,.tile[data-rdm] .ic svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7}
+
+/* ---------- أدوات الضغطة الواحدة أثناء التظليل ---------- */
+.mhhlpop{position:fixed;z-index:135;display:flex;flex-direction:column;gap:3px;padding:8px;border-radius:16px;min-width:190px;
+  background:var(--card);border:1px solid var(--line);box-shadow:0 14px 34px -12px rgba(0,0,0,.45);animation:shFade .12s ease-out}
+.mhhlpop-r{display:flex;gap:8px;justify-content:center;padding:4px 0 8px;border-bottom:1px solid var(--line);margin-bottom:3px}
+.mhhlpop .sw{width:28px;height:28px;border-radius:50%;border:2px solid transparent;box-shadow:0 0 0 1px var(--line) inset;cursor:pointer;padding:0}
+.mhhlpop .sw.on{border-color:var(--ink)}
+.mhhlpop>button{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:10px;background:none;border:0;font:inherit;
+  font-size:13px;font-weight:600;color:var(--ink);cursor:pointer;text-align:start}
+.mhhlpop>button:hover,.mhhlpop>button:active{background:var(--bg2)}
+.mhhlpop>button svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;flex:none;color:var(--acc)}
+.hmark{display:none!important}

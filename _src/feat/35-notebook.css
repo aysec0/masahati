@@ -43,6 +43,7 @@
 .nbpaper .edbar .edb{background:#fbf6e9;border-color:#e6dcc2}
 :root[data-theme="dark"] .nbpaper{filter:brightness(.92)}
 
+.nbwrap{padding-bottom:140px}
 .nbnav{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:780px;margin:14px auto 6px}
 .nbnav .btn svg{width:16px;height:16px}
 .nbnav .btn[disabled]{opacity:.4;pointer-events:none}
@@ -88,3 +89,11 @@
 .fbleaf.go .fbface.front::after{opacity:1}
 .fbstage.bump{animation:mhBump .3s}
 @keyframes mhBump{0%,100%{transform:none}30%{transform:translateX(-8px)}60%{transform:translateX(6px)}}
+
+/* السطور تبقى وأنت تكتب (كان التركيز يُبيّض الخلفية فتختفي) */
+.nbrich,.nbrich:focus,.nbrich.rich,.nbrich.rich:focus{
+  background:repeating-linear-gradient(transparent 0 calc(var(--line) - 1px),#e9e1cc calc(var(--line) - 1px) var(--line))!important;
+  background-attachment:local!important;border:0!important;box-shadow:none!important}
+.nbpaper .edbar{padding-inline-start:0;margin-bottom:4px}
+/* الزرّ العائم للجدول لا يغطّي الدفتر */
+body[data-route^="#/nb/"] .planfab,body[data-route^="#/nb/"] #startBtn{display:none!important}

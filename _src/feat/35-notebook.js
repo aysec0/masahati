@@ -34,8 +34,8 @@ function mhNbPaper(id, x, n, total, editable) {
     body = `<button class="btn" data-nbmap="${esc(x.map)}">${ICON.mind} ${esc(x.name || 'خريطة')}</button>`;
   } else {
     body = `${x.txt ? `<blockquote class="nbq" style="--mc:${HCOL[x.c] || HCOL.y}">${esc(x.txt)}</blockquote>` : ''}
-      <div class="nbrich ro">${x.h ? noteHtml(x.h) : '<i class="mkempty">بلا تعليق</i>'}</div>
-      ${editable ? `<div class="sheetrow" style="margin:8px 0 0"><button class="btn sm" data-nbedit="${esc(x.key)}">${ICON.pen} اكتب عليه</button></div>` : ''}`;
+      ${editable ? `${rtoolsHTML()}<div class="rich nbrich" contenteditable="true" dir="rtl" data-nbg="${esc(x.key)}" data-ph="اكتب فائدتك على هذا…">${noteHtml(x.h || '')}</div>`
+        : `<div class="nbrich ro">${x.h ? noteHtml(x.h) : '<i class="mkempty">بلا تعليق</i>'}</div>`}`;
   }
   return `<div class="nbpaper ${x.own ? '' : 'gath'}" data-key="${esc(x.key)}">
     <div class="nbph2">
@@ -120,6 +120,10 @@ mhAfter(h => {
     sheetEl.querySelectorAll('[data-nbt]').forEach(inp => inp.addEventListener('input', () => {
       const p = nbOf(id).pages.find(x => x.id === inp.dataset.nbt); if (p) { p.ttl = inp.value.trim(); saveBooks(); }
     }));
+    sheetEl.querySelectorAll('[data-nbg]').forEach(rich => {
+      let t2 = null;
+      bindRich(sheetEl, rich, () => { clearTimeout(t2); t2 = setTimeout(() => mhSaveGathered(id, rich.dataset.nbg, clean(rich.innerHTML)), 400); });
+    });
     mhSwipe(sheetEl, d => mhNbStep(id, d), true);
   }
   const st = document.getElementById('fbStage'); if (st) mhFlipMount(st, id);
@@ -304,3 +308,14 @@ noteNameRow = function (x) {
   return `<a class="nrow" href="#/nb/${x.it.id}"><span class="ic">${T.ic}</span><b>${esc(x.it.name)}</b>
     <span class="cnt">${AR(n)} صفحة</span></a>`;
 };
+
+/* حفظ التعليق المكتوب على عنصرٍ مجموع (تظليل أو علامة) في مصدره */
+function mhSaveGathered(id, ref, html) {
+  try {
+    if (ref === 'note') { if (noteText(html)) notes[id] = html; else delete notes[id]; saveNotes(); return; }
+    if (ref.startsWith('hl:')) { const hid = ref.slice(3);
+      const key = Object.keys(hls).find(k => k.split(':')[0] === id && (hls[k] || []).some(h => h.id === hid)) || id;
+      const h = (hls[key] || []).find(x => x.id === hid); if (h) { h.n = html; saveHls(); } return; }
+    if (ref.startsWith('mk:')) { const m = (marks[id] || []).find(x => x.id === ref.slice(3)); if (m) { m.n = html; saveMarks(); } return; }
+  } catch (e) {}
+}

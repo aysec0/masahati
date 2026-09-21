@@ -99,7 +99,7 @@ document.addEventListener('visibilitychange', () => {
     if (cur && cur !== '#/' && cur !== '#') return;
     const L = S.get('lastRoute', null);
     if (!L || !L.h || Date.now() - L.t > 3 * 86400000) return;
-    if (!/^#\/(i|nb|s|qari|adhkar|audio|wall|dict)\//.test(L.h) && !/^#\/(qari|adhkar|audio|wall|dict)$/.test(L.h)) return;
+    if (!/^#\/(i|nb)\//.test(L.h)) return;          /* نعيدك إلى الملفّ أو الدفتر فقط */
     const m = /^#\/i\/(.+)$/.exec(L.h);
     if (m && !findItem(m[1])) return;
     history.replaceState(null, '', L.h);

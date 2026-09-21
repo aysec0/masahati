@@ -39,7 +39,7 @@ paintRects = function (layer, key, page) {
     (h.rects && h.rects.length ? h.rects : [h]).forEach(r => {
       const d = document.createElement('div'); d.className = 'hrect' + (h.n ? ' has' : '') + (h.rects ? ' tx' : '');
       d.dataset.hid = h.id; d.dataset.lp = 'hrect';
-      d.style.cssText = `left:${r.x * 100}%;top:${r.y * 100}%;width:${r.w * 100}%;height:${r.h * 100}%;background:${HCOL[h.c] || HCOL.y}`;
+      d.style.cssText = `left:${r.x * 100}%;top:${r.y * 100}%;width:${r.w * 100}%;height:${r.h * 100}%;background:color-mix(in srgb,${HCOL[h.c] || HCOL.y} 60%,transparent)`;
       layer.appendChild(d);
     });
   });
@@ -378,4 +378,103 @@ document.addEventListener('click', ev => {
   if (k === 'shot') mhShot(box);
   else if (k === 'dict') mhDictAdd({ item: box && box.dataset.item, p: box ? pageAtTop(box) : null });
   else if (k === 'vshot') { const v = document.getElementById('vplayer'); if (v) mhVideoShot(v, v.dataset.vid); }
+});
+
+/* ================================================================
+   التظليل بالسحب، والضغطة الواحدة تُظهر الأدوات — لا «طرفًا أوّل» يعلّقك
+   (كانت الضغطة الواحدة تضع علامة نابضة وتنتظر ضغطةً ثانية، ولا تفتح شيئًا)
+   ================================================================ */
+bindLayer = function (layer, key, page) {
+  let st = null, box = null, cur = null;
+  const rel = e => { const b = layer.getBoundingClientRect();
+    return { x: Math.max(0, Math.min(1, (e.clientX - b.left) / b.width)), y: Math.max(0, Math.min(1, (e.clientY - b.top) / b.height)) }; };
+  const start = () => {
+    st.live = true;
+    try { layer.setPointerCapture(st.id); } catch (_) {}
+    box = document.createElement('div'); box.className = 'hrect';
+    box.style.cssText = `left:${st.p.x * 100}%;top:${st.p.y * 100}%;width:0;height:0;background:color-mix(in srgb,${HCOL[curColor]} 60%,transparent)`;
+    layer.appendChild(box);
+  };
+  layer.addEventListener('pointerdown', e => {
+    if (!layer.classList.contains('draw')) return;
+    if (e.target.classList.contains('hrect')) return;
+    if (e.button != null && e.button !== 0) return;
+    st = { id: e.pointerId, x0: e.clientX, y0: e.clientY, p: rel(e), mouse: e.pointerType === 'mouse', live: false, moved: false };
+    if (st.mouse) e.preventDefault();
+  });
+  layer.addEventListener('pointermove', e => {
+    if (!st || e.pointerId !== st.id) return;
+    const dx = e.clientX - st.x0, dy = e.clientY - st.y0;
+    if (!st.live) {
+      if (Math.abs(dx) < (st.mouse ? 4 : 9) && Math.abs(dy) < (st.mouse ? 4 : 9)) return;
+      st.moved = true;
+      if (!st.mouse && Math.abs(dy) > Math.abs(dx)) { st = null; return; }   /* الإصبع للأعلى والأسفل = تمرير */
+      start();
+    }
+    const q = rel(e);
+    cur = { x: Math.min(st.p.x, q.x), y: Math.min(st.p.y, q.y), w: Math.abs(q.x - st.p.x), h: Math.abs(q.y - st.p.y) };
+    box.style.left = cur.x * 100 + '%'; box.style.top = cur.y * 100 + '%';
+    box.style.width = cur.w * 100 + '%'; box.style.height = Math.max(cur.h, 0.012) * 100 + '%';
+    e.preventDefault();
+  });
+  const fin = e => {
+    if (!st) return; const s = st; st = null;
+    if (s.live) {
+      if (box) box.remove(); box = null;
+      if (cur) {
+        /* سحبٌ أفقيّ على سطرٍ واحد: نعطيه ارتفاع سطر */
+        if (cur.h < 0.012) { cur.y -= 0.009; cur.h = 0.024; }
+        if (cur.w < 0.015) toast('التظليل صغير جدًا — اسحب أطول قليلًا');
+        else { addHl(key, { t: 'pdf', p: page, x: cur.x, y: cur.y, w: cur.w, h: cur.h, at: Date.now() });
+          paintRects(layer, key, page); toast('ظُلِّل — اضغطه لتكتب فائدة'); }
+      }
+      cur = null; return;
+    }
+    if (s.moved) return;                                     /* كان تمريرًا */
+    /* ضغطةٌ واحدة: أظهر الأدوات مباشرة */
+    mhHlTap(e || { clientX: s.x0, clientY: s.y0 });
+  };
+  layer.addEventListener('pointerup', fin);
+  layer.addEventListener('pointercancel', () => { if (box) { box.remove(); box = null; } st = null; cur = null; });
+};
+try { clearCorner = function () { document.querySelectorAll('.hmark').forEach(x => x.remove()); document.querySelectorAll('.hlayer.waiting').forEach(x => x.classList.remove('waiting')); tapCorner = null; }; } catch (e) {}
+
+/* الضغطة الواحدة أثناء التظليل */
+function mhHlTap(e) {
+  if (typeof RD !== 'undefined' && RD.on) { rdToggleBars(); return; }
+  let p = document.getElementById('mhHlPop'); if (p) { p.remove(); return; }
+  p = document.createElement('div'); p.id = 'mhHlPop'; p.className = 'mhhlpop';
+  p.innerHTML = `
+    <div class="mhhlpop-r">${Object.keys(HCOL).map(k => `<button class="sw ${k === curColor ? 'on' : ''}" data-hp="c" data-c="${k}" style="background:${HCOL[k]}"></button>`).join('')}</div>
+    <button data-hp="stop">${ICON.chk} أوقف التظليل</button>
+    <button data-hp="full">${MHI.full} اقرأ بملء الشاشة</button>
+    <button data-hp="shot">${MHI.cam} لقطة شاشة</button>
+    <button data-hp="dict">${MHI.dict} كلمة لمعجمي</button>`;
+  document.body.appendChild(p);
+  const w = p.offsetWidth, h = p.offsetHeight;
+  p.style.left = Math.max(8, Math.min(innerWidth - w - 8, e.clientX - w / 2)) + 'px';
+  p.style.top = Math.max(8, Math.min(innerHeight - h - 8, e.clientY + 14)) + 'px';
+  setTimeout(() => document.addEventListener('pointerdown', function off(ev) {
+    if (ev.target.closest('#mhHlPop')) return; const q = document.getElementById('mhHlPop'); if (q) q.remove();
+    document.removeEventListener('pointerdown', off, true); }, true), 30);
+}
+document.addEventListener('click', ev => {
+  const b = ev.target.closest('#mhHlPop [data-hp]'); if (!b) return;
+  const k = b.dataset.hp, box = document.getElementById('pdfbox'), pop = document.getElementById('mhHlPop');
+  if (k === 'c') { curColor = b.dataset.c; S.set('hcolor', curColor);
+    pop.querySelectorAll('.sw').forEach(x => x.classList.toggle('on', x === b));
+    document.querySelectorAll('#swatches .swatch').forEach(x => x.classList.toggle('on', x.dataset.color === curColor)); return; }
+  if (pop) pop.remove();
+  if (k === 'stop') { const t = document.getElementById('drawTgl'); if (t && drawOn) t.click(); return; }
+  if (k === 'full') { if (box) rdEnter(box); return; }
+  if (k === 'shot') { mhShot(box); return; }
+  if (k === 'dict') { mhDictAdd({ item: box && box.dataset.item, p: box ? pageAtTop(box) : null }); }
+});
+/* نصّ الإرشاد يوافق الطريقة الجديدة */
+mhAfter(h => {
+  if (!/^#\/i\//.test(h)) return;
+  const tip = document.getElementById('drawTip');
+  if (tip) tip.textContent = 'اسحب بإصبعك على السطر (أفقيًّا) أو بالفأرة لتظلّله. ضغطةٌ واحدة تُظهر الألوان والأدوات. وفي الملفّات النصّية: اضغط مطوّلًا على كلمة لتحدّد النصّ.';
+  const hint = document.getElementById('drawHint');
+  if (hint) hint.textContent = 'شغّل التظليل ثم اسحب على السطر.';
 });

@@ -4,7 +4,9 @@
    ================================================================ */
 
 /* ---------- نافذة فوق كل شيء (لا تُغلق الورقة المفتوحة تحتها) ---------- */
-function mhModal(html, opt) {
+function mhModal(html, opt, wire) {
+  /* تقبل دالّة الربط في الموضع الثاني أيضًا — كانت تُهمَل فتموت أزرار النافذة */
+  if (typeof opt === 'function') { wire = opt; opt = {}; }
   opt = opt || {};
   const m = document.createElement('div');
   m.className = 'mhmodal' + (opt.full ? ' full' : '');
@@ -13,6 +15,7 @@ function mhModal(html, opt) {
   const close = () => { m.remove(); if (opt.onClose) opt.onClose(); };
   m.addEventListener('click', ev => { if (ev.target === m && !opt.full) close(); if (ev.target.closest('[data-mhx]')) close(); });
   m.close = close;
+  if (wire) { try { wire(m); } catch (e) { console.error(e); } }
   return m;
 }
 

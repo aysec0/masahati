@@ -69,11 +69,9 @@ document.addEventListener('click', async ev => {
    ================================================================ */
 const AUDIO_APPS = [
   ['منطوق', 'كتب صوتية وبودكاست نافع — مجّانيّ بلا إعلانات', 'https://mantooq.com',
-    'https://apps.apple.com/app/id1624497481', 'https://play.google.com/store/apps/details?id=ca.basira.mantooqapp'],
-  ['مسموع', 'الكتب العربية الصوتية', 'https://masmoo3.com', '', ''],
-  ['Storytel', 'آلاف الكتب الصوتية العربية (اشتراك)', 'https://www.storytel.com/ae', '', ''],
-  ['أبجد', 'كتب ومراجعات ومكتبة صوتية', 'https://www.abjjad.com', '', '']
+    'https://apps.apple.com/app/id1624497481', 'https://play.google.com/store/apps/details?id=ca.basira.mantooqapp']
 ];
+function mhAudioCustom() { return S.get('audioApps', []); }
 mhRoute(h => h === '#/audio', () => {
   const pairs = allItems().filter(r => r.it.linkAudio || r.it.linkText);
   return `${head('المكتبة الصوتية', `<a class="chip" href="#/lib">${ICON.back} المكتبة</a>`)}
@@ -87,12 +85,20 @@ mhRoute(h => h === '#/audio', () => {
           <a class="btn sm pri" href="${site}" target="_blank" rel="noopener">${ICON.ext} الموقع</a>
           ${ios ? `<a class="btn sm" href="${ios}" target="_blank" rel="noopener"> App Store</a>` : ''}
           ${and ? `<a class="btn sm" href="${and}" target="_blank" rel="noopener"> Google Play</a>` : ''}
-        </div></div>`).join('')}</div>
+        </div></div>`).join('')}
+      ${mhAudioCustom().map((a, i) => `<div class="audapp"><div class="audapp-t"><b>${esc(a.n)}</b>${a.d ? `<small>${esc(a.d)}</small>` : ''}</div>
+        <div class="audapp-b"><a class="btn sm pri" href="${esc(a.u)}" target="_blank" rel="noopener">${ICON.ext} افتح</a>
+          <button class="btn sm" data-audappdel="${i}">${MHI.trash} حذف</button></div></div>`).join('')}
+      <button class="btn" data-audappadd="1" style="width:100%;justify-content:center;margin-top:4px">${ICON.plus} أضِف موقعًا أو تطبيقًا خاصًّا بي</button>
+    </div>
     <div class="pcardx" style="margin:14px 16px 0"><b>${MHI.cloud} رابط ساوندكلاود</b>
       <p class="mhnote" style="margin:6px 0 10px">الصق رابط مقطع أو قائمة تشغيل، يُعرض داخل الموقع ويُضاف إلى مكتبتك.</p>
       <button class="btn pri" data-scadd="1">${MHI.link} أضِف من ساوندكلاود</button></div>`;
 });
 document.addEventListener('click', ev => {
+  if (ev.target.closest('[data-audappadd]')) { mhAudioAppAdd(); return; }
+  const dad = ev.target.closest('[data-audappdel]');
+  if (dad) { const list = mhAudioCustom(); list.splice(+dad.dataset.audappdel, 1); S.set('audioApps', list); render(); return; }
   if (ev.target.closest('[data-audpair]')) {
     mhPickItem('اختر الكتاب الصوتيّ', it => it.type === 'audio', aid => {
       mhPickItem('اربطه بأي كتاب مكتوب (PDF)؟', it => it.type === 'pdf', tid => {
@@ -120,17 +126,35 @@ mhAfter(h => {
 function mhSoundcloud() {
   mhModal(`<div class="mhvhead"><b>${MHI.cloud} ساوندكلاود</b><span style="flex:1"></span><button class="lnk" data-mhx="1">إغلاق</button></div>
     <div class="field"><label>رابط مقطع أو قائمة تشغيل</label><input type="url" id="scU" dir="ltr" placeholder="https://soundcloud.com/…"></div>
-    <div class="sheetrow"><button class="btn pri" data-sc="1">${ICON.plus} أضِف إلى مكتبتي</button></div>
+    <div class="sheetrow"><button class="btn pri" data-sc="1">${ICON.plus} أضِف واعرض في المكتبة</button></div>
     <p class="mhnote" id="scSt">يُعرض مشغّل ساوندكلاود داخل الموقع. التنزيل غير متاح منه، لكنّه يعمل بالإنترنت.</p>`, m => {
-    m.querySelector('[data-sc]').onclick = async () => {
-      const u = m.querySelector('#scU').value.trim(); const st = m.querySelector('#scSt');
-      if (!/soundcloud\.com/.test(u)) { st.textContent = 'الصق رابط ساوندكلاود صحيحًا'; return; }
-      st.textContent = 'أتحقّق من الرابط…';
+    const go = async () => {
+      const u = (m.querySelector('#scU').value || '').trim(); const st = m.querySelector('#scSt');
+      if (!/soundcloud\.com|snd\.sc/.test(u)) { st.textContent = 'الصق رابط ساوندكلاود صحيحًا (يبدأ بـ soundcloud.com)'; return; }
+      st.textContent = 'جارٍ الإضافة…';
       let title = 'مقطع ساوندكلاود';
-      try { const r = await fetch('https://soundcloud.com/oembed?format=json&url=' + encodeURIComponent(u)); if (r.ok) { const j = await r.json(); title = j.title || title; } } catch (e) {}
+      try { const c = new AbortController(); const to = setTimeout(() => c.abort(), 6000);
+        const r = await fetch('https://soundcloud.com/oembed?format=json&url=' + encodeURIComponent(u), { signal: c.signal });
+        clearTimeout(to); if (r.ok) { const j = await r.json(); if (j && j.title) title = j.title; } } catch (e) {}
       const sec = mhSecEnsure('secAudioLinks', 'روابط صوتية');
-      sec.items.unshift({ id: uid('i'), type: 'soundcloud', name: title, url: u, ts: Date.now() });
-      saveTree(); m.close(); toast('أُضيف إلى مكتبتك'); location.hash = '#/i/' + sec.items[0].id;
+      const it = { id: uid('i'), type: 'soundcloud', name: title, url: u, ts: Date.now() };
+      sec.items.unshift(it); saveTree(); m.close(); toast('أُضيف إلى مكتبتك'); location.hash = '#/i/' + it.id;
+    };
+    m.querySelector('[data-sc]').onclick = go;
+    m.querySelector('#scU').addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
+  });
+}
+function mhAudioAppAdd() {
+  mhModal(`<div class="mhvhead"><b>${ICON.plus} موقع أو تطبيق صوتيّ</b><span style="flex:1"></span><button class="lnk" data-mhx="1">إغلاق</button></div>
+    <div class="field"><label>الاسم</label><input type="text" id="aaN" dir="rtl" placeholder="اسم الموقع أو التطبيق"></div>
+    <div class="field"><label>الرابط</label><input type="url" id="aaU" dir="ltr" placeholder="https://…"></div>
+    <div class="field"><label>وصف قصير (اختياري)</label><input type="text" id="aaD" dir="rtl"></div>
+    <div class="sheetrow"><button class="btn pri" data-aa="1">${ICON.chk} احفظ</button></div>`, m => {
+    m.querySelector('[data-aa]').onclick = () => {
+      const n = m.querySelector('#aaN').value.trim(), u = m.querySelector('#aaU').value.trim();
+      if (!n || !u) { toast('أكمل الاسم والرابط'); return; }
+      const list = mhAudioCustom(); list.push({ n, u: /^https?:/.test(u) ? u : 'https://' + u, d: m.querySelector('#aaD').value.trim() });
+      S.set('audioApps', list); m.close(); render();
     };
   });
 }

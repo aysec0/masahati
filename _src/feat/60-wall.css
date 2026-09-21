@@ -1,57 +1,61 @@
-/* ---------- بطاقات الجدار ---------- */
-.wcard{position:absolute;box-sizing:border-box;color:#241f16;background:var(--wc,#fff6c9);padding:12px 14px;line-height:1.75;
-  transform:rotate(var(--rot,0deg));cursor:grab;touch-action:none;transition:box-shadow .15s;word-break:break-word;
-  box-shadow:0 6px 16px -8px rgba(20,15,5,.5)}
-.wcard.on-dark{color:#f0ece2}
-.wcard.moving{cursor:grabbing;box-shadow:0 16px 34px -10px rgba(20,15,5,.6);z-index:50!important}
-.wcard .wc-t{white-space:pre-wrap;font-family:var(--serif)}
-.wcard .wc-src{margin-top:7px;font-size:.8em;opacity:.7}
-.wcard .wc-img{display:block;width:100%;border-radius:3px;margin-bottom:8px}
-.wcard .wc-img.bare{filter:drop-shadow(0 8px 12px rgba(20,15,5,.4));border-radius:0;background:none;mix-blend-mode:multiply}
-.wcard.imgonly{background:none!important;box-shadow:none;padding:4px}
-.wcard.imgonly .wc-img{margin:0}
-/* التصاميم */
-.wcard.st-sticky{border-radius:2px}
-.wcard.st-sticky::after{content:'';position:absolute;top:6px;left:50%;transform:translateX(-50%);width:34px;height:12px;background:rgba(255,255,255,.4)}
-.wcard.st-pin{border-radius:3px}
-.wcard.st-pin::before{content:'';position:absolute;top:-7px;left:50%;transform:translateX(-50%);width:14px;height:14px;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%,#ff8a7a,#c0392b);box-shadow:0 3px 5px rgba(0,0,0,.35);z-index:2}
-.wcard.st-tape{border-radius:2px}
-.wcard.st-tape::before,.wcard.st-tape::after{content:'';position:absolute;top:-8px;width:44px;height:18px;background:rgba(230,225,200,.55);
-  border:1px solid rgba(255,255,255,.4);transform:rotate(-6deg)}
-.wcard.st-tape::before{left:8px}.wcard.st-tape::after{right:8px;transform:rotate(6deg)}
-.wcard.st-polaroid{background:#fff;padding:10px 10px 26px;border-radius:2px;box-shadow:0 8px 20px -8px rgba(20,15,5,.55)}
-.wcard.st-polaroid .wc-t{text-align:center;font-size:.85em;margin-top:4px}
-.wcard.st-card{border-radius:14px;box-shadow:0 10px 26px -12px rgba(20,15,5,.5);border:1px solid rgba(0,0,0,.06)}
-.wcard.st-ribbon{border-radius:4px}
-.wcard.st-ribbon::before{content:'';position:absolute;top:0;inset-inline-start:14px;width:16px;height:26px;background:var(--acc);
-  clip-path:polygon(0 0,100% 0,100% 100%,50% 78%,0 100%)}
-.wcard.st-torn{border-radius:0;clip-path:polygon(0 4%,8% 0,22% 3%,40% 0,60% 4%,80% 0,95% 3%,100% 6%,100% 94%,92% 100%,74% 97%,52% 100%,30% 97%,12% 100%,0 96%)}
-.wcard.st-plain{background:none!important;box-shadow:none;padding:6px}
-.wcard.st-plain.on-dark{text-shadow:0 1px 3px rgba(0,0,0,.5)}
-.wc-handle{display:none}
+/* ---------- زرّ فتح الجدار في الرئيسية ---------- */
+.wallopenhome{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin:0 0 16px;
+  padding:12px;border-radius:16px;border:1px dashed color-mix(in srgb,var(--acc) 40%,var(--line));
+  background:var(--acc-soft);color:var(--acc);font:inherit;font-size:13.5px;font-weight:700;cursor:pointer}
+.wallopenhome svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8}
+.wallopenhome:active{transform:scale(.99)}
 
-/* ---------- جدار الصفحة الأولى ---------- */
-.wallhome{position:relative;border-radius:18px;padding:16px;min-height:120px;background:var(--wbg);color:var(--wfg);
-  background-size:cover;overflow:hidden;margin-bottom:14px;box-shadow:inset 0 0 40px rgba(0,0,0,.14)}
-.wallhome .wcard{position:relative;left:auto!important;top:auto!important;width:auto!important;max-width:80%;margin:0 auto;cursor:pointer}
-.wallhome-empty{display:flex;flex-direction:column;align-items:center;gap:8px;width:100%;background:none;border:0;color:var(--wfg);
-  font:inherit;font-size:13px;font-weight:600;cursor:pointer;padding:14px;text-align:center;opacity:.92}
-.wallhome-empty svg{width:30px;height:30px;stroke:currentColor;fill:none;stroke-width:1.6;opacity:.8}
-.wallhome-full{position:absolute;top:10px;inset-inline-end:10px;width:32px;height:32px;border-radius:9px;border:0;
-  background:rgba(255,255,255,.3);color:var(--wfg);cursor:pointer;display:grid;place-items:center}
-.wallhome-full svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.9}
-
-/* ---------- الجدار كاملًا ---------- */
-.wallfull{position:absolute;inset:0;background:var(--wbg);color:var(--wfg);background-size:cover;display:flex;flex-direction:column}
+/* ---------- الجدار كامل الشاشة ---------- */
+.wallfull{position:absolute;inset:0;background-size:cover;display:flex;flex-direction:column;overflow:hidden}
 .wallbar2{display:flex;align-items:center;gap:8px;padding:10px 12px;padding-top:calc(10px + env(safe-area-inset-top));
-  background:color-mix(in srgb,var(--card) 90%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:5}
-.wallbar2 .mhico{background:var(--card)}
-.wallfilt{flex-wrap:nowrap}
-.wallcanvas{position:relative;flex:1;overflow:hidden;touch-action:none}
-.wallcv-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;font-size:14px;opacity:.85}
-.wallhint{position:absolute;inset-inline:0;bottom:0;margin:0;padding:8px 14px calc(8px + env(safe-area-inset-bottom));text-align:center;
-  font-size:11.5px;background:color-mix(in srgb,var(--card) 85%,transparent);color:var(--muted);pointer-events:none}
-.wallbgs,.wallstyles{display:flex;gap:8px;flex-wrap:wrap}
+  background:color-mix(in srgb,var(--card) 92%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);z-index:5;flex-wrap:nowrap}
+.wallbar2 .mhico{background:var(--card);flex:none}
+.wallfilt{flex-wrap:nowrap;gap:4px}
+.wallfilt .seg{padding:6px 10px;font-size:12px}
+.wallcanvas{position:relative;flex:1;overflow:hidden;touch-action:none;-webkit-user-select:none;user-select:none}
+.wallcv-empty{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;font-size:14px;opacity:.85;color:var(--wfg)}
+.wallhint{margin:0;padding:8px 14px calc(8px + env(safe-area-inset-bottom));text-align:center;font-size:11.5px;
+  background:color-mix(in srgb,var(--card) 88%,transparent);color:var(--muted)}
+.wallbgs{display:flex;gap:8px;flex-wrap:wrap}
 .wallbg{width:auto;padding:14px 12px;border-radius:12px;border:2px solid transparent;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer;min-width:70px}
 .wallbg.on{border-color:var(--acc);box-shadow:0 0 0 2px var(--acc)}
+
+/* ---------- البطاقة ---------- */
+.wcard{position:absolute;box-sizing:border-box;color:#241f16;background:var(--wc,#fff6c9);padding:12px 14px;line-height:1.7;
+  transform:rotate(var(--rot,0deg));cursor:grab;touch-action:none;word-break:break-word;
+  box-shadow:0 6px 16px -8px rgba(20,15,5,.5);transition:box-shadow .12s}
+.wcard.on-dark{color:#f0ece2}
+.wcard.active{cursor:grabbing;box-shadow:0 18px 36px -10px rgba(20,15,5,.6);z-index:60!important}
+.wcard .wc-body{pointer-events:none}
+.wc-t{white-space:pre-wrap;font-family:var(--serif)}
+.wc-src{margin-top:7px;font-size:.78em;opacity:.7}
+.wc-img{display:block;width:100%;border-radius:3px;margin-bottom:6px;pointer-events:none}
+.wc-img.bare{background:none;border-radius:0;mix-blend-mode:multiply;filter:drop-shadow(0 8px 12px rgba(20,15,5,.4))}
+.wcard.imgonly{background:none!important;box-shadow:none;padding:4px}
+.wcard.imgonly .wc-img{margin:0}
+/* المقابض */
+.wc-menu,.wc-size,.wc-rot{position:absolute;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;
+  opacity:0;transition:opacity .15s;z-index:2}
+.wcard:hover .wc-menu,.wcard:hover .wc-size,.wcard:hover .wc-rot,.wcard.active .wc-menu,.wcard.active .wc-size,.wcard.active .wc-rot{opacity:1}
+@media(hover:none){.wc-menu,.wc-size,.wc-rot{opacity:.9}}
+.wc-menu{top:-11px;left:-11px;right:auto;background:var(--card);color:var(--ink);border:1px solid var(--line);
+  font-size:15px;line-height:1;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.wc-size{bottom:-11px;right:-11px;left:auto;background:var(--acc);color:#fff;cursor:nwse-resize;
+  box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.wc-size::after{content:'';width:11px;height:11px;border:2px solid #fff;border-top:0;border-inline-end:0;transform:rotate(0deg)}
+.wc-rot{top:-11px;right:-11px;left:auto;background:var(--gold);color:#fff;cursor:grab}
+.wc-rot::after{content:'⟳';font-size:15px;line-height:1}
+/* التصاميم */
+.wcard.st-sticky{border-radius:2px}
+.wcard.st-sticky::before{content:'';position:absolute;top:5px;left:50%;transform:translateX(-50%);width:34px;height:11px;background:rgba(255,255,255,.4);pointer-events:none}
+.wcard.st-pin{border-radius:3px}
+.wcard.st-pin::after{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:13px;height:13px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%,#ff8a7a,#c0392b);box-shadow:0 3px 5px rgba(0,0,0,.35);z-index:1;pointer-events:none}
+.wcard.st-tape{border-radius:2px}
+.wcard.st-tape::before{content:'';position:absolute;top:-8px;left:14px;width:42px;height:17px;background:rgba(230,225,200,.5);border:1px solid rgba(255,255,255,.4);transform:rotate(-6deg);pointer-events:none}
+.wcard.st-polaroid{background:#fff;padding:10px 10px 24px;border-radius:2px}
+.wcard.st-polaroid .wc-t{text-align:center;font-size:.85em;margin-top:4px}
+.wcard.st-card{border-radius:14px;border:1px solid rgba(0,0,0,.06)}
+.wcard.st-torn{clip-path:polygon(0 4%,10% 0,26% 3%,45% 0,64% 4%,82% 0,96% 3%,100% 7%,100% 93%,90% 100%,72% 97%,50% 100%,28% 97%,10% 100%,0 95%)}
+.wcard.st-plain{background:none!important;box-shadow:none;padding:6px}
+.wcard.st-plain.on-dark{text-shadow:0 1px 3px rgba(0,0,0,.5)}
