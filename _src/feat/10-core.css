@@ -1,0 +1,42 @@
+/* ---------- سهما الشريط السفلي ---------- */
+.tabbar.hasmore::before{display:none!important}
+.tbarrow{position:fixed;z-index:72;bottom:calc(var(--safeb) + 14px);width:30px;height:30px;border-radius:50%;
+  display:grid;place-items:center;border:1px solid var(--line);background:var(--card);color:var(--acc);
+  box-shadow:0 4px 14px -6px rgba(0,0,0,.35);opacity:0;pointer-events:none;transform:scale(.8);
+  transition:opacity .2s,transform .2s;cursor:pointer}
+.tbarrow svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.tbarrow.on{opacity:1;pointer-events:auto;transform:none}
+.tbarrow.l{left:6px}
+.tbarrow.r{right:6px}
+.tbarrow.l.on{animation:mhNudgeL 1.8s ease-in-out 2}
+@keyframes mhNudgeL{0%,100%{transform:translateX(0)}50%{transform:translateX(-4px)}}
+@media(min-width:820px){.tbarrow{display:none}}
+body.reading .tbarrow{display:none}
+
+/* ---------- ورقة تملأ الشاشة ---------- */
+.sheet.full{align-items:stretch}
+.sheet.full .sheetcard{width:100%;max-width:none;height:100%;max-height:none;border-radius:0;padding-top:calc(12px + env(safe-area-inset-top));
+  display:flex;flex-direction:column}
+.sheet.full .sheetcard::before{display:none}
+
+/* ---------- أزرار صغيرة مشتركة ---------- */
+.mhbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.mhico{width:34px;height:34px;border-radius:10px;display:inline-grid;place-items:center;border:1px solid var(--line);
+  background:var(--card);color:var(--ink);cursor:pointer;flex:none}
+.mhico svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.mhico.on{background:var(--acc);color:#fff;border-color:transparent}
+.mhico.rec{background:#c0392b;color:#fff;border-color:transparent;animation:mhPulse 1.2s ease-in-out infinite}
+@keyframes mhPulse{0%,100%{box-shadow:0 0 0 0 rgba(192,57,43,.45)}50%{box-shadow:0 0 0 7px rgba(192,57,43,0)}}
+.mhpick .row{text-align:start;width:100%;font:inherit;color:inherit}
+.mhtabs{display:flex;gap:6px;flex-wrap:wrap;margin:0 0 12px}
+.mhtabs .chip{cursor:pointer}
+.mhnote{font-size:12px;color:var(--muted);line-height:1.85;margin:6px 0 0}
+.mhwarn{background:var(--gold-soft);border:1px solid color-mix(in srgb,var(--gold) 35%,transparent);border-radius:12px;padding:9px 12px;
+  font-size:12.5px;line-height:1.85;color:var(--ink)}
+
+/* أي أيقونة SVG بلا مقاس صريح لا تتضخّم */
+.pcardx svg,.mhwarn svg,.vsec-h b svg,.audapp-t b svg,.qsugbtn b svg,.pcardx b svg,.mhvhead b svg,.dictw b svg{
+  width:1.15em;height:1.15em;vertical-align:-3px;stroke:currentColor;fill:none;stroke-width:1.8;display:inline-block}
+.mhwarn{display:flex;gap:8px;align-items:flex-start}
+.mhwarn svg{flex:none;margin-top:2px;color:var(--acc)}
+.pcardx>b svg{color:var(--acc)}

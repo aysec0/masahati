@@ -8,7 +8,7 @@ SRC = ROOT / '_src' / 'masahati' / 'index.html'
 DST = ROOT / 'site' / 'index.html'
 html = SRC.read_text(encoding='utf-8')
 
-APP_VER = '2.4.0'
+APP_VER = '3.0.0'
 
 def rep(old, new, count=1):
     global html
@@ -63,8 +63,7 @@ EXTRA_CSS = (ROOT / '_src' / 'extra.css').read_text(encoding='utf-8')
 rep("\n</style>", "\n" + EXTRA_CSS + "\n</style>")
 
 # ---------------------------------------------------------------- nav: icons in top nav + smarter active state
-rep("""  document.getElementById('topnav').innerHTML=list.map(n=>`<a href="${n.h}" data-h="${n.h}">${esc(n.t)}</a>`).join('');""",
-    """  document.getElementById('topnav').innerHTML=list.map(n=>`<a href="${n.h}" data-h="${n.h}">${n.ic}<span>${esc(n.t)}</span></a>`).join('');""")
+# (topnav icons now built by the source itself)
 rep("""  document.querySelectorAll('[data-h]').forEach(a=>a.classList.toggle('on',a.dataset.h===h));""",
     """  const nk=navKey(h);
   document.body.dataset.route=nk;
@@ -107,6 +106,36 @@ rep("""      const t=unwrapBody(await res.text());
         throw new Error('ليست صفحة تيليجرام');
       lastGrabLog.push('✓ '+host(target));""")
 
+
+# ---------------------------------------------------------------- router: pages added by feature modules
+rep("""  else if(h.startsWith('#/search')) html=vSearch();
+  else html=vHome();""",
+"""  else if(h.startsWith('#/search')) html=vSearch();
+  else if((html=featRoute(h))!=null){}
+  else html=vHome();""")
+
+# ---------------------------------------------------------------- transcription: WebGPU returns garbage for these models -> always WASM
+rep("""      await txAsk({ cmd: 'load', model, gpu: !!navigator.gpu }, null, 600000);""",
+"""      await txAsk({ cmd: 'load', model, gpu: false }, null, 600000);   /* WebGPU يُخرج نصًّا فاسدًا لهذه النماذج */""")
+rep("""  if (navigator.gpu) {
+    try {""", """  if (false && navigator.gpu) {   /* WebGPU يُخرج نصًّا فاسدًا لهذه النماذج */
+    try {""")
+# ---------------------------------------------------------------- transcription: stream long audio instead of decoding it all at once
+rep("""      const slice = new Float32Array(pcm.subarray(from, to));""",
+"""      const slice = pcm.win ? await pcm.win(from, to) : new Float32Array(pcm.subarray(from, to));
+      if (!slice || slice.length < 1600) break;                 /* انتهى الصوت الفعليّ */""")
+rep("""          const s2 = new Float32Array(pcm.subarray(from, to));""",
+"""          const s2 = pcm.win ? await pcm.win(from, to) : new Float32Array(pcm.subarray(from, to));""")
+
+# ---------------------------------------------------------------- فوائدي: معجم + تسجيلات
+rep("""  return `${head(\'فوائدي\', `${helpBtn(\'notes\')}${adv()?`<button class=\"chip\" id=\"copyAll\">نسخ الكل</button>`:\'\'}`)}
+  ${writesPanel()}
+  ${mindsPanel()}""",
+"""  return `${head('فوائدي', `${helpBtn('notes')}${adv()?`<button class=\"chip\" id=\"copyAll\">نسخ الكل</button>`:''}`)}
+  ${(typeof mhDictPanel===\'function\'?mhDictPanel():\'\')}
+  ${(typeof mhRecsPanel===\'function\'?mhRecsPanel():\'\')}
+  ${writesPanel()}
+  ${mindsPanel()}""")
 # ---------------------------------------------------------------- fonts system (inserted before NAV)
 FONTS_JS = r'''
 /* ================= الخطوط =================
@@ -413,16 +442,16 @@ function updToast(){
 addEventListener('offline',()=>toast('انقطع الإنترنت — مكتبتك وملفاتك تعمل كما هي'));
 addEventListener('online',()=>toast('عاد الاتصال'));
 '''.replace('__APP_VER__', APP_VER)
-rep("""applyTheme();
-try{buildNav();}catch(e){}
-try{startHints();}catch(e){}
-render();
-""", PWA_JS + """
-applyTheme();
-try{buildNav();}catch(e){}
-try{startHints();}catch(e){}
-render();
-""")
+# feature modules: every _src/feat/*.js is injected (sorted) before the app boots
+FEAT_DIR = ROOT / '_src' / 'feat'
+FEAT_JS = ''.join('\n/* ==== feat: %s ==== */\n' % f.name + f.read_text(encoding='utf-8') for f in sorted(FEAT_DIR.glob('*.js'))) if FEAT_DIR.exists() else ''
+FEAT_CSS = ''.join('\n/* ==== feat: %s ==== */\n' % f.name + f.read_text(encoding='utf-8') for f in sorted(FEAT_DIR.glob('*.css'))) if FEAT_DIR.exists() else ''
+if FEAT_CSS: rep("\n</style>", "\n" + FEAT_CSS + "\n</style>")
+rep("""
+try{quranEnsure();}catch(e){}
+applyTheme();""", PWA_JS + FEAT_JS + """
+try{quranEnsure();}catch(e){}
+applyTheme();""")
 
 # ---------------------------------------------------------------- simpler home (one-time default)
 rep("""const saveUI=()=>S.set('ui',UI);""",

@@ -126,42 +126,11 @@ h1,h2,h3{letter-spacing:0}
 .hintp{font-size:12px;color:var(--muted);line-height:1.8;margin:0}
 .fieldset .hintp{margin-top:-4px}
 
-/* ---------- الشريط العلوي (شاشة متوسطة) ---------- */
-nav.top a svg{display:none}
-nav.top a{transition:color .15s,border-color .15s}
-
-/* ---------- الحاسوب: شريط جانبي ---------- */
+/* ---------- الحاسوب (الشريط الجانبيّ اختيار المصدر نفسه من التخصيص) ---------- */
 @media(min-width:1100px){
-  body{display:grid;grid-template-columns:var(--side) minmax(0,1fr);align-items:start;padding-bottom:0}
-  header{position:sticky;top:0;height:100dvh;border-bottom:0;border-inline-end:1px solid var(--line);
-    background:var(--card);backdrop-filter:none;-webkit-backdrop-filter:none;display:flex;flex-direction:column;padding-top:0}
-  .hwrap{flex-direction:column;align-items:stretch;padding:24px 16px 10px;gap:16px}
-  .brand{gap:12px}
-  .logo{width:46px;height:46px;font-size:21px;border-radius:14px}
-  .brand b{font-size:18px}
-  .brand span{font-size:12px}
-  .hbtns{margin:0;gap:6px;flex-wrap:wrap}
-  .iconbtn{width:40px;height:40px}
-  nav.top{display:block;border:0;background:none;flex:1;overflow:auto;padding-bottom:16px;scrollbar-width:none}
-  nav.top .in{flex-direction:column;padding:4px 10px;gap:3px;flex-wrap:nowrap}
-  nav.top a{display:flex;align-items:center;gap:11px;border:0;border-radius:13px;padding:10px 12px;font-size:14px;color:var(--ink);font-weight:600}
-  nav.top a svg{display:block;width:20px;height:20px;flex:none;stroke:currentColor;fill:none;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round;color:var(--muted)}
-  nav.top a.on{background:var(--acc-soft);color:var(--acc);font-weight:700}
-  nav.top a.on svg{color:var(--acc)}
-  nav.top a:hover{background:var(--bg2)}
-  main{margin:0;max-width:1120px;padding:28px 36px 100px}
-  #player{inset-inline-start:var(--side)}
-  .pin{padding-bottom:16px}
-  .planfab{inset-inline-start:calc(var(--side) + 22px)}
-  .nowhint{right:calc(var(--side) + 16px)}
-  .startbtn{inset-inline-start:var(--side)}
   .sheet{align-items:center}
-  .hero{padding:34px 36px 30px}
-  .hero h1{font-size:44px}
-  .hero p{font-size:15px}
   .grid{grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
 }
-@media(min-width:1400px){ main{padding-inline:56px} }
 
 /* ---------- عمق بسيط للوضع الليلي ---------- */
 :root[data-theme="dark"] .tile,:root[data-theme="dark"] .row,:root[data-theme="dark"] .panel,:root[data-theme="dark"] .fieldset,
@@ -265,14 +234,6 @@ body[data-route="#/"] .planfab{display:none}
 .tabbar a::after{content:'';display:block;width:18px;height:3px;margin:3px auto 0}
 .sheetcard{box-shadow:0 -10px 40px -20px rgba(0,0,0,.35)}
 
-/* الشريط الجانبي */
-@media(min-width:1100px){
-  header{background:var(--bg)}
-  nav.top a{font-weight:500}
-  nav.top a.on{font-weight:700}
-  .hbtns .iconbtn{background:var(--card);border-color:var(--line)}
-}
-
 /* العناصر العائمة: واحد يكفي في اللحظة */
 .planfab{box-shadow:0 6px 18px -10px rgba(20,30,28,.3);background:var(--card)}
 .startbtn button{box-shadow:0 8px 20px -12px rgba(13,110,95,.6)}
@@ -288,11 +249,15 @@ html,body{overflow-x:clip}
 .startbtn .x{margin:0;flex:none;width:34px;height:34px;min-height:34px;padding:0;border-radius:50%;
   display:grid;place-items:center;font-size:17px;line-height:1;box-shadow:var(--shadow)}
 
-/* ---------- التذكير العائم: أسفل الصفحة فلا يغطّي البانر ---------- */
-.nowhint{top:auto;right:auto;inset-inline-end:12px;
-  inset-block-end:calc(112px + env(safe-area-inset-bottom));
-  transform:translateY(150%);opacity:0;
-  transition:transform .42s cubic-bezier(.2,.9,.25,1),opacity .3s}
-.nowhint.on{transform:translateY(0);opacity:1}
-@media(min-width:900px){.nowhint{inset-block-end:76px}}
-@media(min-width:1100px){.nowhint{right:auto;inset-inline-end:16px;inset-block-end:24px}}
+/* ---------- التذكير العائم: إشعارٌ ينزل من الأعلى ---------- */
+.nowhint{inset-inline:auto;top:calc(10px + env(safe-area-inset-top,0px));bottom:auto;right:auto;left:50%;
+  width:min(440px,calc(100vw - 24px));max-width:none;z-index:160;padding:12px 40px 12px 14px;border-radius:18px;
+  background:color-mix(in srgb,var(--card) 96%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  box-shadow:0 18px 40px -16px rgba(10,20,16,.45);
+  transform:translate(-50%,calc(-100% - 24px));opacity:0;
+  transition:transform .45s cubic-bezier(.2,.9,.25,1),opacity .3s}
+.nowhint.on{transform:translate(-50%,0);opacity:1}
+.nowhint .x{top:9px;left:12px;font-size:17px}
+.nowhint.pray{border:1.5px solid color-mix(in srgb,var(--acc) 55%,var(--line))}
+.nowhint.pray b{font-size:12px}
+.nowhint.pray span{font-size:15px;font-weight:700}

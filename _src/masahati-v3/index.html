@@ -307,10 +307,7 @@ textarea{min-height:120px;font-family:var(--serif);font-size:17px;line-height:1.
 .rtools button{width:38px;height:34px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);font-weight:800}
 .rtsep{width:1px;height:24px;background:var(--line);margin:0 2px}
 .rtools .rtsw{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--line);padding:0;font-size:14px}
-.rtools .rtsw.fg{background:var(--card);font-weight:900;color:var(--ink)}
-.rtools .rtsw.fg.non{color:var(--muted);position:relative;overflow:hidden}
-.rtools .rtsw.fg.non::after{content:'';position:absolute;inset-inline:3px;top:50%;height:1.5px;
-  background:#b4472e;transform:rotate(-35deg)}
+.rtools .rtsw.fg{background:var(--card);font-weight:900}
 .rtools .rtsw.more{background:var(--bg2);color:var(--muted);font-size:17px;line-height:1}
 .chips{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
 .chip{padding:7px 13px;border-radius:99px;border:1px solid var(--line);background:var(--card);
@@ -1073,163 +1070,6 @@ body.notab main{padding-bottom:28px}
 .article.rich{min-height:200px;border-radius:0;border-inline:0}
 .fsz{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
 
-
-/* ===== دفتر المقرَّر ===== */
-.nbcover{position:relative;border-radius:20px;padding:26px 20px 22px;overflow:hidden;cursor:pointer;
-  background:var(--nbg);color:var(--nfg);box-shadow:0 12px 30px -16px rgba(20,25,20,.55);
-  border:1px solid rgba(0,0,0,.08)}
-.nbcover::after{content:'';position:absolute;inset:10px;border:1px solid currentColor;opacity:.25;border-radius:14px;pointer-events:none}
-.nbband{position:absolute;inset-inline-end:0;top:0;bottom:0;width:14px;background:currentColor;opacity:.16}
-.nbttl small{display:block;font-size:11px;opacity:.7;letter-spacing:.14em;margin-bottom:6px}
-.nbttl b{display:block;font-family:var(--disp);font-size:28px;line-height:1.4;text-wrap:balance}
-.nbttl i{display:block;font-style:normal;font-size:12.5px;opacity:.75;margin-top:6px}
-.nbcount{position:absolute;inset-inline-start:18px;bottom:16px;font-size:11.5px;opacity:.7}
-.nbpages{display:flex;flex-direction:column;gap:12px}
-.nbpage{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;box-shadow:var(--shadow);
-  position:relative}
-.nbpage.gath{background:var(--bg2)}
-.nbpage.gath::before{content:'';position:absolute;inset-inline-start:0;top:12px;bottom:12px;width:3px;
-  border-radius:99px;background:var(--mc,transparent)}
-.nbph{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
-.nbph b{font-size:14.5px}
-.nbno{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;flex:none;
-  background:var(--acc-soft);color:var(--acc);font-size:11px;font-weight:800}
-.nbbody{font-family:var(--serif);font-size:17px;line-height:2}
-.nbimg{width:100%;border-radius:12px;margin-bottom:10px}
-.nbskins{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
-.nbskin{padding:14px 12px;border-radius:12px;border:2px solid transparent;font:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
-.nbskin.on{border-color:var(--ink)}
-.auth{margin:2px 0 0;font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:6px}
-.auth svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.7}
-
-/* ===== لوحة الفوائد العائمة ===== */
-.rdpad{position:fixed;z-index:115;inset-inline-end:12px;bottom:calc(92px + env(safe-area-inset-bottom));
-  width:min(92vw,340px);background:var(--card);border:1px solid var(--line);border-radius:16px;
-  box-shadow:0 18px 44px -18px rgba(10,16,14,.6);overflow:hidden}
-.rdpad.drag{opacity:.92}
-.rdpadbar{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg2);
-  border-bottom:1px solid var(--line);cursor:grab;touch-action:none;user-select:none}
-.rdpadbar b{flex:1;font-size:12.5px}
-.rdpadbar .gr{width:26px;height:4px;border-radius:99px;background:var(--line)}
-.rdpadbar .x{width:26px;height:26px;border-radius:8px;background:var(--card);border:1px solid var(--line);
-  color:var(--muted);font-size:15px;line-height:1;cursor:pointer}
-.rdpadin{padding:10px}
-.rdpad.mini .rdpadin{display:none}
-.rdpadrow{display:flex;gap:7px;margin-bottom:8px}
-.rdpadrow input[type=text]{flex:1;min-width:0}
-.rdpadrow input{padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:var(--bg2);
-  color:var(--ink);font:inherit;font-size:13px}
-.rdpadrow input[type=number]{width:74px}
-.rdpad .rich{min-height:26vh;max-height:34vh;font-size:16px}
-.rdpad .rtools button{width:32px;height:30px}
-.rdpad .rtools .rtsw{width:26px;height:26px}
-.rdpadacts{display:flex;gap:7px;margin-top:9px;flex-wrap:wrap}
-.rdpadacts .btn{padding:7px 11px;font-size:12px}
-
-/* ===== شاشة مقسومة ===== */
-.splitpane{position:fixed;z-index:58;background:var(--card);border:1px solid var(--line);
-  box-shadow:0 -8px 30px -14px rgba(10,16,14,.5);display:flex;flex-direction:column}
-.splitpane[data-side="v"]{inset-inline:0;bottom:calc(56px + env(safe-area-inset-bottom));height:46vh;
-  border-radius:18px 18px 0 0}
-.splitpane[data-side="h"]{inset-inline-start:0;top:0;bottom:0;width:46vw;border-radius:0}
-body.splitting main{padding-bottom:48vh}
-body.splitting[data-side="h"] main{padding-bottom:40px;margin-inline-start:46vw}
-.spbar{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);background:var(--bg2)}
-.spbar b{flex:1;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.spbar .gr{width:26px;height:4px;border-radius:99px;background:var(--line)}
-.spbar .x{width:30px;height:30px;border-radius:9px;background:var(--card);border:1px solid var(--line);
-  color:var(--muted);display:grid;place-items:center;cursor:pointer;font-size:15px}
-.spbar .x svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
-.spbody{flex:1;overflow:auto}
-.spbody .mindwrap{height:100%;max-height:none}
-
-/* ===== وضع المخطَّط للخريطة ===== */
-.outline{display:flex;flex-direction:column;gap:5px;padding:4px 16px 20px}
-.orow{display:flex;align-items:center;gap:7px;padding-inline-start:calc(var(--d) * 22px)}
-.orow .odot{width:9px;height:9px;border-radius:50%;flex:none}
-.otext{flex:1;min-width:0;padding:9px 11px;border-radius:11px;border:1px solid var(--line);
-  background:var(--card);color:var(--ink);font:inherit;font-size:14px}
-.otext.big{font-family:var(--disp);font-size:19px;font-weight:700}
-.otext:focus{border-color:var(--acc);outline:none}
-.obtn{width:30px;height:30px;border-radius:9px;border:1px solid var(--line);background:var(--bg2);
-  color:var(--muted);font:inherit;font-size:14px;line-height:1;flex:none;cursor:pointer}
-.obtn.del{color:#b4472e}
-.orow.root{margin-bottom:6px}
-body.mindfull .mindwrap{position:fixed;inset:0;z-index:100;max-height:none;height:100dvh;background:var(--bg);border-radius:0}
-body.mindfull header,body.mindfull .tabbar,body.mindfull .mindbar{display:none}
-
-/* ===== مقبض السحب ===== */
-.grip{width:26px;height:30px;border-radius:8px;display:grid;place-items:center;flex:none;
-  color:var(--muted);background:none;border:0;cursor:grab;touch-action:none}
-.grip svg{width:17px;height:17px;fill:currentColor;stroke:none}
-.tile.sorting,.row.sorting{box-shadow:0 14px 32px -12px rgba(10,16,14,.55);border-color:var(--acc)}
-body.sorting{user-select:none}
-
-/* ===== سهم بقيّة الأقسام ===== */
-.tabbar.hasmore::before{content:'';position:fixed;inset-inline-start:0;bottom:calc(var(--safeb) + 16px);
-  width:22px;height:22px;z-index:72;pointer-events:none;opacity:.85;
-  background:var(--acc);mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M14 6 8 12l6 6z'/%3E%3C/svg%3E") center/18px no-repeat;
-  animation:nudge 1.6s ease-in-out infinite}
-.tabbar.ended::before{display:none}
-@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(-4px)}}
-
-
-/* ===== شريط الأقسام الجانبيّ في الحاسوب ===== */
-nav.top a svg{display:none}
-nav.top .sidetog{display:none}
-@media(min-width:820px){
-  /* الترشيح الخلفيّ يحبس العنصر الثابت داخل الرأس — فنرفعه في هذا الوضع */
-  body.sidenav header{backdrop-filter:none;-webkit-backdrop-filter:none;background:var(--bg)}
-  body.sidenav nav.top{position:fixed;top:0;bottom:0;inset-inline-start:0;width:210px;z-index:45;
-    border-bottom:0;border-inline-end:1px solid var(--line);background:var(--card);overflow:auto;
-    padding-top:70px;transition:width .25s}
-  body.sidenav nav.top .in{flex-direction:column;padding:8px;gap:2px;flex-wrap:nowrap}
-  body.sidenav nav.top a{display:flex;align-items:center;gap:10px;border:0;border-radius:11px;padding:10px 12px}
-  body.sidenav nav.top a svg{display:block;width:19px;height:19px;flex:none;stroke:currentColor;fill:none;stroke-width:1.7}
-  body.sidenav nav.top a.on{background:var(--acc-soft)}
-  body.sidenav nav.top .sidetog{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;
-    border:1px solid var(--line);background:var(--bg2);color:var(--muted);margin:0 4px 8px auto;cursor:pointer}
-  body.sidenav nav.top .sidetog svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;display:block}
-  body.sidenav main,body.sidenav .hwrap{margin-inline-start:210px}
-  body.sidenav.sideshut nav.top{width:62px}
-  body.sidenav.sideshut nav.top a span{display:none}
-  body.sidenav.sideshut nav.top a{justify-content:center;padding:10px 0}
-  body.sidenav.sideshut nav.top .sidetog{margin:0 auto 8px;transform:scaleX(-1)}
-  body.sidenav.sideshut main,body.sidenav.sideshut .hwrap{margin-inline-start:62px}
-}
-
-/* ===== الأهداف والأولويات شجرة ===== */
-.trlist{display:flex;flex-direction:column;gap:4px}
-.trrow{display:flex;align-items:flex-start;gap:8px;padding:9px 4px;padding-inline-start:calc(var(--d) * 20px + 4px);
-  border-top:1px solid var(--line);position:relative}
-.trrow:first-child{border-top:0}
-.trrow[style*="--d:1"]::before,.trrow[style*="--d:2"]::before,.trrow[style*="--d:3"]::before{
-  content:'';position:absolute;inset-inline-start:calc(var(--d) * 20px - 8px);top:0;bottom:50%;width:10px;
-  border-inline-start:1.5px solid var(--line);border-bottom:1.5px solid var(--line);border-end-start-radius:8px}
-.trmain{flex:1;min-width:0}
-.trmain b{font-size:14px;line-height:1.6}
-.trrow .pdot{margin-top:9px}
-.glinks{display:flex;gap:6px;flex-wrap:wrap;margin-top:7px}
-.slink{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;padding:4px 9px;border-radius:999px;
-  background:var(--bg2);border:1px solid var(--line);color:var(--ink);text-decoration:none;font-family:inherit;cursor:pointer}
-.slink svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:1.8}
-.slink.on{background:var(--acc-soft);color:var(--acc);border-color:transparent}
-
-/* ===== ورد القرآن ===== */
-.wird{border-color:color-mix(in srgb,var(--acc) 30%,var(--line))}
-.wird.ok{background:var(--acc-soft)}
-.wirdrow{display:flex;gap:12px;flex-wrap:wrap;font-size:12.5px;color:var(--muted)}
-.wirdrow b{color:var(--ink)}
-
-/* ===== معرض الصور في الجدار ===== */
-.gallery{columns:2 150px;column-gap:10px}
-@media(min-width:760px){.gallery{columns:4 180px}}
-.gpic{break-inside:avoid;margin:0 0 10px;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
-.gpic img{width:100%;display:block;cursor:zoom-in;background:var(--bg2);min-height:60px}
-.gpic figcaption{display:flex;align-items:center;gap:6px;padding:6px 8px;font-size:11.5px;color:var(--muted)}
-.gpic figcaption span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.gpic.on{border-color:color-mix(in srgb,var(--gold) 45%,var(--line))}
-
 </style>
 
 <header>
@@ -1445,9 +1285,7 @@ const ICON={
   chk:'<svg viewBox="0 0 24 24"><path d="m5 13 4 4 10-10"/></svg>',
   info:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
   copy:'<svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/></svg>',
-  back:'<svg viewBox="0 0 24 24"><path d="m10 5 7 7-7 7"/></svg>',
-  grip:'<svg viewBox="0 0 24 24"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>',
-  boh2:'<svg viewBox="0 0 24 24"><path d="M5 4.5A2.5 2.5 0 0 1 7.5 2H19v18H7.5A2.5 2.5 0 0 0 5 22z"/></svg>'
+  back:'<svg viewBox="0 0 24 24"><path d="m10 5 7 7-7 7"/></svg>'
 };
 const TYPES = {
   pdf:{t:'ملف PDF', ic:ICON.pdf}, audio:{t:'صوت', ic:ICON.audio}, video:{t:'فيديو', ic:ICON.video},
@@ -1491,7 +1329,7 @@ const NAV=[
   {h:'#/plan',   t:'جدولي',    ic:ICON.cal},
   {h:'#/lib',    t:'المكتبة',  ic:ICON.lib},
   {h:'#/tg',     t:'قنواتي',   ic:ICON.tg},
-  {h:'#/quotes', t:'الجدار', ic:ICON.quote},
+  {h:'#/quotes', t:'اقتباسات', ic:ICON.quote},
   {h:'#/notes',  t:'فوائدي',   ic:ICON.pen},
   {h:'#/cards',  t:'بطاقاتي',  ic:ICON.card},
   {h:'#/fav',    t:'المفضلة',  ic:ICON.star},
@@ -1746,11 +1584,9 @@ function vHome(){
   ${pinRow()}
 
 
+  ${lastRow&&uiOn('cont')?`${head('تابع من حيث توقفت')}<div class="rows one">${itemRow(lastRow.it)}</div>`:''}
+
   ${uiOn('today')&&partOn('#/plan')? homeToday() : ''}
-
-  ${plan.wird&&partOn('#/plan')&&typeof wirdCard==='function'? wirdCard() : ''}
-
-  ${S.get('achOn',true)&&tree.length? `${head('إنجازي')}${achBox(false)}` : ''}
 
   ${uiOn('hgoals')&&partOn('#/plan')? homeGoals() : ''}
 
@@ -1777,12 +1613,11 @@ function vLib(){
   const KD=done();
   return `${head(partName('#/lib')||'المكتبة', `${helpBtn('lib')}<button class="chip" data-addsec="1">${ICON.plus} قسم جديد</button>`)}
   ${tree.length&&S.get('achOn',true)? achBox(false):''}
-  ${tree.length? `<div class="grid" data-sortlist="secs">${tree.map(sec=>{
+  ${tree.length? `<div class="grid">${tree.map(sec=>{
     const all=allItems().filter(r=>r.sec.id===sec.id), dn=all.filter(r=>KD[r.it.id]).length;
     const pc=all.length? Math.round(dn/all.length*100):0;
     return `
-    <div class="tile sec2" style="align-items:flex-start" data-sortid="${sec.id}">
-      <button class="grip" title="اسحب لترتّب">${ICON.grip}</button>
+    <div class="tile sec2" style="align-items:flex-start">
       <a class="ic" href="#/s/${sec.id}">${ICON.lib}</a>
       <div style="flex:1;min-width:0">
         <a href="#/s/${sec.id}"><b>${esc(sec.name)}</b>
@@ -1857,14 +1692,7 @@ function vSection(id){
 }
 
 function vQuotes(){
-  const tab=S.get('wallTab','q');
-  const pics=quotes.filter(q=>q.img), words=quotes.filter(q=>!q.img);
-  return `${head(partName('#/quotes')||'الجدار', helpBtn('quotes'))}
-  <div class="ptabs" style="padding:0 0 12px">
-    <button class="chip ${tab==='q'?'on':''}" data-wtab="q">${ICON.quote} اقتباسات · ${AR(words.length)}</button>
-    <button class="chip ${tab==='g'?'on':''}" data-wtab="g">${ICON.img} معرض الصور · ${AR(pics.length)}</button>
-  </div>
-  ${tab==='g'? wallGallery(pics) : `
+  return `${head('اقتباسات', helpBtn('quotes'))}
   <div class="fieldset" style="margin-bottom:14px">
     <div class="field"><label>اقتباس أو خاطرة</label>
       <textarea id="qText" placeholder="اكتب ما يستحق أن يُعلَّق على الجدار…"></textarea></div>
@@ -1873,12 +1701,14 @@ function vQuotes(){
     <div class="chips" id="qCol">${QC.map((c,i)=>`<button class="swatch ${i===0?'on':''}" data-qc="${i}" style="background:${c}"></button>`).join('')}</div>
     <div class="sheetrow" style="margin:0">
       <button class="btn pri" id="qAdd">${ICON.plus} أضف</button>
+      <button class="btn" data-wall="pic">${ICON.plus} صورة للجدار</button>
       <label class="btn" style="cursor:pointer"><input type="checkbox" id="qPin" checked style="margin-inline-end:6px">اعرضه على الجدار</label>
     </div>
+    <p style="font-size:11.5px;color:var(--muted);margin:8px 0 0;line-height:1.8">
+      زر الصورة يضيف صورة إلى الجدار مباشرة، والنص الذي كتبته يصير تعليقًا تحتها.</p>
   </div>
-  ${words.length? `<div data-sortlist="quotes">${words.map(q=>`<div class="ncard" data-sortid="${q.id}" style="border-inline-start:5px solid ${QC[q.c||0]}">
+  ${quotes.length? quotes.map(q=>`<div class="ncard" style="border-inline-start:5px solid ${QC[q.c||0]}">
       <div style="display:flex;gap:8px;align-items:flex-start">
-        <button class="grip">${ICON.grip}</button>
         <div class="tap" style="flex:1;min-width:0" data-quote="${q.id}">
           <div class="b one">${esc(firstLine(q.t))}</div>
           ${q.src?`<small style="color:var(--muted);font-size:11.5px">${esc(q.src)}</small>`:''}
@@ -1887,23 +1717,10 @@ function vQuotes(){
         <button class="favbtn ${(S.get('wallFix',null)||{}).id===q.id?'on':''}" data-qfix="${q.id}" title="ثبّته وحده على الجدار">${ICON.pin}</button>
         <button class="favbtn ${q.hint?'on':''}" data-qhint="${q.id}" title="يمرّ عليك في التذكير">${ICON.info}</button>
         ${favBtn('q:'+q.id)}
-      </div></div>`).join('')}</div>`
-    : `<div class="empty">لا اقتباسات بعد — أول اقتباس يبدأ جدارك.</div>`}`}`;
+      </div></div>`).join('')
+    : `<div class="empty">لا اقتباسات بعد — أول اقتباس يبدأ جدارك.</div>`}`;
 }
-function wallGallery(pics){
-  return `<div class="sheetrow" style="margin:0 0 12px">
-      <button class="btn pri" data-wall="pics">${ICON.plus} أضف صورًا</button>
-      <span class="empty2s">اختر صورة أو أكثر — وما تعلّمه يظهر على جدار صفحتك الأولى.</span></div>
-    ${pics.length? `<div class="gallery">${pics.map(q=>`
-      <figure class="gpic ${q.pin?'on':''}">
-        <img data-wimg="${esc(q.img)}" alt="" data-gopen="${q.id}">
-        <figcaption>
-          <span>${esc(firstLine(q.t||''))||'&nbsp;'}</span>
-          <button class="favbtn ${q.pin?'on':''}" data-qpin="${q.id}" title="على الجدار">${ICON.quote}</button>
-          <button class="favbtn" data-gdel="${q.id}" title="حذف">×</button>
-        </figcaption></figure>`).join('')}</div>`
-      : `<div class="empty">لا صور بعد — أضف صورتك الأولى.</div>`}`;
-}
+
 function notesTree(){
   /* قسم ← قسم فرعي ← عنصر ← {فوائد، تظليلات} */
   const T=[];
@@ -2235,12 +2052,6 @@ function vSettings(){
       <div class="sheetrow" style="margin:0">
         <button class="btn pri" id="bkBtn">${ICON.dl} النسخة الاحتياطية والاستعادة</button>
       </div>
-      <div class="sheetrow" style="margin:12px 0 0">
-        <span class="ulbl" style="flex:1">المصحف الشريف أوّل مكتبتي</span>
-        ${S.get('quranHide',false)
-          ? `<button class="btn" data-qr="show">${ICON.plus} أظهره</button>`
-          : `<button class="btn" data-qr="hide">أخفِه</button>`}
-      </div>
       <div id="diagOut" style="font-size:12.5px;color:var(--muted);line-height:1.9;margin-top:10px"></div></div>
   </div>`;
 }
@@ -2254,9 +2065,7 @@ function vItem(id){
   const meta=[T.t]; if(it.dur) meta.push(dur(it.dur)); if(it.size) meta.push(mb(it.size));
   const where = r.sec.name + (r.sub? ' · '+r.sub.name : '');
   let body='';
-  if(it.type==='pdf' && it.quran && !it.file){ body = quranEmpty(it);
-    setTimeout(async()=>{ try{ if(await quranFetchLocal()) render(); }catch(e){} }, 50); }
-  else if(it.type==='pdf')   body = `<div class="pdftools">
+  if(it.type==='pdf')   body = `<div class="pdftools">
       <button class="tgl" id="drawTgl">${ICON.pen} تظليل على الملف</button>
       <div class="swatches" id="swatches">${Object.keys(HCOL).map(k=>`<button class="swatch ${k===curColor?'on':''}" data-color="${k}" style="background:${HCOL[k]}"></button>`).join('')}</div>
       <span id="drawHint">شغّل التظليل ثم مرّر على أي موضع في الصفحة.</span></div>
@@ -2339,8 +2148,6 @@ function vItem(id){
   if(['youtube','link','telegram'].includes(it.type)) acts.push(`<a class="btn" href="${esc(it.url)}" target="_blank" rel="noopener">${ICON.ext} فتح في الموقع الأصلي</a>`);
   if(it.src) acts.push(`<a class="btn" href="${esc(it.src)}" target="_blank" rel="noopener">${ICON.tg} المنشور الأصلي</a>`);
   if(it.file) acts.push(`<button class="btn" data-dl="${it.id}">${ICON.dl} تحميل</button>`);
-  acts.push(`<button class="btn gold" data-book="${it.id}">${ICON.boh} دفتر المقرَّر</button>`);
-  acts.push(`<button class="btn" data-split="${it.id}">${ICON.mind} خريطة بجانبه</button>`);
   acts.push(`<button class="btn" data-done="${it.id}">${ICON.chk} ${done()[it.id]?'إلغاء الإنجاز':'تعليم كمُنجَز'}</button>`);
   acts.push(`<button class="btn" data-favkey="${it.id}">${ICON.star} ${fav[it.id]?'في المفضلة':'المفضلة'}</button>`);
   acts.push(`<button class="btn" data-edititem="${it.id}">${ICON.pen} تعديل</button>`);
@@ -2349,9 +2156,7 @@ function vItem(id){
   return `<a class="back" href="#/s/${r.sec.id}">${ICON.back} ${esc(r.sec.name)}</a>
   <div class="panel">
     <div class="phead"><div class="kind">${meta.join(' — ')} · ${esc(where)}</div>
-      <h1>${esc(it.name)}</h1>
-      ${it.author?`<p class="auth">${ICON.pen} ${esc(it.author)}</p>`:''}
-      ${it.note?`<p>${esc(it.note)}</p>`:''}</div>
+      <h1>${esc(it.name)}</h1>${it.note?`<p>${esc(it.note)}</p>`:''}</div>
     <div class="acts">${acts.join('')}</div>
     ${body}
   </div>
@@ -2364,7 +2169,7 @@ function vItem(id){
       <span style="flex:1"></span>
       ${adv()?`<button class="btn" style="padding:6px 11px" data-open="item:${it.id}">${ICON.pen} تحرير موسّع</button>
       <button class="btn" style="padding:6px 11px" data-notesof="${it.id}">${ICON.text} كل فوائد هذا المقرَّر</button>`:''}
-      <button class="btn" style="padding:6px 11px" data-cardfrom="box:#noteBox">${ICON.card} بطاقة</button></div>
+      <button class="btn" style="padding:6px 11px" data-mkcard="item:${it.id}">${ICON.card} بطاقة</button></div>
   </section>
   ${marksPanel(it)}
   ${txPanel(it)}`;
@@ -2615,14 +2420,13 @@ const RT=[['bold','<b>ب</b>','عريض'],['italic','<i>م</i>','مائل'],['un
  ['removeFormat','إزالة','إزالة التنسيق']];
 /* ألوان جاهزة: ثلاثة تظليلات خفيفة وثلاثة ألوان للحرف */
 const RTHL=[['#ffe9a3','أصفر'],['#bfe7c8','أخضر'],['#c3dcf5','أزرق']];
-const RTFG=[['none','بلا لون'],['#0d6e5f','أخضر'],['#96702a','ذهبي'],['#8a4b2a','بنّي'],['#2f5fa8','أزرق']];
+const RTFG=[['#1d2321','أساسي'],['#0d6e5f','أخضر'],['#96702a','ذهبي']];
 function rtoolsHTML(){
   return `<div class="rtools">
     ${RT.map(([k,l,t])=>`<button data-rt="${k}" title="${t}">${l}</button>`).join('')}
     <span class="rtsep"></span>
     ${RTHL.map(([c,t])=>`<button class="rtsw" data-rthl="${c}" title="تظليل ${t}" style="background:${c}"></button>`).join('')}
-    ${RTFG.map(([c,t])=>`<button class="rtsw fg${c==='none'?' non':''}" data-rtfg="${c}" title="${c==='none'?'أعِد اللون الأصليّ':'لون الحرف '+t}"
-      ${c==='none'?'':`style="color:${c}"`}>أ</button>`).join('')}
+    ${RTFG.map(([c,t])=>`<button class="rtsw fg" data-rtfg="${c}" title="لون الحرف ${t}" style="color:${c}">أ</button>`).join('')}
     <button class="rtsw more" data-rtmore="1" title="ألوان أخرى">+</button>
   </div>`;
 }
@@ -2668,27 +2472,24 @@ function bindRich(el,rich,onChange){
     if(!last) return;
     try{ const s=getSelection(); s.removeAllRanges(); s.addRange(last); }catch(e){}
   };
+  /* أي ضغطة على شريط الأدوات لا تسحب التركيز من المحرِّر */
+  const hold=ev=>{ if(ev.target.closest('[data-rt],[data-rthl],[data-rtfg],[data-rtmore]')) ev.preventDefault(); };
+  el.addEventListener('pointerdown',hold,true);
+  el.addEventListener('mousedown',hold,true);
+  el.addEventListener('touchstart',hold,{capture:true,passive:false});
+
   /* css=true للألوان فقط، وأمّا العريض وأخواته فوسومٌ صريحة تبقى بعد التنظيف */
   const run=(fn,css)=>{ restore();
     try{ document.execCommand('styleWithCSS',false,!!css); }catch(e){}
     try{ fn(); }catch(e){} remember(); if(onChange) onChange(); };
 
-  const act=b=>{
-    if(b.dataset.rthl!=null){ run(()=>document.execCommand('hiliteColor',false,b.dataset.rthl),true); return; }
-    if(b.dataset.rtfg!=null){
-      if(b.dataset.rtfg==='none'){
-        /* «بلا لون»: نلوّن بعلامةٍ فارقة ثم ننزع اللون عنها فيعود الأصل */
-        run(()=>document.execCommand('foreColor',false,'#010203'),true);
-        rich.querySelectorAll('[style*="1, 2, 3"],[style*="#010203"],font[color="#010203"]').forEach(x=>{
-          if(x.tagName==='FONT'){ x.removeAttribute('color'); return; }
-          x.style.color='';
-          if(!x.getAttribute('style')) x.replaceWith(...x.childNodes);
-        });
-        if(onChange) onChange();
-        return;
-      }
-      run(()=>document.execCommand('foreColor',false,b.dataset.rtfg),true); return; }
-    if(b.dataset.rtmore!=null){ remember();
+  el.addEventListener('click',ev=>{
+    const hl=ev.target.closest('[data-rthl]');
+    if(hl){ ev.preventDefault(); run(()=>document.execCommand('hiliteColor',false,hl.dataset.rthl),true); return; }
+    const fg=ev.target.closest('[data-rtfg]');
+    if(fg){ ev.preventDefault(); run(()=>document.execCommand('foreColor',false,fg.dataset.rtfg),true); return; }
+    const mo=ev.target.closest('[data-rtmore]');
+    if(mo){ ev.preventDefault(); remember();
       sheet(`<h3>ألوان أخرى</h3>
         <div class="field"><label>لون الحرف</label><input type="color" id="rcF" value="#0d6e5f"></div>
         <div class="field"><label>لون التظليل</label><input type="color" id="rcH" value="#ffe9a3"></div>
@@ -2696,45 +2497,25 @@ function bindRich(el,rich,onChange){
           <button class="btn" data-rcx="h">ظلّل</button>
           <button class="btn" onclick="closeSheet()">إغلاق</button></div>`, sh=>{
         sh.addEventListener('click',e2=>{
-          const x=e2.target.closest('[data-rcx]'); if(!x) return;
-          const c=sh.querySelector(x.dataset.rcx==='f'?'#rcF':'#rcH').value;
+          const b=e2.target.closest('[data-rcx]'); if(!b) return;
+          const c=sh.querySelector(b.dataset.rcx==='f'?'#rcF':'#rcH').value;
           closeSheet();
-          run(()=>document.execCommand(x.dataset.rcx==='f'?'foreColor':'hiliteColor',false,c),true);
+          run(()=>document.execCommand(b.dataset.rcx==='f'?'foreColor':'hiliteColor',false,c),true);
         });
       });
       return; }
-    const k=b.dataset.rt; if(k==null) return;
+    const rt=ev.target.closest('[data-rt]'); if(!rt) return;
+    ev.preventDefault();
+    const k=rt.dataset.rt;
     run(()=>{
       if(k==='h2') document.execCommand('formatBlock',false, /h2/i.test(document.queryCommandValue('formatBlock')||'')?'p':'h2');
       else if(k==='bigger'||k==='smaller'){
-        /* الأساس ثلاثة: بعض المتصفّحات تُرجع رقمًا أصغر فتذهب الضغطة الأولى سدى */
-        let cur=+(document.queryCommandValue('fontSize')||0);
-        if(!cur||cur<3) cur=3;
+        const cur=+(document.queryCommandValue('fontSize')||3);
         document.execCommand('fontSize',false,String(Math.max(1,Math.min(7,cur+(k==='bigger'?1:-1)))));
       }
       else document.execCommand(k);
     });
-  };
-  /* ننفّذ عند الضغط نفسه لا عند الإفلات:
-     هذا وحده يضمن بقاء التركيز والتحديد في الهاتف، فبعض المتصفّحات
-     لا ترسل «click» أصلًا إذا مُنع السلوك الافتراضي للمس. */
-  const btnOf=t=>(t&&t.closest)?t.closest('[data-rt],[data-rthl],[data-rtfg],[data-rtmore]'):null;
-  let acted=0;
-  const down=ev=>{
-    const b=btnOf(ev.target); if(!b) return;
-    ev.preventDefault();
-    acted=Date.now(); act(b);
-  };
-  if(window.PointerEvent) el.addEventListener('pointerdown',down,true);
-  else{ el.addEventListener('mousedown',down,true);
-        el.addEventListener('touchstart',down,{capture:true,passive:false}); }
-  /* احتياطٌ لمتصفّحٍ لم يصله الضغط: ينفّذ من النقرة، ولا يكرّر ما نُفِّذ */
-  el.addEventListener('click',ev=>{
-    const b=btnOf(ev.target); if(!b) return;
-    ev.preventDefault();
-    if(Date.now()-acted<800) return;
-    act(b);
-  },true);
+  });
   rich.addEventListener('input',()=>{ remember(); if(onChange) onChange(); });
   rich.addEventListener('paste',e=>{ /* لصق نصًّا نظيفًا */
     const t=(e.clipboardData||window.clipboardData).getData('text/plain');
@@ -2766,7 +2547,7 @@ function openNote(ref){
       const act=n.dataset.n;
       if(act==='save'){ commit(); closeSheet(); render(); }
       else if(act==='go'){ commit(); closeSheet(); location.hash=where; }
-      else if(act==='card'){ commit(); const tx=noteText(clean(rich.innerHTML)); closeSheet(); cardFrom(tx,title); }
+      else if(act==='card'){ commit(); card.text=noteText(clean(rich.innerHTML)); saveCard(); closeSheet(); location.hash='#/card'; }
       else if(act==='del'){ del(); closeSheet(); render(); }
     });
   });
@@ -2793,7 +2574,7 @@ function openQuote(id){
       q.t = clean(rich.innerHTML); q.src = el.querySelector('#qs').value.trim();
       if(n.dataset.n==='pin') q.pin=!q.pin;
       if(n.dataset.n==='del'){ quotes=quotes.filter(x=>x.id!==id); saveQuotes(); closeSheet(); render(); return; }
-      if(n.dataset.n==='card'){ saveQuotes(); closeSheet(); cardFrom(noteText(q.t), q.src||''); return; }
+      if(n.dataset.n==='card'){ saveQuotes(); card.text=noteText(q.t); if(q.src) card.sub=q.src; saveCard(); closeSheet(); location.hash='#/card'; return; }
       saveQuotes(); closeSheet(); render();
     });
   });
@@ -3081,31 +2862,11 @@ function showPg(box){
     el.textContent='صفحة '+AR(p)+' من '+AR(box.__pdf.numPages); }
   try{ rdSync(); }catch(e){}
 }
-/* القفز إلى صفحة بعينها: الصفحات تُرسم عند الحاجة، فارتفاعاتها تتغيّر تحتك
-   أثناء القفز — فنعيد تثبيت الموضع حتى يستقرّ، فتصل إلى صفحتك لا إلى جارتها */
-let _gotoT=null;
-function gotoPage(box,p,quiet){
-  if(!box||!box.__pdf) return;
+function gotoPage(box,p){
+  if(!box.__pdf) return;
   p=Math.max(1,Math.min(box.__pdf.numPages,Math.round(p)||1));
-  const h=box.querySelector(`.pg[data-p="${p}"]`);
-  if(!h){ /* الصفحات لم تُبنَ بعد — ننتظرها قليلًا ثم نعاود */
-    if((quiet|0)<20){ setTimeout(()=>gotoPage(box,p,(quiet|0)+1),120); }
-    return; }
-  box.__want=p;
-  box.scrollTo({top:Math.max(0,h.offsetTop-6),behavior:"smooth"});
-  clearTimeout(_gotoT);
-  let n=0;
-  const pin=()=>{
-    if(!box.isConnected||box.__want!==p) return;
-    const el=box.querySelector(`.pg[data-p="${p}"]`);
-    if(el){
-      const want=Math.max(0,el.offsetTop-6);
-      if(Math.abs(box.scrollTop-want)>2) box.scrollTop=want;
-    }
-    if(++n<16) _gotoT=setTimeout(pin,110);
-    else { box.__want=null; showPg(box); }
-  };
-  _gotoT=setTimeout(pin, 340);
+  const h=box.querySelector(`.pg[data-p="${p}"]`); if(!h) return;
+  box.scrollTo({top:Math.max(0,h.offsetTop-8),behavior:'smooth'});
   setTimeout(()=>showPg(box),450);
 }
 function trackPdf(box){
@@ -3373,15 +3134,6 @@ document.addEventListener('click',async ev=>{
   else if(k==='open'){ wallSheet(); }
   else if(k==='unfix'){ S.set('wallFix',null); closeSheet(); render(); toast('فُكّ التثبيت'); }
   else if(k==='next'||k==='next2'){ wallShift++; if(k==='next2'){ closeSheet(); render(); wallSheet(); } else render(); }
-  else if(k==='pics'){
-    const i=document.createElement('input'); i.type='file'; i.accept='image/*'; i.multiple=true;
-    i.onchange=async()=>{ let n=0;
-      for(const f of i.files){ const key=uid('wq');
-        try{ const small=await shrinkImg(f,1600); await putFile(key,small); }catch(e){ continue; }
-        quotes.unshift({id:uid('q'),t:'',src:'',c:0,pin:true,img:key}); n++; }
-      saveQuotes(); toast('أُضيفت '+AR(n)+' صورة'); render(); };
-    i.click();
-  }
   else if(k==='pic'){
     const i=document.createElement('input'); i.type='file'; i.accept='image/*';
     i.onchange=async()=>{ const f=i.files[0]; if(!f) return;
@@ -3600,8 +3352,7 @@ function proxyList(){
   const custom = (site.proxy||'').trim();
   const list = custom? [u=>custom.replace('{url}', encodeURIComponent(u))] : [];
   try{
-    if(/^https?:$/.test(location.protocol) && !/(^|\.)claude\.ai$|usercontent|artifact/i.test(location.hostname)
-       && !/\.github\.io$/i.test(location.hostname)){   /* github لا تشغّل وسيطًا */
+    if(/^https?:$/.test(location.protocol) && !/(^|\.)claude\.ai$|usercontent|artifact/i.test(location.hostname)){
       list.push(u=>'/api/tg?url='+encodeURIComponent(u));
       list.push(u=>'/.netlify/functions/tg?url='+encodeURIComponent(u));
     }
@@ -3831,10 +3582,7 @@ function editItem(id, target, type){
   const it = r? r.it : {type:type||'text', name:'', note:'', url:'', text:''};
   const isNew = !r;
   sheet(`<h3>${isNew?'عنصر جديد':'تعديل العنصر'}</h3>
-    <div class="field"><label>الاسم — اسم الكتاب أو المقرَّر</label>
-      <input type="text" id="iName" value="${esc(it.name)}" placeholder="سمِّه كما تحب"></div>
-    <div class="field" style="margin-top:10px"><label>المؤلّف أو الشيخ (اختياري)</label>
-      <input type="text" id="iAuth" value="${esc(it.author||'')}" placeholder="اسم المؤلّف"></div>
+    <div class="field"><label>الاسم</label><input type="text" id="iName" value="${esc(it.name)}" placeholder="سمِّه كما تحب"></div>
     <div class="field" style="margin-top:10px"><label>وصف صغير (اختياري)</label>
       <input type="text" id="iNote" value="${esc(it.note||'')}"></div>
     ${it.file?`<div class="field" style="margin-top:10px"><label>نوع العرض</label>
@@ -3862,7 +3610,6 @@ function editItem(id, target, type){
       }
       const ty=el.querySelector('#iType'); if(ty) it.type=ty.value;
       it.name = nm.value.trim() || 'بدون اسم';
-      it.author = (el.querySelector('#iAuth')||{value:''}).value.trim();
       it.note = el.querySelector('#iNote').value.trim();
       const u=el.querySelector('#iUrl');
       if(u){ it.url=u.value.trim();
@@ -3900,7 +3647,6 @@ try{ document.body.classList.toggle('lite', S.get('mode','full')==='lite'); }cat
   else if(h==='#/boh') html=vBoh();
   else if(h==='#/time') html=vTime();
   else if(h==='#/custom') html=vCustom();
-  else if(h.startsWith('#/nb/')) html=vBook(h.slice(5));
   else if(h==='#/settings') html=vSettings();
   else if(h.startsWith('#/search')) html=vSearch();
   else html=vHome();
@@ -3934,10 +3680,7 @@ try{ document.body.classList.toggle('lite', S.get('mode','full')==='lite'); }cat
   if(h.startsWith('#/tg/')) { try{ if(chMode()==='live') watchPosts(); else fillFeed(false); }catch(e){} }
   if(h==='#/card'){ try{ c2Render(); c2Thumbs(); bindFreeDrag(); }catch(e){} }
   if(h.startsWith('#/mind/')){ try{ bindMind(); }catch(e){} }
-  if(h.startsWith('#/nb/')){ try{ nbImgs(); }catch(e){} }
   try{ fillWallImgs(); }catch(e){}
-  try{ bindSort(); }catch(e){}
-  try{ tabHint(); }catch(e){}
   scrollTo({top:0});
 }
 addEventListener('hashchange',()=>{ try{ if(RD&&RD.on) rdExit(); }catch(e){} render(); });
@@ -4273,7 +4016,6 @@ if(plan.hint.before==null) plan.hint.before=10;         /* التذكير قبل
 if(plan.hint.zikr==null) plan.hint.zikr=true;
 if(plan.hint.pray==null) plan.hint.pray=true;
 plan.done=plan.done||{}; plan.tasks=plan.tasks||[]; plan.goals=plan.goals||[]; plan.prios=plan.prios||[];
-plan.prios.forEach(p=>{ if(!p.id) p.id=uid('p'); }); plan.goals.forEach(g=>{ if(!g.id) g.id=uid('g'); });
 function savePlan(){ S.set('plan',plan); }
 
 /* ---------- وقت ---------- */
@@ -4504,7 +4246,7 @@ function vPlanToday(){
   const rows=list.map(x=>taskRow({...x,now:x.s!=null&&n>=x.s&&n<x.e},d,true)).join('');
   const gs=plan.goals.slice(0,3);
   const evs=evOn(d);
-  return `${typeof wirdCard==='function'?wirdCard():''}${evs.length?`<div class="pcardx">
+  return `${evs.length?`<div class="pcardx">
     <h3 class="mini">اليوم عندك</h3>
     ${evs.map(e=>`<div class="evrow" data-p="eev" data-id="${e.id}">
       <span class="evdot" style="background:${e.color||EVC[0]}"></span>
@@ -5438,17 +5180,6 @@ function tgNote(){
 }
 
 /* ---------- العرض ---------- */
-/* صفحات github لا تشغّل شيئًا من جانب الخادم، فالوسيط الخاصّ لا يعمل عليها */
-function onGithub(){ try{ return /\.github\.io$/i.test(location.hostname); }catch(e){ return false; } }
-function hostNote(){
-  if(!onGithub() || (site.proxy||'').trim()) return '';
-  return `<div class="pcardx note2" style="border-color:color-mix(in srgb,var(--gold) 40%,var(--line))">
-    ${ICON.info}<div>موقعك على <b>صفحات github</b>، وهي تعرض الملفات فقط ولا تشغّل شيئًا من جانب الخادم —
-      فوسيط القنوات الذي في مجلّد <code dir="ltr">functions</code> لا يعمل عليها، ويبقى الموقع معتمدًا على وسطاء عامّين
-      كثيرًا ما يتعطّلون. ولهذا قد لا تظهر القنوات ولا تُجلَب ملفات تيليجرام ولا ترجمة يوتيوب.
-      <br>الحلّ في خطوة واحدة: انشر المستودع نفسه على <b>Cloudflare Pages</b> أو <b>Netlify</b> (مجّانًا، ومن نفس مستودعك)
-      فيعمل الوسيط تلقائيًّا بلا إعداد. أو ضع عنوان وسيطك أنت في الإعدادات.</div></div>`;
-}
 function vChans(){
   return `<article class="page">
     <div class="phead"><div class="crumb">مساحتي — متابعة</div><h1>قنواتي</h1>
@@ -5465,7 +5196,6 @@ function vChans(){
         <button class="lnk" data-c="del" data-u="${esc(c.u)}">حذف</button>
       </a>`).join('')}</div>`
       : `<div class="empty">لم تضف قناة بعد. الصق اسم القناة أو رابطها أعلاه.</div>`}
-    ${hostNote()}
     <div class="pcardx note2">${ICON.info} الصق اسم القناة أو رابطها أو رابط أي منشور فيها — كلّها مقبولة.
       والموقع يجرّب بنفسه: يقرأ القناة داخل الصفحة، فإن تعذّر عرض منشوراتها الأصلية، فإن تعذّر عرض آخر نسخة محفوظة عندك.
       القنوات الخاصّة وروابط الدعوة لا يسمح تيليجرام بعرضها خارج التطبيق.</div>
@@ -5713,7 +5443,7 @@ const PARTS=[
   {h:'#/lib',    d:'المكتبة',  ic:'lib'},
   {h:'#/notes',  d:'فوائدي',   ic:'pen'},
   {h:'#/boh',    d:'بوح',      ic:'boh'},
-  {h:'#/quotes', d:'الجدار', ic:'quote'},
+  {h:'#/quotes', d:'اقتباسات', ic:'quote'},
   {h:'#/tg',     d:'قنواتي',   ic:'tg'},
   {h:'#/cards',  d:'بطاقاتي',  ic:'card'},
   {h:'#/search', d:'بحث',      ic:'search'}
@@ -5740,7 +5470,6 @@ if(!UI||!UI.parts){
 }
 /* أي جزء جديد يُضاف لاحقًا يظهر تلقائيًا، وما انتقل إلى مكان آخر يُرفع من الشريط */
 UI.parts=UI.parts.filter(p=>!GONE.includes(p.h));
-UI.parts.forEach(p=>{ if(p.h==='#/quotes'&&(!p.t||p.t==='اقتباسات')) p.t='الجدار'; });
 PARTS.forEach(p=>{ if(!UI.parts.find(x=>x.h===p.h)) UI.parts.push({h:p.h,t:p.d,on:true}); });
 saveUIsafe();
 BITS.forEach(([k])=>{ if(UI.bits[k]===undefined) UI.bits[k]=true; });
@@ -5758,9 +5487,7 @@ function navList(){
 }
 function buildNav(){
   const list=navList();
-  document.getElementById('topnav').innerHTML=
-    `<button class="sidetog" data-side="shut" title="اطوِ الشريط">${ICON.back}</button>`+
-    list.map(n=>`<a href="${n.h}" data-h="${n.h}">${n.ic}<span>${esc(n.t)}</span></a>`).join('');
+  document.getElementById('topnav').innerHTML=list.map(n=>`<a href="${n.h}" data-h="${n.h}">${esc(n.t)}</a>`).join('');
   const tb=document.getElementById('tabbar');
   tb.innerHTML=list.map(n=>`<a href="${n.h}" data-h="${n.h}">${n.ic}<span>${esc(n.t)}</span></a>`).join('');
   /* تضيق الخانات حتى ستّ، وما زاد ينزلق أفقيًّا */
@@ -5789,8 +5516,6 @@ function moreSheet(){
 }
 document.addEventListener('click',ev=>{
   if(ev.target.closest('[data-more]')) moreSheet();
-  const np=ev.target.closest('[data-navpos]');
-  if(np){ S.set('sidenav', np.dataset.navpos==='side'); try{ sideNav(); }catch(e){} render(); }
 });
 /* ---------- لوحة التخصيص ---------- */
 function vCustom(){
@@ -5806,14 +5531,6 @@ function vCustom(){
       <button class="lnk" data-u="dn" data-i="${i}">▼</button>
     </div>`).join('')}
     <div class="sheetrow" style="margin:10px 0 0"><button class="btn" data-u="resetparts">إرجاع الترتيب والأسماء</button></div>
-  </div>
-  <div class="pcardx">
-    <h3 class="mini">مكان الأقسام في الحاسوب</h3>
-    <p class="hintp">في الأعلى كالعادة، أو شريطٌ على اليمين يُطوى إلى الداخل بزرّ.</p>
-    <div class="segs" style="margin-top:8px">
-      <button class="seg ${!S.get('sidenav',false)?'on':''}" data-navpos="top">في الأعلى</button>
-      <button class="seg ${S.get('sidenav',false)?'on':''}" data-navpos="side">على اليمين</button>
-    </div>
   </div>
   <div class="pcardx">
     <h3 class="mini">بسيط أو تفصيليّ</h3>
@@ -5857,19 +5574,17 @@ const WIPE={
   chans:()=>{ chans=[]; saveChans(); },
   fav:()=>{ fav={}; saveFav(); }
 };
-/* تأكيدٌ بزرّ لا بكتابة — وللأمور الجسيمة وحدها نطلب الكلمة (type:'word') */
-function confirmSheet(msg,go,type){
-  const word = type==='word';
+function confirmSheet(msg,go){
   sheet(`<h3>تأكيد الحذف</h3>
-    <p style="margin:0 0 12px;font-size:13px;line-height:1.9">${esc(msg)}
-    ${word?'<br>اكتب كلمة <b>حذف</b> للتأكيد.':'<br>لا رجعة بعد الحذف.'}</p>
-    ${word?`<input type="text" id="cfw" placeholder="حذف">`:''}
-    <div class="sheetrow"><button class="danger" data-a="go">نعم، احذف</button>
-      <button class="btn pri" data-a="no">تراجع</button></div>`, el=>{
+    <p style="margin:0 0 12px;font-size:13px;line-height:1.9">${esc(msg)}<br>
+    اكتب كلمة <b>حذف</b> للتأكيد.</p>
+    <input type="text" id="cfw" placeholder="حذف">
+    <div class="sheetrow"><button class="danger" data-a="go">تأكيد الحذف</button>
+      <button class="btn" data-a="no">تراجع</button></div>`, el=>{
     el.addEventListener('click',ev=>{
       const a=ev.target.closest('[data-a]'); if(!a) return;
       if(a.dataset.a==='no'){ closeSheet(); return; }
-      if(word && (el.querySelector('#cfw').value||'').trim()!=='حذف'){ toast('اكتب كلمة حذف'); return; }
+      if((el.querySelector('#cfw').value||'').trim()!=='حذف'){ toast('اكتب كلمة حذف'); return; }
       closeSheet(); go(); toast('تمّ'); render();
     });
   });
@@ -5935,10 +5650,11 @@ document.addEventListener('click',ev=>{
   else if(k==='resetparts'){ UI.parts=PARTS.map(p=>({h:p.h,t:p.d,on:true})); saveUI(); buildNav(); render(); }
   else if(k==='wipe'){ const names={lib:'المكتبة',quotes:'الاقتباسات',notes:'الفوائد',marks:'العلامات والتفريغ',boh:'البوح',minds:'الخرائط الذهنية',cards:'البطاقات',
       plan:'الجدول',chans:'القنوات',fav:'المفضلة'};
-    confirmSheet('سيُحذف كل ما في «'+names[b.dataset.k]+'».',()=>WIPE[b.dataset.k](),'word'); }
+    confirmSheet('سيُحذف كل ما في «'+names[b.dataset.k]+'».',()=>WIPE[b.dataset.k]()); }
   else if(k==='wipeall'){ confirmSheet('سيُحذف كل محتوى الموقع: المكتبة والفوائد والاقتباسات والبطاقات والجدول.',
-      ()=>{ Object.values(WIPE).forEach(f=>f()); },'word'); }
-  else if(k==='backup'||k==='restore') bkSheet();
+      ()=>{ Object.values(WIPE).forEach(f=>f()); }); }
+  else if(k==='backup') backupAll();
+  else if(k==='restore') restoreAll();
 });
 document.addEventListener('input',ev=>{
   const el=ev.target.closest('[data-u="name"]'); if(!el) return;
@@ -6372,7 +6088,6 @@ async function txDiag(out) {
 
 /* ===== محرّك التفريغ: يعمل على دفعات، يحفظ أوّلًا بأوّل، ويكمل في الخلفية ===== */
 let TXJOB = null;        /* {itemId,name,total,i,segs,state,model,t0} */
-let TXHOW = '', TXNOTE = '';
 let txPipe = null, txPipeName = '';
 
 function txPillHTML() {
@@ -6451,50 +6166,25 @@ const MCACHE={
       t.oncomplete=()=>r(); t.onerror=()=>r(); });
   }catch(e){} }
 };
-function prep(T){
-  try{ T.env.allowLocalModels=false; }catch(e){}
+async function load(model,gpu){
+  let T=null, opt=null;
+  if(gpu){ try{
+    T=await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.3.3');
+    T.env.allowLocalModels=false;
+    opt={device:'webgpu',dtype:{encoder_model:'fp16',decoder_model_merged:'q4'}};
+  }catch(e){ T=null; } }
+  if(!T){
+    T=await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
+    T.env.allowLocalModels=false;
+    opt={quantized:true};
+  }
   try{ T.env.useBrowserCache=false; T.env.useCustomCache=true; T.env.customCache=MCACHE; }catch(e){}
   /* خيطٌ واحد: الاستضافات العامّة (مثل صفحات github) لا ترسل ترويسات
      العزل التي تحتاجها الخيوط المتعدّدة، فبدونها يفشل المحرّك أصلًا */
-  try{ if(!self.crossOriginIsolated) T.env.backends.onnx.wasm.numThreads=1; }catch(e){}
+  try{ if(!self.crossOriginIsolated){ T.env.backends.onnx.wasm.numThreads=1; } }catch(e){}
   try{ T.env.backends.onnx.wasm.proxy=false; }catch(e){}
-}
-const onp=p=>{ try{ postMessage({t:'dl',p:{status:p.status,file:p.file,loaded:p.loaded,total:p.total}}); }catch(e){} };
-/* هل تدعم بطاقة هذا الجهاز أنصاف الأعداد؟ كثير من الهواتف لا تدعمها */
-async function gpuOK(){
-  try{
-    if(!self.navigator||!navigator.gpu) return null;
-    const ad=await navigator.gpu.requestAdapter(); if(!ad) return null;
-    return { f16: !!(ad.features && ad.features.has && ad.features.has('shader-f16')) };
-  }catch(e){ return null; }
-}
-async function loadWasm(model){
-  const T=await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
-  prep(T);
-  pipe=await T.pipeline('automatic-speech-recognition',model,{quantized:true,progress_callback:onp});
-  name=model; postMessage({t:'how',how:'wasm'});
-}
-async function load(model,gpu){
-  if(gpu){
-    const g=await gpuOK();
-    if(g){
-      try{
-        const T=await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.3.3');
-        prep(T);
-        /* إن لم تدعم البطاقة fp16 فلا نطلبها — وإلّا سقط كلّ شيء */
-        const dtype=g.f16? {encoder_model:'fp16',decoder_model_merged:'q4'}
-                         : {encoder_model:'fp32',decoder_model_merged:'q4'};
-        pipe=await T.pipeline('automatic-speech-recognition',model,
-          {device:'webgpu',dtype,progress_callback:onp});
-        name=model; postMessage({t:'how',how:'webgpu'});
-        return;
-      }catch(e){
-        postMessage({t:'note',m:'webgpu: '+String((e&&e.message)||e)});
-        pipe=null;
-      }
-    }
-  }
-  await loadWasm(model);
+  opt.progress_callback=p=>{ try{ postMessage({t:'dl',p:{status:p.status,loaded:p.loaded,total:p.total}}); }catch(e){} };
+  pipe=await T.pipeline('automatic-speech-recognition',model,opt); name=model;
 }
 onmessage=async e=>{
   const d=e.data||{};
@@ -6515,13 +6205,7 @@ onmessage=async e=>{
     else if(d.cmd==='run'){
       let out;
       try{ out=await pipe(d.pcm,{language:'arabic',task:'transcribe',return_timestamps:true}); }
-      catch(err){
-        try{ out=await pipe(d.pcm,{language:'arabic',task:'transcribe'}); }
-        catch(e2){ /* سقطت البطاقة في أثناء العمل: نُكمل على المعالج */
-          await loadWasm(name||d.model||'Xenova/whisper-base');
-          out=await pipe(d.pcm,{language:'arabic',task:'transcribe'});
-        }
-      }
+      catch(err){ out=await pipe(d.pcm,{language:'arabic',task:'transcribe'}); }
       postMessage({t:'seg',id:d.id,out:{text:out&&out.text||'',
         chunks:((out&&out.chunks)||[]).map(c=>({timestamp:c.timestamp,text:c.text}))}});
     }
@@ -6537,8 +6221,6 @@ function txWorkerStart() {
   w.onmessage = e => {
     const d = e.data || {};
     if (d.t === 'dl') { if (txW && txW.onDl) txW.onDl(d.p); return; }
-    if (d.t === 'how') { TXHOW = d.how; return; }
-    if (d.t === 'note') { TXNOTE = d.m; return; }
     const f = txWaiting[d.id];
     if (!f) return;
     delete txWaiting[d.id];
@@ -6563,31 +6245,23 @@ function txAsk(msg, transfer, ms) {
 /* تحميل النموذج مرّة واحدة، ومع تسريع البطاقة الرسوميّة إن وُجدت */
 async function txLoad(model, onp) {
   if (txPipe && txPipeName === model) return txPipe;
-  const fix = T => {
-    try { T.env.allowLocalModels = false; } catch (e) {}
-    try { if (!self.crossOriginIsolated) T.env.backends.onnx.wasm.numThreads = 1; } catch (e) {}
-    try { T.env.backends.onnx.wasm.proxy = false; } catch (e) {}
-  };
-  if (navigator.gpu) {
+  let T = null, opt = { progress_callback: onp };
+  const gpu = !!navigator.gpu;
+  if (gpu) {
     try {
-      const ad = await navigator.gpu.requestAdapter();
-      if (ad) {
-        const f16 = !!(ad.features && ad.features.has && ad.features.has('shader-f16'));
-        const T = await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.3.3');
-        fix(T);
-        txPipe = await T.pipeline('automatic-speech-recognition', model, {
-          device: 'webgpu',
-          dtype: f16 ? { encoder_model: 'fp16', decoder_model_merged: 'q4' }
-                     : { encoder_model: 'fp32', decoder_model_merged: 'q4' },
-          progress_callback: onp
-        });
-        txPipeName = model; return txPipe;
-      }
-    } catch (e) { txPipe = null; }   /* البطاقة لم تقبل — نُكمل على المعالج */
+      T = await import('https://cdn.jsdelivr.net/npm/@huggingface/transformers@3.3.3');
+      T.env.allowLocalModels = false;
+      opt.device = 'webgpu'; opt.dtype = { encoder_model: 'fp16', decoder_model_merged: 'q4' };
+    } catch (e) { T = null; }
   }
-  const T = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
-  fix(T);
-  txPipe = await T.pipeline('automatic-speech-recognition', model, { quantized: true, progress_callback: onp });
+  if (!T) {
+    T = await import('https://cdn.jsdelivr.net/npm/@xenova/transformers@2.17.2');
+    T.env.allowLocalModels = false;
+    opt = { quantized: true, progress_callback: onp };
+  }
+  try { if (!self.crossOriginIsolated) T.env.backends.onnx.wasm.numThreads = 1; } catch (e) {}
+  try { T.env.backends.onnx.wasm.proxy = false; } catch (e) {}
+  txPipe = await T.pipeline('automatic-speech-recognition', model, opt);
   txPipeName = model;
   return txPipe;
 }
@@ -6605,32 +6279,10 @@ async function txRun(it, model, resume) {
   txPill();
   try {
     txSet(2, 'جارٍ تجهيز النموذج…');
-    /* في الهاتف يبطؤ التنزيل ولا يُرسل المجموع أحيانًا — فنُري الميجابايت لا الصفر */
-    let dlSeen = {}, dlT = Date.now();
     const onDl = p => {
-      if (!p) return;
-      if (p.status === 'progress') {
-        if (p.file != null) dlSeen[p.file] = p.loaded || 0;
-        const got = Object.values(dlSeen).reduce((a, b) => a + b, 0);
-        const pct = p.total ? Math.round((p.loaded / p.total) * 100) : null;
-        txSet(2 + (pct != null ? pct / 100 : 0) * 8,
-          'تنزيل النموذج ' + (pct != null ? AR(pct) + '٪' : mb(got)) + ' — مرّة واحدة فقط');
-        dlT = Date.now();
-      } else if (p.status === 'initiate' || p.status === 'download') {
-        txSet(2, 'يبدأ تنزيل النموذج… (مرّة واحدة)');
-      } else if (p.status === 'done') {
-        txSet(9, 'اكتمل جزء من النموذج…');
-      }
+      if (p && p.status === 'progress' && p.total)
+        txSet(2 + (p.loaded / p.total) * 8, 'تنزيل النموذج ' + Math.round(p.loaded / p.total * 100) + '٪ (مرّة واحدة)');
     };
-    /* إن مضت دقيقتان بلا أيّ تقدّم فالشبكة تحجب التنزيل — نقولها صراحةً */
-    const stall = setInterval(() => {
-      if (!TXJOB) { clearInterval(stall); return; }
-      if (Date.now() - dlT > 120000 && TXJOB.i === 0) {
-        clearInterval(stall);
-        txFail(new Error('لم يتقدّم تنزيل النموذج — شبكتك تحجب huggingface.co على الأرجح'));
-      }
-    }, 20000);
-    TXJOB.stall = stall;
     let useW = true, pipe = null;
     try {
       const w = txWorkerStart(); w.onDl = onDl;
@@ -6686,7 +6338,6 @@ async function txRun(it, model, resume) {
     if (!TXJOB) return;
     saveTx(it.id, { how: 'auto', model: model.split('/').pop(), at: Date.now(),
       segs: TXJOB.segs, next: TXJOB.total, total: TXJOB.total, done: true });
-    try{ clearInterval(TXJOB.stall); }catch(e){}
     TXJOB = null; txPill(); closeSheet(); render();
     toast('تمّ التفريغ — محفوظ في صفحة العنصر');
   } catch (e) { txFail(e); }
@@ -6709,12 +6360,10 @@ function txFail(e) {
       ${TXJOB && TXJOB.segs.length ? 'ما فُرّغ قبل العطل محفوظ، ويمكنك إكماله من زر «أكمل التفريغ».' :
         'جرّب حجمًا أصغر، أو تأكّد من الاتصال، أو ألصق النصّ بنفسك.'}</p>
     ${raw && raw !== msg ? `<p class="mkempty" style="font-size:11.5px;direction:ltr;text-align:left">${esc(raw)}</p>` : ''}
-    ${TXNOTE ? `<p class="mkempty" style="font-size:11.5px;direction:ltr;text-align:left">${esc(TXNOTE)}</p>` : ''}
     <div class="sheetrow"><button class="btn" data-txdiag="1">${ICON.info} افحص التفريغ</button>
       <button class="btn" onclick="closeSheet()">إغلاق</button></div>
     <div id="txDiag" style="font-size:12px;color:var(--muted);line-height:1.85;margin-top:8px"></div>`;
   else toast('تعذّر التفريغ: ' + msg);
-  try{ if(TXJOB) clearInterval(TXJOB.stall); }catch(e){}
   TXJOB = null; txPill();
 }
 /* تحديث لوحة التفريغ في مكانها دون إعادة بناء الصفحة */
@@ -7471,27 +7120,15 @@ function vMinds() {
       <div><b>${esc(m.name)}</b><small>${AR(m.nodes.length)} عقدة${m.sec&&findSec(m.sec)?' · '+esc(findSec(m.sec).name):''}</small></div></a>`).join('')}</div>`
     : `<div class="empty">لا خرائط بعد.<br><button class="btn pri" data-mm="new" style="margin-top:10px">${ICON.plus} أنشئ أول خريطة</button></div>`}`;
 }
-/* لوحة الخريطة وحدها — تُستعمل في صفحتها وفي الشاشة المقسومة وملء الشاشة */
-function mindCanvas(m) {
-  layout(m);
-  const b = mindBounds(m);
-  return `<div class="mindwrap" id="mindWrap" data-id="${m.id}">
-    <div class="mindcanvas" id="mindCv" style="width:${b.w}px;height:${b.h}px">
-      <svg class="mindsvg" width="${b.w}" height="${b.h}">${mindLines(m, b)}</svg>
-      ${m.nodes.filter(n => !n._hid && n._x != null).map(n => mindNode(m, n, b)).join('')}
-    </div>
-  </div>`;
-}
 function vMind(id) {
   const m = findMind(id);
   if (!m) return `<div class="empty">الخريطة غير موجودة.</div>`;
-  const mode = S.get('mindMode', 'map');
+  layout(m);
+  const b = mindBounds(m);
   return `<a class="back" href="#/mind">${ICON.back} ${esc(partName('#/mind') || 'خرائطي')}</a>
   <div class="mindbar">
     <b>${esc(m.name)}</b>
     <span style="flex:1"></span>
-    <button class="chip ${mode==='out'?'on':''}" data-mm="mode" data-id="${m.id}">${mode==='out'?'⌗ مخطَّط':'⌗ مخطَّط'}</button>
-    <button class="chip" data-mm="full" data-id="${m.id}">${ICON.ext} ملء الشاشة</button>
     <button class="chip" data-mm="rename" data-id="${m.id}">${ICON.pen} الاسم</button>
     <button class="chip" data-mm="png" data-id="${m.id}">${ICON.dl} صورة</button>
     <button class="chip" data-mm="dir" data-id="${m.id}">${(m.dir||'h')==='h'?'⇠ الفروع بجانب':'⇣ الفروع تحت'}</button>
@@ -7500,88 +7137,15 @@ function vMind(id) {
     <button class="chip" data-mm="fit" data-id="${m.id}">توسيط</button>
     <button class="chip danger" data-mm="delmap" data-id="${m.id}">حذف</button>
   </div>
-  ${mode === 'out' ? mindOutline(m) : mindCanvas(m) + `
+  <div class="mindwrap" id="mindWrap" data-id="${m.id}">
+    <div class="mindcanvas" id="mindCv" style="width:${b.w}px;height:${b.h}px">
+      <svg class="mindsvg" width="${b.w}" height="${b.h}">${mindLines(m, b)}</svg>
+      ${m.nodes.filter(n => !n._hid && n._x != null).map(n => mindNode(m, n, b)).join('')}
+    </div>
+  </div>
   <p class="mkempty" style="padding:0 16px">اضغط العقدة لتفتح أدواتها، واسحبها لتحرّكها.
-    و«مخطَّط» أعلاه يكتبها سطورًا: عنوان كبير، وتحته زرّ + لفرعٍ منه، وزرّ + لعنوانٍ كبير جديد.</p>`}`;
+    وزرّ الاتجاه أعلاه يقلب الخريطة كلّها — والفروع بجانب أصلها أو تحته — ولكل عقدة أن تخالف الخريطة من أدواتها.</p>`;
 }
-
-/* ---------- وضع المخطَّط: تُبنى الخريطة بالكتابة لا بالضغط ---------- */
-function outRows(m, id, depth, out) {
-  kidsOf(m, id).forEach(n => {
-    out.push({ n, d: depth });
-    outRows(m, n.id, depth + 1, out);
-  });
-  return out;
-}
-function mindOutline(m) {
-  const root = m.nodes.find(n => !n.p) || m.nodes[0];
-  const rows = outRows(m, root.id, 0, []);
-  const line = (n, d) => `
-    <div class="orow" data-oid="${n.id}" style="--d:${d}" data-sortid="${n.id}">
-      <span class="odot" style="background:${MC[n.c || 0]}"></span>
-      <input class="otext" data-oin="${n.id}" value="${esc(n.t || '')}"
-        placeholder="${d === 0 ? 'عنوان كبير' : 'عنوان فرعيّ'}">
-      <button class="obtn" data-oadd="${n.id}" title="فرعٌ تحته">＋</button>
-      <button class="obtn" data-osib="${n.id}" title="عنوانٌ بعده في مستواه">⏎</button>
-      <button class="obtn del" data-odel="${n.id}" title="حذف">×</button>
-    </div>`;
-  return `<div class="outline">
-    <div class="orow root" data-oid="${root.id}" style="--d:0">
-      <span class="odot" style="background:${MC[root.c || 0]}"></span>
-      <input class="otext big" data-oin="${root.id}" value="${esc(root.t || '')}" placeholder="الفكرة الأساسية">
-      <button class="obtn" data-oadd="${root.id}" title="عنوان كبير جديد">＋</button>
-    </div>
-    ${rows.map(r => line(r.n, r.d)).join('')}
-    <div class="sheetrow" style="padding:0 16px">
-      <button class="btn pri" data-oadd="${root.id}">${ICON.plus} عنوان كبير</button>
-      <span class="empty2s">اكتب في السطر، و<b>＋</b> يفتح فرعًا تحته، و<b>⏎</b> يفتح عنوانًا بعده، والخريطة تتشكّل وحدها.</span>
-    </div>
-  </div>`;
-}
-function outAdd(mid, parentId, sibling) {
-  const m = findMind(mid); if (!m) return;
-  const ref = m.nodes.find(n => n.id === parentId); if (!ref) return;
-  const p = sibling ? (ref.p || ref.id) : ref.id;
-  const n = { id: uid('n'), p, t: '', c: ref.c || 0 };
-  const at = m.nodes.indexOf(ref) + 1;
-  m.nodes.splice(at, 0, n);
-  if (ref.z) delete ref.z;           /* افتحه ليُرى ما أضفت */
-  saveMinds(); render();
-  setTimeout(() => { const i = document.querySelector(`[data-oin="${n.id}"]`);
-    if (i) { i.focus(); i.scrollIntoView({ block: 'center' }); } }, 40);
-}
-document.addEventListener('input', ev => {
-  const i = ev.target.closest('[data-oin]'); if (!i) return;
-  const mid = (location.hash.match(/^#\/mind\/(.+)$/) || [])[1];
-  const m = mid ? findMind(mid) : (SPL && findMind(SPL.map));
-  if (!m) return;
-  const n = m.nodes.find(x => x.id === i.dataset.oin); if (!n) return;
-  n.t = i.value; clearTimeout(outT); outT = setTimeout(saveMinds, 400);
-});
-let outT = null;
-document.addEventListener('keydown', ev => {
-  const i = ev.target.closest('[data-oin]'); if (!i) return;
-  const mid = (location.hash.match(/^#\/mind\/(.+)$/) || [])[1]; if (!mid) return;
-  if (ev.key === 'Enter') { ev.preventDefault(); saveMinds(); outAdd(mid, i.dataset.oin, !ev.shiftKey); }
-  else if (ev.key === 'Tab') { ev.preventDefault(); saveMinds(); outAdd(mid, i.dataset.oin, false); }
-});
-document.addEventListener('click', ev => {
-  const mid = (location.hash.match(/^#\/mind\/(.+)$/) || [])[1];
-  const a = ev.target.closest('[data-oadd]');
-  if (a && mid) { saveMinds(); outAdd(mid, a.dataset.oadd, false); return; }
-  const s = ev.target.closest('[data-osib]');
-  if (s && mid) { saveMinds(); outAdd(mid, s.dataset.osib, true); return; }
-  const d = ev.target.closest('[data-odel]');
-  if (d && mid) {
-    const m = findMind(mid); if (!m) return;
-    const kill = new Set([d.dataset.odel]);
-    let grew = true;
-    while (grew) { grew = false;
-      m.nodes.forEach(n => { if (n.p && kill.has(n.p) && !kill.has(n.id)) { kill.add(n.id); grew = true; } }); }
-    m.nodes = m.nodes.filter(n => !kill.has(n.id));
-    saveMinds(); render();
-  }
-});
 function nodeXY(n, b) {
   return { x: (n.fx != null ? n.fx : n._x) - b.x1 + 20, y: (n.fy != null ? n.fy : n._y) - b.y1 + 20 };
 }
@@ -7835,12 +7399,6 @@ document.addEventListener('click', ev => {
         m.name = el.querySelector('#mmR').value.trim() || m.name; saveMinds(); closeSheet(); render();
       });
     });
-  } else if (k === 'mode') {
-    S.set('mindMode', S.get('mindMode', 'map') === 'out' ? 'map' : 'out'); render();
-  } else if (k === 'full') {
-    document.body.classList.toggle('mindfull');
-    const w = document.getElementById('mindWrap');
-    if (w) setTimeout(() => { try { bindMind(); } catch (e) {} }, 30);
   } else if (k === 'delmap') {
     const m = findMind(b.dataset.id); if (!m) return;
     confirmSheet('ستُحذف خريطة «' + m.name + '».', () => {
@@ -8150,9 +7708,7 @@ function rdBars() {
     <button class="rb" data-rd="jump" title="الصفحات">${I.list}</button>
     <span class="rt">${esc(it.name || '')}</span>
     <button class="rb ${drawOn ? 'on' : ''}" data-rd="draw" title="تظليل">${I.pen}</button>
-    <button class="rb" data-rd="bm" data-lp="rdbm" title="علامة مرجعية — ومطوّلًا قائمتها">${I.bm}</button>
-    <button class="rb" data-rd="marks" title="علاماتي">${I.list2 || '<svg viewBox="0 0 24 24"><path d="M6 4h12v16l-6-4-6 4z"/><path d="M9 9h6"/></svg>'}</button>
-    <button class="rb ${RDN.on ? 'on' : ''}" data-rd="note" title="اكتب فائدة الآن">${I.pen}</button>
+    <button class="rb" data-rd="bm" title="علامة مرجعية">${I.bm}</button>
     <button class="rb" data-rd="page" title="فوائد هذه الصفحة">${I.note}</button>
     <button class="rb" data-rd="more" title="المزيد">${I.more}</button>`;
   bot.innerHTML = `
@@ -8247,148 +7803,9 @@ document.addEventListener('click', ev => {
     return;
   }
   if (k === 'jump') { const j = document.getElementById('pgNow'); if (j) j.click(); return; }
-  if (k === 'marks') { rdMarks(); return; }
-  if (k === 'note') { rdNoteToggle(); return; }
   if (k === 'page') { rdPageNotes(); return; }
   if (k === 'more') { rdMore(); return; }
 });
-LPH.rdbm = () => rdMarks();
-
-/* ---------- علاماتي داخل القراءة: تقفز بك ولا تُخرجك ---------- */
-function rdMarks() {
-  const box = RD.box || document.getElementById('pdfbox'); if (!box) return;
-  const id = box.dataset.item;
-  const r = findItem(id); if (!r) return;
-  const list = (marks[id] || []).slice().sort((a, b) => (a.p || 0) - (b.p || 0));
-  sheet(`<h3>${ICON.bm} علاماتي في «${esc(r.it.name)}»</h3>
-    ${list.length ? `<div class="mklist">${list.map(m => `
-      <div class="mkrow" style="--mc:${HCOL[m.c] || HCOL.y}">
-        <button class="mktime" data-rdg="${m.p || 1}">صفحة ${AR(m.p || 1)}</button>
-        <div class="mktext">${m.n ? noteHtml(m.n) : '<i>بلا فائدة</i>'}</div>
-        <button class="lnk" data-rde="${m.id}">${ICON.pen}</button>
-      </div>`).join('')}</div>`
-      : '<p class="mkempty">لا علامة بعد — زرّ العلامة في الأعلى يحفظ موضعك في الحال.</p>'}
-    <div class="sheetrow">
-      <button class="btn pri" data-rdg="__now">${ICON.plus} علامة على هذه الصفحة</button>
-      <button class="btn" onclick="closeSheet()">إغلاق</button></div>`, el => {
-    el.addEventListener('click', ev => {
-      const g = ev.target.closest('[data-rdg]');
-      if (g) {
-        if (g.dataset.rdg === '__now') {
-          const p = nowPage() || 1;
-          if (!marks[id]) marks[id] = [];
-          if (!marks[id].some(x => x.p === p))
-            marks[id].push({ id: uid('m'), p, n: '', c: curColor || 'y', at: Date.now() });
-          saveMarks(); closeSheet(); rdTip('علامة على صفحة ' + AR(p));
-          return;
-        }
-        closeSheet();
-        gotoPage(box, +g.dataset.rdg);       /* نبقى في ملء الشاشة */
-        rdTip('صفحة ' + AR(+g.dataset.rdg));
-        return;
-      }
-      const e2 = ev.target.closest('[data-rde]');
-      if (e2) { const m = (marks[id] || []).find(x => x.id === e2.dataset.rde);
-        if (m) { closeSheet(); pgSheet(r.it, m); } }
-    });
-  });
-}
-
-/* ---------- لوحة فوائد عائمة تتحرّك معك أثناء القراءة ---------- */
-let RDN = { on: false, x: null, y: null };
-function rdNoteToggle() {
-  RDN.on = !RDN.on;
-  if (RDN.on) rdNotePad(); else { const e = document.getElementById('rdpad'); if (e) e.remove(); }
-  rdBars();
-}
-function rdNotePad() {
-  const box = RD.box || document.getElementById('pdfbox'); if (!box) return;
-  const id = box.dataset.item;
-  const r = findItem(id); if (!r) return;
-  let e = document.getElementById('rdpad');
-  if (!e) { e = document.createElement('div'); e.id = 'rdpad'; e.className = 'rdpad';
-    document.body.appendChild(e); }
-  const p = nowPage() || 1;
-  const pos = S.get('rdpadPos', null);
-  e.innerHTML = `
-    <div class="rdpadbar" data-rdp="drag">
-      <span class="gr"></span>
-      <b>فائدة</b>
-      <button class="x" data-rdp="mini" title="تصغير">–</button>
-      <button class="x" data-rdp="close" title="إغلاق">×</button>
-    </div>
-    <div class="rdpadin">
-      <div class="rdpadrow">
-        <input type="text" id="rdpT" placeholder="عنوان الفائدة (اختياري)">
-        <input type="number" id="rdpP" value="${p}" min="1" title="الصفحة">
-      </div>
-      ${rtoolsHTML()}
-      <div class="rich" id="rdpN" contenteditable="true" dir="rtl"></div>
-      <div class="rdpadacts">
-        <button class="btn pri" data-rdp="save">${ICON.chk} احفظ</button>
-        <button class="btn" data-rdp="next" title="احفظ وافتح صفحة جديدة في دفتر المقرَّر">${ICON.plus} صفحة جديدة</button>
-        <button class="btn" data-rdp="book">${ICON.boh} الدفتر</button>
-      </div>
-    </div>`;
-  if (pos) { e.style.insetInlineStart = pos.x + 'px'; e.style.top = pos.y + 'px';
-    e.style.insetInlineEnd = 'auto'; e.style.bottom = 'auto'; }
-  const rich = e.querySelector('#rdpN');
-  bindRich(e, rich, null);
-  rdPadDrag(e);
-  const save = (fresh) => {
-    const html = clean(rich.innerHTML);
-    if (!noteText(html).trim()) { toast('اكتب شيئًا أوّلًا'); return false; }
-    const pg = Math.max(1, +e.querySelector('#rdpP').value || p);
-    const ttl = e.querySelector('#rdpT').value.trim();
-    nbAdd(id, { p: pg, ttl, h: html, k: 'note' });
-    rich.innerHTML = ''; e.querySelector('#rdpT').value = '';
-    e.querySelector('#rdpP').value = nowPage() || pg;
-    rdTip(fresh ? 'حُفظت — وصفحة جديدة في دفترك' : 'حُفظت في دفتر المقرَّر');
-    return true;
-  };
-  e.addEventListener('click', ev => {
-    const b = ev.target.closest('[data-rdp]'); if (!b) return;
-    const k = b.dataset.rdp;
-    if (k === 'close') { RDN.on = false; e.remove(); rdBars(); return; }
-    if (k === 'mini') { e.classList.toggle('mini'); return; }
-    if (k === 'save') { save(false); return; }
-    if (k === 'next') { save(true); return; }
-    if (k === 'book') { save(false); rdExit(); location.hash = '#/nb/' + id; return; }
-  });
-  setTimeout(() => rich.focus(), 80);
-}
-function rdPadDrag(e) {
-  const bar = e.querySelector('.rdpadbar');
-  let sx = 0, sy = 0, ox = 0, oy = 0, on = false;
-  const rtl = getComputedStyle(document.documentElement).direction === 'rtl';
-  const down = ev => {
-    if (ev.target.closest('.x')) return;
-    const t = ev.touches ? ev.touches[0] : ev;
-    const r = e.getBoundingClientRect();
-    ox = rtl ? (innerWidth - r.right) : r.left; oy = r.top;
-    sx = t.clientX; sy = t.clientY; on = true;
-    e.classList.add('drag');
-    ev.preventDefault();
-  };
-  const move = ev => {
-    if (!on) return;
-    const t = ev.touches ? ev.touches[0] : ev;
-    const dx = (t.clientX - sx) * (rtl ? -1 : 1), dy = t.clientY - sy;
-    const r = e.getBoundingClientRect();
-    const x = Math.max(4, Math.min(innerWidth - r.width - 4, ox + dx));
-    const y = Math.max(4, Math.min(innerHeight - 44, oy + dy));
-    e.style.insetInlineStart = x + 'px'; e.style.top = y + 'px';
-    e.style.insetInlineEnd = 'auto'; e.style.bottom = 'auto';
-    ev.preventDefault();
-  };
-  const up = () => { if (!on) return; on = false; e.classList.remove('drag');
-    const r = e.getBoundingClientRect();
-    S.set('rdpadPos', { x: rtl ? (innerWidth - r.right) : r.left, y: r.top }); };
-  bar.addEventListener('pointerdown', down);
-  addEventListener('pointermove', move, { passive: false });
-  addEventListener('pointerup', up);
-  addEventListener('pointercancel', up);
-}
 /* فوائد هذه الصفحة وتظليلاتها */
 function rdPageNotes() {
   const box = RD.box || document.getElementById('pdfbox'); if (!box) return;
@@ -9388,44 +8805,6 @@ async function drawCardAny(cv,c){
   try{ drawCard(cv,c); }catch(e){}
 }
 
-/* ---------- بطاقة من فائدة: اختر التصميم أوّلًا، والنصّ يدخل وحده ---------- */
-function cardFrom(text, who) {
-  text = String(text || '').trim();
-  if (!text) { toast('لا نصّ لتحويله'); return; }
-  sheet(`<h3>اختر تصميم البطاقة</h3>
-    <p class="mkempty">يدخل نصّك في التصميم الذي تختاره، ثمّ تعدّل ما شئت.</p>
-    <div class="tplgrid" id="cfGrid">
-      ${TPLS.map(x => `<button class="tplbtn" data-cft="${x.id}">
-        <canvas class="tplthumb" data-thumb="${x.id}" width="216" height="${Math.round(216 / (x.ratio || 1))}"></canvas>
-        <small>${esc(x.n)}</small></button>`).join('')}
-    </div>`, el => {
-    try { c2Thumbs(); } catch (e) {}
-    el.addEventListener('click', ev => {
-      const b = ev.target.closest('[data-cft]'); if (!b) return;
-      const tpl = b.dataset.cft;
-      const L = defLayers(tpl);
-      if (L[0]) L[0].t = text.slice(0, 600);
-      if (who && L[1]) L[1].t = who;
-      C2 = Object.assign({}, C2, { tpl, layers: L, sel: 0 });
-      C2.d = Object.assign({}, C2D, C2.d || {}, { text: text.slice(0, 600) });
-      saveC2(); closeSheet(); location.hash = '#/card';
-    });
-  });
-}
-document.addEventListener('click', ev => {
-  const b = ev.target.closest('[data-cardfrom]'); if (!b) return;
-  ev.preventDefault();
-  const src = b.dataset.cardfrom;
-  let text = '', who = '';
-  if (src.startsWith('note:')) text = noteText(notes[src.slice(5)] || '');
-  else if (src.startsWith('q:')) { const q = quotes.find(x => x.id === src.slice(2)); if (q) { text = noteText(q.t); who = q.src || ''; } }
-  else if (src.startsWith('w:')) { const w = (typeof writes !== 'undefined' ? writes : []).find(x => x.id === src.slice(2)); if (w) text = noteText(w.h || ''); }
-  else if (src.startsWith('nb:')) { const [, bid, pid] = src.split(':'); const p = (nbOf(bid).pages || []).find(x => x.id === pid);
-    if (p) { text = noteText(p.h || ''); who = p.ttl || ''; } }
-  else if (src.startsWith('box:')) { const e = document.querySelector(src.slice(4)); if (e) text = noteText(e.innerHTML || e.value || ''); }
-  cardFrom(text, who);
-});
-
 
 /* ================= النسخة الاحتياطية الكاملة =================
    نسختان:
@@ -9632,790 +9011,10 @@ function bkSheet() {
   });
 }
 
-
-/* ================================================================
-   دفتر المقرَّر — غلافٌ وصفحات: فوائدك وتظليلاتك وعلاماتك وخرائطك
-   في مكانٍ واحد، صفحةً صفحة، كما لو كان دفترًا بين يديك.
-   ================================================================ */
-let books = S.get('books', {});
-function saveBooks() { books = books || {}; S.set('books', books); }
-
-const NB_COVERS = [
-  ['sand', 'رمليّ', '#e9dcc2', '#5a4326'],
-  ['olive', 'زيتونيّ', '#d8e2cc', '#3b4a2c'],
-  ['sky', 'سماويّ', '#d6e4f2', '#2b4560'],
-  ['clay', 'طينيّ', '#ecd9cf', '#5e3a2a'],
-  ['ink', 'حِبريّ', '#20262b', '#e6e2d8']
-];
-function nbOf(id) {
-  if (!books[id]) books[id] = { cover: 'sand', sub: '', pages: [] };
-  if (!books[id].pages) books[id].pages = [];
-  return books[id];
-}
-function nbAdd(id, page) {
-  const b = nbOf(id);
-  b.pages.push(Object.assign({ id: uid('nbp'), at: Date.now(), k: 'note' }, page));
-  saveBooks();
-  return b.pages[b.pages.length - 1];
-}
-function nbTitleOf(id) {
-  const r = (typeof findItem === 'function') ? findItem(id) : null;
-  if (r) return { name: r.it.name, sub: r.it.author || (r.sec ? r.sec.name : ''), type: r.it.type };
-  const s = (typeof findSec === 'function') ? findSec(id) : null;
-  if (s) return { name: s.name, sub: '', type: 'sec' };
-  return { name: 'دفتري', sub: '', type: '' };
-}
-/* كل ما يخصّ هذا المقرَّر ممّا كتبتَه في أماكن أخرى */
-function nbGathered(id) {
-  const out = [];
-  try {
-    (S.get('hl', {})[id] || []).forEach(h => out.push({
-      kind: 'تظليل', p: h.p || null, txt: h.txt || '', h: h.n || '', c: h.c, at: h.at || 0, ref: 'hl:' + h.id
-    }));
-  } catch (e) {}
-  try {
-    (marks[id] || []).forEach(m => out.push({
-      kind: m.p != null ? 'علامة' : 'لحظة', p: m.p != null ? m.p : null,
-      t: m.t, h: m.n || '', c: m.c, at: m.at || 0, ref: 'mk:' + m.id
-    }));
-  } catch (e) {}
-  try { if (notes[id]) out.push({ kind: 'فائدة الصفحة', h: notes[id], at: 0, ref: 'note' }); } catch (e) {}
-  try {
-    (S.get('minds', []) || []).filter(m => m.sec === id).forEach(m =>
-      out.push({ kind: 'خريطة', h: '', map: m.id, name: m.name, at: m.at || 0 }));
-  } catch (e) {}
-  return out.sort((a, b) => (a.p || 0) - (b.p || 0) || (a.at - b.at));
-}
-function nbCoverCSS(k) {
-  const c = NB_COVERS.find(x => x[0] === k) || NB_COVERS[0];
-  return `--nbg:${c[2]};--nfg:${c[3]}`;
-}
-/* ---------- العرض ---------- */
-function vBook(id) {
-  const b = nbOf(id), t = nbTitleOf(id);
-  const gath = nbGathered(id);
-  const mine = b.pages.slice().sort((x, y) => (x.p || 0) - (y.p || 0) || (x.at - y.at));
-  const total = mine.length + gath.length;
-  return `<article class="page">
-    <a class="back" href="${findItem(id) ? '#/i/' + id : '#/lib'}">${ICON.back} رجوع</a>
-    <div class="nbcover" style="${nbCoverCSS(b.cover)}" data-nb="cover">
-      <span class="nbband"></span>
-      <div class="nbttl">
-        <small>دفتر</small>
-        <b>${esc(t.name)}</b>
-        ${(b.sub || t.sub) ? `<i>${esc(b.sub || t.sub)}</i>` : ''}
-      </div>
-      <span class="nbcount">${AR(total)} صفحة</span>
-    </div>
-    <div class="sheetrow" style="margin:12px 0">
-      <button class="btn pri" data-nb="new">${ICON.plus} صفحة جديدة</button>
-      <button class="btn" data-nb="img">${ICON.img} صورة</button>
-      <button class="btn" data-nb="skin">${ICON.pen} الغلاف</button>
-      <button class="btn" data-nb="pdf">${ICON.dl} تصدير</button>
-    </div>
-    ${total ? `<div class="nbpages">
-      ${mine.map((p, i) => nbPageCard(id, p, i + 1)).join('')}
-      ${gath.length ? `<div class="sechead" style="margin-top:26px"><h2>ممّا كتبتَه في المقرَّر</h2><div class="ln"></div></div>
-        ${gath.map(g => nbGathCard(id, g)).join('')}` : ''}
-    </div>` : `<div class="empty">الدفتر بعدُ فارغ — اكتب فائدتك الأولى، أو ظلّل في الملفّ فتجدها هنا.</div>`}
-  </article>`;
-}
-function nbPageCard(id, p, n) {
-  return `<section class="nbpage" data-nbp="${p.id}">
-    <div class="nbph"><span class="nbno">${AR(n)}</span>
-      <b>${esc(p.ttl || 'بلا عنوان')}</b>
-      ${p.p ? `<span class="pill">صفحة ${AR(p.p)}</span>` : ''}
-      <span style="flex:1"></span>
-      <button class="lnk" data-cardfrom="nb:${id}:${p.id}" title="بطاقة">${ICON.card}</button>
-      <button class="lnk" data-nbe="${p.id}">${ICON.pen}</button>
-      <button class="lnk danger" data-nbd="${p.id}">حذف</button>
-    </div>
-    ${p.img ? `<img class="nbimg" data-nbimg="${esc(p.img)}" alt="">` : ''}
-    <div class="nbbody">${noteHtml(p.h || '')}</div>
-  </section>`;
-}
-function nbGathCard(id, g) {
-  const body = g.map
-    ? `<button class="btn" data-nbmap="${esc(g.map)}">${ICON.mind} ${esc(g.name || 'خريطة')}</button>`
-    : `${g.txt ? `<div class="quote">${esc(g.txt)}</div>` : ''}${g.h ? noteHtml(g.h) : '<i class="mkempty">بلا تعليق</i>'}`;
-  return `<section class="nbpage gath" style="--mc:${HCOL[g.c] || 'transparent'}">
-    <div class="nbph"><span class="pill">${esc(g.kind)}</span>
-      ${g.p ? `<span class="pill">صفحة ${AR(g.p)}</span>` : ''}
-      ${g.t != null ? `<span class="pill">${arTime(g.t)}</span>` : ''}
-    </div>
-    <div class="nbbody">${body}</div>
-  </section>`;
-}
-/* ---------- تحرير صفحة ---------- */
-function nbSheet(id, p) {
-  const isNew = !p;
-  p = p || { p: '', ttl: '', h: '' };
-  sheet(`<h3>${isNew ? 'صفحة جديدة' : 'تعديل الصفحة'}</h3>
-    <div class="two">
-      <div class="field"><label>عنوان الفائدة</label>
-        <input type="text" id="nbT" value="${esc(p.ttl || '')}" placeholder="عنوانٌ يدلّ عليها"></div>
-      <div class="field"><label>صفحة الكتاب</label>
-        <input type="number" id="nbP" min="1" value="${p.p || ''}" placeholder="—"></div>
-    </div>
-    <div class="field"><label>النصّ</label>
-      ${rtoolsHTML()}
-      <div class="rich tall" id="nbH" contenteditable="true" dir="rtl">${noteHtml(p.h || '')}</div></div>
-    <div class="sheetrow">
-      <button class="btn pri" data-nbs="save">${ICON.chk} حفظ</button>
-      <button class="btn" data-nbs="img">${ICON.img} صورة</button>
-      ${isNew ? '' : `<button class="btn" data-nbs="card">${ICON.card} بطاقة</button>
-        <button class="danger" data-nbs="del">حذف</button>`}
-      <button class="btn" onclick="closeSheet()">إغلاق</button>
-    </div>`, el => {
-    const rich = el.querySelector('#nbH');
-    bindRich(el, rich, null);
-    el.addEventListener('click', async ev => {
-      const b = ev.target.closest('[data-nbs]'); if (!b) return;
-      const k = b.dataset.nbs;
-      if (k === 'img') { const key = await nbPickImg(); if (key) { p.img = key; toast('أُضيفت الصورة'); } return; }
-      if (k === 'del') { const bk = nbOf(id); bk.pages = bk.pages.filter(x => x.id !== p.id); saveBooks(); closeSheet(); render(); return; }
-      if (k === 'card') { const tx = noteText(clean(rich.innerHTML)); closeSheet(); cardFrom(tx, p.ttl || ''); return; }
-      const h = clean(rich.innerHTML);
-      const ttl = el.querySelector('#nbT').value.trim();
-      const pg = +el.querySelector('#nbP').value || null;
-      if (isNew) nbAdd(id, { ttl, p: pg, h, img: p.img || null });
-      else { const bk = nbOf(id); const x = bk.pages.find(y => y.id === p.id);
-        if (x) { x.ttl = ttl; x.p = pg; x.h = h; if (p.img) x.img = p.img; } saveBooks(); }
-      closeSheet(); render();
-    });
-  });
-}
-function nbPickImg() {
-  return new Promise(res => {
-    const i = document.createElement('input'); i.type = 'file'; i.accept = 'image/*';
-    i.onchange = async () => {
-      const f = i.files[0]; if (!f) { res(null); return; }
-      try { const small = await shrinkImg(f, 1200); const key = uid('nbi');
-        await putFile(key, small); res(key); } catch (e) { toast('تعذّر حفظ الصورة'); res(null); }
-    };
-    i.click();
-  });
-}
-function nbSkin(id) {
-  const b = nbOf(id);
-  sheet(`<h3>غلاف الدفتر</h3>
-    <div class="field"><label>سطر تحت العنوان</label>
-      <input type="text" id="nbSub" value="${esc(b.sub || '')}" placeholder="المؤلّف أو وصف قصير"></div>
-    <div class="nbskins">${NB_COVERS.map(c => `
-      <button class="nbskin ${b.cover === c[0] ? 'on' : ''}" data-nbc="${c[0]}"
-        style="background:${c[2]};color:${c[3]}">${esc(c[1])}</button>`).join('')}</div>
-    <div class="sheetrow"><button class="btn pri" data-nbc="__save">${ICON.chk} حفظ</button>
-      <button class="btn" onclick="closeSheet()">إغلاق</button></div>`, el => {
-    el.addEventListener('click', ev => {
-      const c = ev.target.closest('[data-nbc]'); if (!c) return;
-      if (c.dataset.nbc !== '__save') {
-        b.cover = c.dataset.nbc;
-        el.querySelectorAll('[data-nbc]').forEach(x => x.classList.toggle('on', x === c));
-        return;
-      }
-      b.sub = el.querySelector('#nbSub').value.trim();
-      saveBooks(); closeSheet(); render();
-    });
-  });
-}
-function nbExport(id) {
-  const b = nbOf(id), t = nbTitleOf(id);
-  const mine = b.pages.slice().sort((x, y) => (x.p || 0) - (y.p || 0));
-  const gath = nbGathered(id);
-  const w = window.open('', '_blank');
-  if (!w) { toast('اسمح بالنوافذ المنبثقة'); return; }
-  w.document.write(`<!doctype html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
-    <title>${esc(t.name)}</title><style>
-    body{font-family:'Amiri',serif;max-width:720px;margin:32px auto;padding:0 20px;line-height:2;color:#23201a}
-    h1{font-size:28px;border-bottom:2px solid #c8bda4;padding-bottom:10px}
-    .pg{page-break-inside:avoid;margin:22px 0;padding-bottom:14px;border-bottom:1px solid #e6dfcf}
-    .m{font-size:12px;color:#8a7f68;font-family:system-ui,sans-serif}
-    b.t{display:block;font-size:17px;margin-bottom:4px}
-    </style></head><body>
-    <h1>${esc(t.name)}</h1>${b.sub || t.sub ? `<p class="m">${esc(b.sub || t.sub)}</p>` : ''}
-    ${mine.map(p => `<div class="pg"><b class="t">${esc(p.ttl || '')}</b>
-      <span class="m">${p.p ? 'صفحة ' + p.p : ''}</span><div>${p.h || ''}</div></div>`).join('')}
-    ${gath.map(g => `<div class="pg"><span class="m">${esc(g.kind)}${g.p ? ' · صفحة ' + g.p : ''}</span>
-      ${g.txt ? `<blockquote>${esc(g.txt)}</blockquote>` : ''}<div>${g.h || ''}</div></div>`).join('')}
-    </body></html>`);
-  w.document.close();
-  setTimeout(() => { try { w.print(); } catch (e) {} }, 500);
-}
-/* ---------- الأحداث ---------- */
-document.addEventListener('click', async ev => {
-  const b = ev.target.closest('[data-nb]');
-  if (b) {
-    const id = (location.hash.match(/^#\/nb\/(.+)$/) || [])[1]; if (!id) return;
-    const k = b.dataset.nb;
-    if (k === 'new') nbSheet(id, null);
-    else if (k === 'skin' || k === 'cover') nbSkin(id);
-    else if (k === 'pdf') nbExport(id);
-    else if (k === 'img') { const key = await nbPickImg(); if (key) { nbAdd(id, { ttl: '', h: '', img: key }); render(); } }
-    return;
-  }
-  const e2 = ev.target.closest('[data-nbe]');
-  if (e2) { const id = (location.hash.match(/^#\/nb\/(.+)$/) || [])[1];
-    const p = nbOf(id).pages.find(x => x.id === e2.dataset.nbe); if (p) nbSheet(id, p); return; }
-  const d = ev.target.closest('[data-nbd]');
-  if (d) { const id = (location.hash.match(/^#\/nb\/(.+)$/) || [])[1];
-    const bk = nbOf(id); bk.pages = bk.pages.filter(x => x.id !== d.dataset.nbd); saveBooks(); render(); return; }
-  const m = ev.target.closest('[data-nbmap]');
-  if (m) { location.hash = '#/mind/' + m.dataset.nbmap; return; }
-  const bk = ev.target.closest('[data-book]');
-  if (bk) { location.hash = '#/nb/' + bk.dataset.book; return; }
-});
-/* صور الدفتر تُحمَّل من خزانة الجهاز */
-function nbImgs() {
-  document.querySelectorAll('[data-nbimg]').forEach(async im => {
-    if (im.dataset.done) return; im.dataset.done = '1';
-    const u = await fileURL(im.dataset.nbimg); if (u) im.src = u;
-  });
-}
-
-
-/* ================================================================
-   ترتيبٌ بالإصبع، وشاشةٌ مقسومة، ولمساتٌ صغيرة
-   ================================================================ */
-
-/* ---------- السحب والترتيب: ارفع وأنزل بإصبعك ---------- */
-let SORT = null;
-function bindSort() {
-  document.querySelectorAll('[data-sortlist]').forEach(list => {
-    if (list.dataset.sorted) return;
-    list.dataset.sorted = '1';
-    list.querySelectorAll('[data-sortid]').forEach(row => {
-      const h = row.querySelector('.grip');
-      if (h) h.addEventListener('pointerdown', ev => sortStart(ev, list, row));
-    });
-  });
-}
-function sortStart(ev, list, row) {
-  ev.preventDefault();
-  const rows = [...list.querySelectorAll('[data-sortid]')];
-  const r = row.getBoundingClientRect();
-  SORT = { list, row, rows, startY: ev.clientY, top: r.top, h: r.height, moved: false };
-  row.classList.add('sorting');
-  row.style.zIndex = 30;
-  document.body.classList.add('sorting');
-  addEventListener('pointermove', sortMove, { passive: false });
-  addEventListener('pointerup', sortEnd);
-  addEventListener('pointercancel', sortEnd);
-}
-function sortMove(ev) {
-  if (!SORT) return;
-  ev.preventDefault();
-  const dy = ev.clientY - SORT.startY;
-  if (Math.abs(dy) > 3) SORT.moved = true;
-  SORT.row.style.transform = `translateY(${dy}px)`;
-  const mid = SORT.top + dy + SORT.h / 2;
-  let target = null;
-  SORT.rows.forEach(x => {
-    if (x === SORT.row) return;
-    const b = x.getBoundingClientRect();
-    if (mid > b.top && mid < b.bottom) target = x;
-  });
-  if (target) {
-    const b = target.getBoundingClientRect();
-    const before = mid < b.top + b.height / 2;
-    const anchor = before ? target : target.nextSibling;
-    /* لا نعيد الحساب إلّا إذا تغيّر الترتيب فعلًا —
-       وإلّا ألغينا ما تحرّكتَه فلا يتقدّم السحب أبدًا */
-    if (anchor !== SORT.row && anchor !== SORT.row.nextSibling) {
-      SORT.row.style.transform = '';
-      SORT.list.insertBefore(SORT.row, anchor);
-      const nr = SORT.row.getBoundingClientRect();
-      SORT.top = nr.top; SORT.startY = ev.clientY;
-      SORT.rows = [...SORT.list.querySelectorAll('[data-sortid]')];
-    }
-  }
-}
-function sortEnd() {
-  removeEventListener('pointermove', sortMove);
-  removeEventListener('pointerup', sortEnd);
-  removeEventListener('pointercancel', sortEnd);
-  if (!SORT) return;
-  const { list, row, moved } = SORT;
-  row.style.transform = ''; row.style.zIndex = '';
-  row.classList.remove('sorting');
-  document.body.classList.remove('sorting');
-  SORT = null;
-  if (!moved) return;
-  const order = [...list.querySelectorAll('[data-sortid]')].map(x => x.dataset.sortid);
-  applyOrder(list.dataset.sortlist, order);
-}
-function applyOrder(kind, order) {
-  const by = (arr, key) => order.map(id => arr.find(x => x[key || 'id'] === id)).filter(Boolean)
-    .concat(arr.filter(x => !order.includes(x[key || 'id'])));
-  if (kind === 'secs') { tree = by(tree); saveTree(); toast('رُتّبت أقسامك'); }
-  else if (kind.startsWith('items:')) {
-    const sid = kind.slice(6);
-    const sec = findSec(sid);
-    if (sec) { sec.items = by(sec.items || []); saveTree(); }
-    else { /* قسم فرعيّ */
-      tree.forEach(s => (s.subs || []).forEach(u => { if (u.id === sid) { u.items = by(u.items || []); } }));
-      saveTree();
-    }
-    toast('رُتّبت');
-  }
-  else if (kind.startsWith('subs:')) {
-    const sec = findSec(kind.slice(5));
-    if (sec) { sec.subs = by(sec.subs || []); saveTree(); toast('رُتّبت'); }
-  }
-  else if (kind === 'goals') { plan.goals = by(plan.goals); savePlan(); toast('رُتّبت أهدافك'); }
-  else if (kind === 'prios') { plan.prios = by(plan.prios); savePlan(); toast('رُتّبت أولوياتك'); }
-  else if (kind === 'quotes') { quotes = by(quotes); saveQuotes(); toast('رُتّب جدارك'); }
-  render();
-}
-
-/* ---------- شاشة مقسومة: المقرَّر وخريطته معًا ---------- */
-let SPL = S.get('split', null);      /* {item, map, side} */
-function splitOpen(itemId) {
-  const r = findItem(itemId); if (!r) return;
-  const mine = minds.filter(m => m.sec === itemId);
-  const body = `${mine.length ? `<div class="rows" style="display:flex;flex-direction:column;gap:8px">
-      ${mine.map(m => `<button class="tile" data-spm="${m.id}"><div class="ic">${ICON.mind}</div>
-        <div><b>${esc(m.name)}</b><small>${AR((m.nodes || []).length)} عقدة</small></div></button>`).join('')}
-    </div>` : '<p class="mkempty">لا خريطة لهذا المقرَّر بعد.</p>'}
-    <div class="sheetrow"><button class="btn pri" data-spm="__new">${ICON.plus} خريطة جديدة لهذا المقرَّر</button>
-      <button class="btn" onclick="closeSheet()">إغلاق</button></div>`;
-  sheet(`<h3>خريطة بجانب المقرَّر</h3>
-    <p class="mkempty">تفتح الخريطة في نصف الشاشة وتبقى في المقرَّر تقرأ وتكتب.</p>${body}`, el => {
-    el.addEventListener('click', ev => {
-      const b = ev.target.closest('[data-spm]'); if (!b) return;
-      let mid = b.dataset.spm;
-      if (mid === '__new') { const m = newMind(r.it.name); m.sec = itemId; saveMinds(); mid = m.id; }
-      closeSheet();
-      SPL = { item: itemId, map: mid, side: S.get('splitSide', 'v') };
-      S.set('split', SPL);
-      splitMount();
-    });
-  });
-}
-function splitClose() { SPL = null; S.set('split', null); const e = document.getElementById('splitpane'); if (e) e.remove();
-  document.body.classList.remove('splitting'); }
-function splitMount() {
-  if (!SPL || !SPL.map) return;
-  const m = findMind(SPL.map); if (!m) { splitClose(); return; }
-  let e = document.getElementById('splitpane');
-  if (!e) { e = document.createElement('div'); e.id = 'splitpane'; e.className = 'splitpane';
-    document.body.appendChild(e); }
-  e.dataset.side = SPL.side || 'v';
-  document.body.classList.add('splitting');
-  document.body.dataset.side = SPL.side || 'v';
-  e.innerHTML = `<div class="spbar">
-      <span class="gr"></span><b>${esc(m.name)}</b>
-      <button class="x" data-sp="side" title="اقلب الاتجاه">${ICON.refresh}</button>
-      <button class="x" data-sp="full" title="ملء الشاشة">${ICON.ext}</button>
-      <button class="x" data-sp="close" title="إغلاق">×</button>
-    </div>
-    <div class="spbody">${mindCanvas(m, true)}</div>`;
-  try { bindMind(); } catch (err) {}
-  e.addEventListener('click', ev => {
-    const b = ev.target.closest('[data-sp]'); if (!b) return;
-    const k = b.dataset.sp;
-    if (k === 'close') { splitClose(); return; }
-    if (k === 'side') { SPL.side = (SPL.side === 'v') ? 'h' : 'v'; S.set('splitSide', SPL.side); S.set('split', SPL); splitMount(); return; }
-    if (k === 'full') { const id = SPL.map; splitClose(); location.hash = '#/mind/' + id; }
-  });
-}
-document.addEventListener('click', ev => {
-  const b = ev.target.closest('[data-split]'); if (!b) return;
-  ev.preventDefault(); splitOpen(b.dataset.split);
-});
-
-/* ---------- سهم يدلّ على بقيّة الأقسام في الشريط السفلي ---------- */
-function tabHint() {
-  const tb = document.querySelector('.tabbar'); if (!tb) return;
-  const more = tb.scrollWidth - tb.clientWidth > 8;
-  tb.classList.toggle('hasmore', more);
-  if (!more) return;
-  const atEnd = Math.abs(tb.scrollLeft) + tb.clientWidth >= tb.scrollWidth - 6;
-  tb.classList.toggle('ended', atEnd);
-  if (!tb.dataset.hinted) {
-    tb.dataset.hinted = '1';
-    tb.addEventListener('scroll', () => {
-      const e2 = Math.abs(tb.scrollLeft) + tb.clientWidth >= tb.scrollWidth - 6;
-      tb.classList.toggle('ended', e2);
-    }, { passive: true });
-  }
-}
-addEventListener('resize', () => { try { tabHint(); } catch (e) {} });
-
-/* ---------- شريط جانبيّ في الحاسوب ---------- */
-function sideNav() {
-  if (!S.get('sidenav', false)) { document.body.classList.remove('sidenav', 'sideshut'); return; }
-  document.body.classList.add('sidenav');
-  document.body.classList.toggle('sideshut', S.get('sideshut', false));
-}
-document.addEventListener('click', ev => {
-  const b = ev.target.closest('[data-side]'); if (!b) return;
-  if (b.dataset.side === 'shut') { S.set('sideshut', !S.get('sideshut', false)); sideNav(); }
-});
-
-
-/* ================================================================
-   تشجير الأهداف والأولويات، وربطها بالمقرَّرات والمهام، وورد القرآن
-   ================================================================ */
-
-/* ---------- الشجرة: كل عنصر قد يكون له أصلٌ (up) ---------- */
-function treeOf(list) {
-  const ids = new Set(list.map(x => x.id));
-  const roots = list.filter(x => !x.up || !ids.has(x.up));
-  const kids = id => list.filter(x => x.up === id);
-  const out = [];
-  const walk = (x, d) => { out.push({ x, d }); kids(x.id).forEach(k => walk(k, d + 1)); };
-  roots.forEach(r => walk(r, 0));
-  return out;
-}
-function subtreeIds(list, id) {
-  const s = new Set([id]); let grew = true;
-  while (grew) { grew = false; list.forEach(x => { if (x.up && s.has(x.up) && !s.has(x.id)) { s.add(x.id); grew = true; } }); }
-  return s;
-}
-/* نسبة الهدف: خطواته، ومهامه المنجزة اليوم، ومقرّراته المنجزة، وأهدافه الفرعية */
-function goalPct(g, seen) {
-  seen = seen || new Set(); if (seen.has(g.id)) return 0; seen.add(g.id);
-  const parts = [];
-  const st = g.steps || [];
-  if (st.length) parts.push(st.filter(s => s.done).length / st.length);
-  const secs = tree.filter(s => s.goal === g.id);
-  if (secs.length) {
-    const KD = done();
-    const items = allItems().filter(r => secs.some(s => s.id === r.sec.id));
-    if (items.length) parts.push(items.filter(r => KD[r.it.id]).length / items.length);
-  }
-  const subs = plan.goals.filter(x => x.up === g.id);
-  subs.forEach(x => parts.push(goalPct(x, seen) / 100));
-  if (!parts.length) return g.pct || 0;
-  return Math.round(parts.reduce((a, b) => a + b, 0) / parts.length * 100);
-}
-
-/* ---------- الأولويات: شجرة ---------- */
-function vPlanPrio() {
-  const rows = treeOf(plan.prios);
-  return `<div class="pcardx">
-    <div class="daytop"><div><b>أولوياتي</b><small>ما لا ينبغي أن يزاحمه شيء — وتحت كلّ أولوية ما يتفرّع منها</small></div>
-      <button class="chip" data-tr="map" data-k="prio">${ICON.mind} شجّرها</button></div>
-    ${rows.length ? `<div class="trlist" data-sortlist="prios">${rows.map(({ x, d }) => `
-      <div class="trrow" style="--d:${d}" data-sortid="${x.id}">
-        <button class="grip">${ICON.grip}</button>
-        <span class="pdot p${x.lvl || 1}"></span>
-        <div class="trmain"><b>${esc(x.t)}</b>
-          ${x.goal ? `<i class="gtag">${esc((plan.goals.find(g => g.id === x.goal) || {}).title || '')}</i>` : ''}</div>
-        <button class="lnk" data-tr="psub" data-id="${x.id}" title="أولوية فرعية">＋</button>
-        <button class="lnk" data-p="eprio" data-i="${plan.prios.indexOf(x)}">تعديل</button>
-      </div>`).join('')}</div>` : '<div class="empty">لا أولويات بعد.</div>'}
-    <div class="sheetrow" style="margin:10px 0 0"><button class="btn pri" data-p="eprio">${ICON.plus} أولوية أساسية</button></div></div>`;
-}
-
-/* ---------- الأهداف: شجرة، وما يرتبط بكل هدف ---------- */
-function vPlanGoals() {
-  const rows = treeOf(plan.goals);
-  return `<div class="pcardx">
-    <div class="daytop"><div><b>أهدافي</b><small>هدفٌ كبير، وتحته أهدافٌ أصغر تقرّبك منه</small></div>
-      <button class="chip" data-tr="map" data-k="goal">${ICON.mind} شجّرها</button></div>
-    ${rows.length ? `<div class="trlist" data-sortlist="goals">${rows.map(({ x, d }) => goalNode(x, d)).join('')}</div>`
-      : '<div class="empty">لا أهداف بعد — اكتب هدفك الأول.</div>'}
-    <div class="sheetrow" style="margin:10px 0 0"><button class="btn pri" data-p="egoal">${ICON.plus} هدف أساسيّ</button></div></div>`;
-}
-function goalNode(g, d) {
-  const pct = goalPct(g);
-  const secs = tree.filter(s => s.goal === g.id);
-  const ts = goalTasks(g.id);
-  const ps = plan.prios.filter(p => p.goal === g.id);
-  const st = g.steps || [];
-  return `<div class="trrow goal2" style="--d:${d}" data-sortid="${g.id}">
-    <button class="grip">${ICON.grip}</button>
-    <div class="trmain">
-      <div class="gtop"><b>${esc(g.title)}</b>${g.due ? `<small>حتى ${esc(g.due)}</small>` : ''}</div>
-      <span class="bar"><i style="width:${pct}%"></i></span>
-      <small class="gpct">${AR(pct)}٪</small>
-      ${st.length ? `<div class="steps">${st.map(s => `<label class="step ${s.done ? 'on' : ''}">
-        <input type="checkbox" data-p="gstep" data-g="${g.id}" data-s="${s.id}" ${s.done ? 'checked' : ''}><span>${esc(s.t)}</span></label>`).join('')}</div>` : ''}
-      <div class="glinks">
-        ${secs.map(s => `<a class="slink" href="#/s/${s.id}">${ICON.lib} ${esc(s.name)}</a>`).join('')}
-        ${ts.map(t => `<button class="slink ${isDone(t.id) ? 'on' : ''}" data-p="etask" data-id="${t.id}">${ICON.cal} ${esc(t.title)}</button>`).join('')}
-        ${ps.map(p => `<span class="slink">${esc(p.t)}</span>`).join('')}
-      </div>
-      <div class="chips" style="margin:8px 0 0">
-        <button class="chip" data-tr="gsub" data-id="${g.id}">${ICON.plus} هدف فرعيّ</button>
-        <button class="chip" data-p="taskfor" data-g="${g.id}">${ICON.plus} مهمّة</button>
-        <button class="chip" data-tr="gsec" data-id="${g.id}">${ICON.lib} اربط مقرّرًا</button>
-        <button class="chip" data-p="egoal" data-id="${g.id}">تعديل</button>
-      </div>
-    </div>
-  </div>`;
-}
-/* ربط مقرَّر بهدف */
-function goalSecSheet(gid) {
-  const g = plan.goals.find(x => x.id === gid); if (!g) return;
-  sheet(`<h3>مقرّرات «${esc(g.title)}»</h3>
-    <p class="mkempty">ما تختاره هنا يدخل في نسبة الهدف: كلّما أتممت من عناصره تقدّم الهدف.</p>
-    <div class="rows" style="display:flex;flex-direction:column;gap:6px">
-      ${tree.map(s => `<label class="step ${s.goal === gid ? 'on' : ''}" style="padding:8px;border:1px solid var(--line);border-radius:12px">
-        <input type="checkbox" data-gs="${s.id}" ${s.goal === gid ? 'checked' : ''}><span>${esc(s.name)}</span></label>`).join('')
-      || '<p class="mkempty">لا مقرّرات بعد.</p>'}
-    </div>
-    <div class="sheetrow"><button class="btn pri" data-gs="__ok">${ICON.chk} تمّ</button></div>`, el => {
-    el.addEventListener('change', ev => {
-      const c = ev.target.closest('[data-gs]'); if (!c || c.dataset.gs === '__ok') return;
-      const s = findSec(c.dataset.gs); if (!s) return;
-      if (c.checked) s.goal = gid; else if (s.goal === gid) delete s.goal;
-      saveTree();
-    });
-    el.addEventListener('click', ev => { if (ev.target.closest('[data-gs="__ok"]')) { closeSheet(); render(); } });
-  });
-}
-/* شجرة الأهداف والأولويات خريطةً ذهنية */
-function planMap(kind) {
-  const name = kind === 'prio' ? 'شجرة أولوياتي' : 'شجرة أهدافي';
-  let m = minds.find(x => x.plan === kind);
-  if (!m) { m = newMind(name); m.plan = kind; }
-  const list = kind === 'prio' ? plan.prios : plan.goals;
-  const nodes = [{ id: 'root', p: null, t: name, c: 0 }];
-  list.forEach(x => nodes.push({ id: 'n' + x.id, p: x.up && list.some(y => y.id === x.up) ? 'n' + x.up : 'root',
-    t: kind === 'prio' ? x.t : x.title, c: kind === 'prio' ? (x.lvl === 1 ? 5 : x.lvl === 2 ? 1 : 2) : 0 }));
-  if (kind === 'goal') {
-    tree.filter(s => s.goal).forEach(s => nodes.push({ id: 's' + s.id, p: 'n' + s.goal, t: s.name, c: 2 }));
-    (plan.tasks || []).filter(t => t.goal).forEach(t => nodes.push({ id: 't' + t.id, p: 'n' + t.goal, t: t.title, c: 3 }));
-  }
-  m.nodes = nodes; m.name = name; saveMinds();
-  location.hash = '#/mind/' + m.id;
-}
-function subPrio(upId) {
-  const up = plan.prios.find(x => x.id === upId); if (!up) return;
-  sheet(`<h3>أولوية تحت «${esc(up.t)}»</h3>
-    <div class="field"><input type="text" id="spT" placeholder="اكتبها"></div>
-    <div class="sheetrow"><button class="btn pri" data-sp2="1">${ICON.chk} أضِف</button>
-      <button class="btn" onclick="closeSheet()">إغلاق</button></div>`, el => {
-    const i = el.querySelector('#spT'); setTimeout(() => i.focus(), 60);
-    const go = () => { const t = i.value.trim(); if (!t) return;
-      plan.prios.splice(plan.prios.indexOf(up) + 1, 0, { id: uid('p'), t, lvl: up.lvl || 2, goal: up.goal || '', up: up.id });
-      savePlan(); closeSheet(); render(); };
-    el.querySelector('[data-sp2]').onclick = go;
-    i.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
-  });
-}
-function subGoal(upId) {
-  const up = plan.goals.find(x => x.id === upId); if (!up) return;
-  sheet(`<h3>هدف تحت «${esc(up.title)}»</h3>
-    <div class="field"><input type="text" id="sgT" placeholder="هدفٌ أصغر يقرّبك منه"></div>
-    <div class="sheetrow"><button class="btn pri" data-sg2="1">${ICON.chk} أضِف</button>
-      <button class="btn" onclick="closeSheet()">إغلاق</button></div>`, el => {
-    const i = el.querySelector('#sgT'); setTimeout(() => i.focus(), 60);
-    const go = () => { const t = i.value.trim(); if (!t) return;
-      plan.goals.splice(plan.goals.indexOf(up) + 1, 0, { id: uid('g'), title: t, steps: [], up: up.id });
-      savePlan(); closeSheet(); render(); };
-    el.querySelector('[data-sg2]').onclick = go;
-    i.addEventListener('keydown', e => { if (e.key === 'Enter') go(); });
-  });
-}
-document.addEventListener('click', ev => {
-  const b = ev.target.closest('[data-tr]'); if (!b) return;
-  const k = b.dataset.tr;
-  if (k === 'psub') subPrio(b.dataset.id);
-  else if (k === 'gsub') subGoal(b.dataset.id);
-  else if (k === 'gsec') goalSecSheet(b.dataset.id);
-  else if (k === 'map') planMap(b.dataset.k);
-});
-
-/* ================= ورد القرآن =================
-   مهمّة من نوع «تلاوة»: عدد صفحات كلّ يوم، مربوطة بملفّ المصحف،
-   تعرف أين وقفت من موضع قراءتك نفسه، وكم بقي لك اليوم وإلى الختمة. */
-const QURAN_PAGES = 604;
-function wirdOf() { return plan.wird || null; }
-function quranItem() {
-  const w = wirdOf();
-  if (w && w.item) { const r = findItem(w.item); if (r) return r.it; }
-  const r = allItems().find(x => x.it.quran && x.it.file)
-    || allItems().find(x => x.it.quran || /قرآن|القرآن|مصحف|المصحف/.test(x.it.name || ''));
-  return r ? r.it : null;
-}
-/* أين وصلت: آخر صفحة قرأتها في ملفّ المصحف */
-function wirdAt() {
-  const it = quranItem(); if (!it) return (wirdOf() || {}).at || 1;
-  const pos = ppos[it.id];
-  const p = pos && (pos.p || pos.page);
-  return Math.max(1, +p || (wirdOf() || {}).at || 1);
-}
-function wirdToday() {
-  const w = wirdOf(); if (!w) return null;
-  const k = ymd(new Date());
-  const at = wirdAt();
-  if (!w.log) w.log = {};
-  if (!w.log[k]) w.log[k] = { from: at };
-  const from = w.log[k].from;
-  const read = Math.max(0, at - from);
-  const goal = w.daily || 5;
-  const total = w.total || QURAN_PAGES;
-  const left = Math.max(0, total - at + 1);
-  const days = Math.ceil(left / goal);
-  return { from, at, read, goal, left, days, done: read >= goal, total };
-}
-function wirdCard() {
-  const w = wirdOf();
-  const it = quranItem();
-  if (!w) return `<div class="pcardx wird">
-    <div class="daytop"><div><b>ورد القرآن</b><small>عددُ صفحاتٍ كلّ يوم، ويتابعك أين وصلت وكم بقي</small></div></div>
-    <div class="sheetrow" style="margin:0"><button class="btn pri" data-wd="setup">${ICON.plus} ابدأ وردك</button></div></div>`;
-  const d = wirdToday();
-  const pct = Math.min(100, Math.round(d.read / d.goal * 100));
-  return `<div class="pcardx wird ${d.done ? 'ok' : ''}">
-    <div class="daytop">
-      <div><b>ورد القرآن</b>
-        <small>${d.done ? 'أتممت وردك اليوم — بارك الله فيك' : `بقي لك اليوم ${AR(Math.max(0, d.goal - d.read))} من ${AR(d.goal)} صفحات`}</small></div>
-      <div class="ring" style="--p:${pct}"><span>${AR(pct)}٪</span></div>
-    </div>
-    <div class="wirdrow">
-      <span>وصلت: <b>صفحة ${AR(d.at)}</b></span>
-      <span>بقي للختمة: <b>${AR(d.left)}</b> صفحة</span>
-      <span>تختم بعد <b>${AR(d.days)}</b> يومًا</span>
-    </div>
-    <div class="sheetrow" style="margin:10px 0 0">
-      ${it ? `<a class="btn pri" href="#/i/${it.id}" data-wd="go">${ICON.pdf} اقرأ الآن من صفحة ${AR(d.at)}</a>`
-           : `<button class="btn pri" data-wd="pick">${ICON.pdf} اربط ملفّ المصحف</button>`}
-      <button class="btn" data-wd="setup">تعديل</button>
-    </div></div>`;
-}
-function wirdSetup() {
-  const w = wirdOf() || { daily: 5, at: 1, total: QURAN_PAGES };
-  const pdfs = allItems().filter(r => r.it.type === 'pdf');
-  sheet(`<h3>ورد القرآن</h3>
-    <div class="two">
-      <div class="field"><label>كم صفحة كلّ يوم؟</label>
-        <input type="number" id="wdD" min="1" max="60" value="${w.daily || 5}"></div>
-      <div class="field"><label>أبدأ من صفحة</label>
-        <input type="number" id="wdA" min="1" max="${QURAN_PAGES}" value="${wirdAt()}"></div>
-    </div>
-    <div class="field"><label>ملفّ المصحف</label>
-      <select id="wdI"><option value="">— لم أرفعه بعد —</option>
-        ${pdfs.map(r => `<option value="${r.it.id}" ${(quranItem() || {}).id === r.it.id ? 'selected' : ''}>${esc(r.it.name)}</option>`).join('')}
-      </select></div>
-    <p class="mkempty">يُقاس وردك من موضع قراءتك نفسه في الملفّ: كلّما قرأت تقدّم وحده، بلا أن تسجّل شيئًا.
-      ويظهر في جدولك وفي صفحتك الأولى.</p>
-    <div class="sheetrow"><button class="btn pri" data-wd="save">${ICON.chk} حفظ</button>
-      ${wirdOf() ? '<button class="danger" data-wd="off">إيقاف الورد</button>' : ''}
-      <button class="btn" onclick="closeSheet()">إغلاق</button></div>`, el => {
-    el.addEventListener('click', ev => {
-      const b = ev.target.closest('[data-wd]'); if (!b) return;
-      if (b.dataset.wd === 'off') { delete plan.wird; savePlan(); closeSheet(); render(); return; }
-      if (b.dataset.wd !== 'save') return;
-      const nw = Object.assign(wirdOf() || { log: {} }, {
-        daily: Math.max(1, +el.querySelector('#wdD').value || 5),
-        at: Math.max(1, +el.querySelector('#wdA').value || 1),
-        item: el.querySelector('#wdI').value || '',
-        total: QURAN_PAGES
-      });
-      /* نبدأ عدّ اليوم من الصفحة التي كتبتها */
-      nw.log = nw.log || {}; nw.log[ymd(new Date())] = { from: nw.at };
-      if (nw.item) { const r = findItem(nw.item); if (r) { r.it.quran = true; saveTree();
-        if (!ppos[nw.item] || (ppos[nw.item].p || 0) < nw.at) { ppos[nw.item] = Object.assign({}, ppos[nw.item] || {}, { p: nw.at, o: 0 }); S.set('ppos', ppos); } } }
-      plan.wird = nw; savePlan(); closeSheet(); render(); toast('ورد القرآن جاهز');
-    });
-  });
-}
-document.addEventListener('click', ev => {
-  const b = ev.target.closest('[data-wd]'); if (!b || b.closest('.sheet')) return;
-  if (b.dataset.wd === 'setup' || b.dataset.wd === 'pick') { ev.preventDefault(); wirdSetup(); }
-  else if (b.dataset.wd === 'go') {
-    const it = quranItem(); if (!it) return;
-    const at = wirdAt();
-    if (!ppos[it.id] || (ppos[it.id].p || 0) !== at) { ppos[it.id] = Object.assign({}, ppos[it.id] || {}, { p: at, o: 0 }); S.set('ppos', ppos); }
-  }
-});
-
-/* ---------- الجدار: تبويبا الاقتباسات والمعرض ---------- */
-document.addEventListener('click', ev => {
-  const t = ev.target.closest('[data-wtab]');
-  if (t) { S.set('wallTab', t.dataset.wtab); render(); return; }
-  const d = ev.target.closest('[data-gdel]');
-  if (d) { const q = quotes.find(x => x.id === d.dataset.gdel); if (!q) return;
-    confirmSheet('ستُحذف هذه الصورة من الجدار.', () => {
-      if (q.img) dropFile(q.img);
-      quotes = quotes.filter(x => x.id !== q.id); saveQuotes(); }); return; }
-  const o = ev.target.closest('[data-gopen]');
-  if (o) { const u = o.src; if (u) showImg(u, 'صورة'); }
-});
-
-/* ================= المصحف الشريف: حاضرٌ في كل مساحة =================
-   لا نحشو ملفًّا بمئتي ميجابايت داخل الموقع — فكلّ من يفتحه سيُنزّله قبل أن يرى شيئًا.
-   بل يظهر المصحف أوّل المكتبة، ويُجلب مرّة واحدة إلى الجهاز ثمّ يعمل بلا إنترنت:
-   من ملفّ «quran.pdf» بجانب الموقع إن رفعته إلى استضافتك، أو ترفعه أنت من جهازك. */
-const QURAN_ID = 'quran';
-function quranEnsure() {
-  if (S.get('quranHide', false)) return;
-  const has = allItems().some(r => r.it.id === QURAN_ID);
-  if (has) return;
-  let sec = tree.find(s => s.id === 'secQuran');
-  if (!sec) { sec = { id: 'secQuran', name: 'المصحف', items: [], subs: [], pinTop: true }; tree.unshift(sec); }
-  sec.items.unshift({ id: QURAN_ID, type: 'pdf', name: 'المصحف الشريف', quran: true, author: 'مصحف المدينة' });
-  saveTree();
-}
-function quranHide(on) {
-  S.set('quranHide', !!on);
-  if (on) { tree = tree.filter(s => s.id !== 'secQuran'); saveTree(); }
-  else quranEnsure();
-  render();
-}
-/* بلا ملفّ بعد: نحاول «quran.pdf» بجانب الموقع، وإلّا نطلبه */
-async function quranFetchLocal() {
-  try {
-    if (!/^https?:$/.test(location.protocol)) return false;
-    const r = await fetch('quran.pdf', { method: 'GET' });
-    if (!r.ok) return false;
-    const ct = r.headers.get('content-type') || '';
-    if (/html/i.test(ct)) return false;
-    const blob = await r.blob();
-    if (blob.size < 4000) return false;
-    /* تأكّد أنّه PDF فعلًا لا صفحة خطأ */
-    try { const head = await blob.slice(0, 5).text(); if (head !== "%PDF-") return false; } catch (e) {}
-    const key = 'fquran';
-    await putFile(key, new Blob([blob], { type: 'application/pdf' }));
-    const it = (findItem(QURAN_ID) || {}).it; if (!it) return false;
-    it.file = key; it.size = blob.size; saveTree();
-    return true;
-  } catch (e) { return false; }
-}
-function quranEmpty(it) {
-  return `<div class="pcardx" style="margin:14px 16px">
-    <b style="font-size:14px">المصحف لم يُرفع بعد</b>
-    <p class="hintp" style="margin:6px 0 10px">يُحفظ في جهازك مرّة واحدة ثمّ يُقرأ بلا إنترنت، ويتابع وردك منه وحده.
-      ارفعه من جهازك، أو ضع ملفًّا اسمه <b dir="ltr">quran.pdf</b> بجانب الموقع في استضافتك فيُجلب تلقائيًّا.</p>
-    <div class="sheetrow" style="margin:0">
-      <button class="btn pri" data-qr="up">${ICON.plus} ارفع ملفّ المصحف</button>
-      <button class="btn" data-qr="try">${ICON.refresh} اجلبه من الاستضافة</button>
-      <button class="btn" data-qr="hide">أخفِ المصحف من مكتبتي</button>
-    </div></div>`;
-}
-document.addEventListener('click', async ev => {
-  const b = ev.target.closest('[data-qr]'); if (!b) return;
-  const k = b.dataset.qr;
-  if (k === 'hide') { confirmSheet('يُرفع المصحف من مكتبتك — وتعيده من الإعدادات متى شئت.', () => quranHide(true)); return; }
-  if (k === 'show') { quranHide(false); toast('عاد المصحف إلى مكتبتك'); return; }
-  if (k === 'try') { toast('أبحث عن الملفّ…'); const ok = await quranFetchLocal();
-    if (ok) { toast('حُفظ المصحف في جهازك'); render(); } else toast('لم أجد quran.pdf بجانب الموقع'); return; }
-  if (k === 'up') {
-    const i = document.createElement('input'); i.type = 'file'; i.accept = 'application/pdf,.pdf';
-    i.onchange = async () => {
-      const f = i.files[0]; if (!f) return;
-      toast('جارٍ الحفظ في جهازك…');
-      try { await putFile('fquran', f); } catch (e) { toast('تعذّر الحفظ — المساحة لا تكفي؟'); return; }
-      const it = (findItem(QURAN_ID) || {}).it; if (it) { it.file = 'fquran'; it.size = f.size; saveTree(); }
-      if (plan.wird && !plan.wird.item) { plan.wird.item = QURAN_ID; savePlan(); }
-      toast('حُفظ المصحف'); render();
-    };
-    i.click();
-  }
-});
-
-try{quranEnsure();}catch(e){}
 applyTheme();
 try{buildNav();}catch(e){}
-try{sideNav();}catch(e){}
 try{startHints();}catch(e){}
 render();
-try{tabHint();}catch(e){}
-try{if(SPL&&SPL.map) splitMount();}catch(e){}
 
 </script>
 

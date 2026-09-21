@@ -1,0 +1,47 @@
+/* ---------- طبقة نصّ PDF: تحديدٌ صحيح من اليمين لليسار ---------- */
+.pdfbox .pg{position:relative}
+.textLayer{position:absolute;inset:0;overflow:clip;opacity:1;line-height:1;text-align:initial;direction:ltr;
+  transform-origin:0 0;z-index:2;forced-color-adjust:none}
+.textLayer :is(span,br){color:transparent;position:absolute;white-space:pre;cursor:text;transform-origin:0 0}
+.textLayer span{unicode-bidi:plaintext}
+.textLayer ::selection{background:color-mix(in srgb,var(--acc) 45%,transparent);color:transparent}
+.textLayer .endOfContent{position:absolute;inset:0;z-index:0;cursor:default;user-select:none}
+.pdfbox .hlayer{z-index:3}
+.hlayer.draw{z-index:4}
+.hrect.tx{mix-blend-mode:multiply;border:0}
+.hrect.mhflash,mark.hl.mhflash{animation:mhFlash 1.4s ease-in-out 2}
+@keyframes mhFlash{0%,100%{box-shadow:0 0 0 0 var(--acc)}50%{box-shadow:0 0 0 4px var(--acc),0 0 14px 3px var(--acc)}}
+
+/* شريط التحديد */
+.mhsel{position:fixed;z-index:130;display:flex;gap:4px;align-items:center;padding:5px;border-radius:14px;
+  background:var(--ink);box-shadow:0 10px 30px -10px rgba(0,0,0,.5);animation:shFade .12s ease-out}
+.mhsel button{display:inline-flex;flex-direction:column;align-items:center;gap:2px;background:none;border:0;color:var(--bg);
+  font:inherit;font-size:10px;font-weight:700;padding:5px 8px;border-radius:9px;cursor:pointer;min-width:34px}
+.mhsel button:active{background:rgba(255,255,255,.15)}
+.mhsel button svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8}
+.mhsel .sw{width:22px;height:22px;min-width:0;border-radius:50%;padding:0;border:2px solid rgba(255,255,255,.5)}
+.mhgoto{margin:2px 0 12px}
+.mhgoto .btn{width:100%;justify-content:center}
+.mhpgo{margin-top:6px;cursor:pointer}
+
+/* ---------- التقليب ---------- */
+.pdfbox.paged{display:flex;flex-direction:row-reverse;flex-wrap:nowrap;overflow-x:auto;overflow-y:hidden;gap:0;
+  scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;align-items:center;scrollbar-width:none}
+.pdfbox.paged::-webkit-scrollbar{display:none}
+.pdfbox.paged .pgslot{flex:0 0 100%;scroll-snap-align:center;display:grid;place-items:center;height:100%}
+.pdfbox.paged .pg{margin:0;box-shadow:0 6px 24px -10px rgba(0,0,0,.5)}
+.pdfbox.paged .pdfmsg{display:none}
+body.reading .pdfbox.paged{gap:0}
+
+/* ---------- لقطة الشاشة ---------- */
+.mhcrop{position:fixed;inset:0;z-index:180;background:rgba(10,14,12,.55);cursor:crosshair;touch-action:none}
+.mhcropbar{position:absolute;top:0;inset-inline:0;display:flex;align-items:center;gap:8px;padding:10px 14px;
+  padding-top:calc(10px + env(safe-area-inset-top));background:var(--card);border-bottom:1px solid var(--line)}
+.mhcropbar b{display:inline-flex;gap:6px;align-items:center;font-size:13.5px}
+.mhcropbar svg{width:17px;height:17px;stroke:var(--acc);fill:none;stroke-width:1.8}
+.mhcroprect{position:absolute;border:2px solid var(--acc);background:rgba(13,110,95,.14);border-radius:3px;
+  box-shadow:0 0 0 100vmax rgba(10,14,12,.5)}
+.mhcropok{position:absolute;inset-inline:0;display:flex;gap:8px;justify-content:center}
+
+/* ---------- طرق القراءة في «المزيد» ---------- */
+.tile[data-rdx] .ic svg,.tile[data-rdm] .ic svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.7}

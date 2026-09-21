@@ -1,0 +1,47 @@
+/* ---------- التنسيق مخفيّ حتى تطلبه ---------- */
+.rtools{display:none!important}
+.rtools.show{display:flex!important;animation:shFade .15s ease-out}
+.edbar{display:flex;gap:5px;align-items:center;justify-content:flex-end;margin:0 0 6px;flex-wrap:wrap}
+.edb{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 9px;border-radius:9px;border:1px solid var(--line);
+  background:var(--card);color:var(--muted);font:inherit;font-size:12px;font-weight:600;cursor:pointer;line-height:1}
+.edb svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.edb.on{background:var(--acc-soft);color:var(--acc);border-color:transparent}
+.edb:active{transform:scale(.95)}
+@media(max-width:420px){.edb span{display:none}.edb{width:32px;padding:0;justify-content:center}}
+
+/* ---------- خانة الفائدة: سطران ثابتان، والباقي يُمرَّر ---------- */
+#noteBox,#mkN,#pgNote,#rdpN,#hNote{
+  height:calc(2 * 1.95em + 24px)!important;min-height:calc(2 * 1.95em + 24px)!important;max-height:calc(2 * 1.95em + 24px)!important;
+  overflow-y:auto!important;resize:none!important;line-height:1.95!important;padding:11px 13px!important;
+  overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+
+/* ---------- نافذة فوق كل شيء ---------- */
+.mhmodal{position:fixed;inset:0;z-index:150;background:rgba(10,15,13,.5);display:flex;align-items:flex-end;justify-content:center;
+  animation:shFade .18s ease-out;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
+.mhmcard{background:var(--card);width:min(560px,100%);border-radius:24px 24px 0 0;padding:16px 16px calc(16px + var(--safeb));
+  max-height:90dvh;overflow:auto;box-shadow:0 -10px 40px -20px rgba(0,0,0,.4);animation:shUp .3s cubic-bezier(.2,.9,.25,1)}
+@media(min-width:820px){.mhmodal{align-items:center}.mhmcard{border-radius:22px}}
+.mhmodal.full{background:var(--bg);align-items:stretch}
+.mhmodal.full .mhmcard{width:100%;max-width:900px;margin:0 auto;height:100dvh;max-height:none;border-radius:0;display:flex;flex-direction:column;
+  padding-top:calc(12px + env(safe-area-inset-top));background:var(--bg);box-shadow:none;animation:none}
+.mhfhead{display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.mhfhead b{font-size:15px}
+.mhfbody{flex:1;min-height:0!important;max-height:none!important;height:auto!important;overflow:auto;font-size:18px;line-height:2.05;
+  padding:16px;border-radius:16px;border:1px solid var(--line);background:var(--card);font-family:var(--serif)}
+textarea.mhfbody{width:100%;resize:none;color:var(--ink)}
+
+/* ---------- المسجّل ---------- */
+.mhvhead{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.mhvhead b{display:inline-flex;gap:7px;align-items:center;font-size:15px}
+.mhvhead svg{width:18px;height:18px;stroke:var(--acc);fill:none;stroke-width:1.8}
+.mhvrec{display:flex;flex-direction:column;align-items:center;gap:8px;padding:10px 0 4px}
+.mhvbtn{width:74px;height:74px;border-radius:50%;display:grid;place-items:center;background:var(--acc);color:#fff;border:0;cursor:pointer;
+  box-shadow:0 10px 24px -10px var(--acc)}
+.mhvbtn svg{width:30px;height:30px;stroke:currentColor;fill:none;stroke-width:1.8}
+.mhvbtn.rec{background:#c0392b;animation:mhPulse 1.2s ease-in-out infinite}
+.mhvbtn.rec svg{fill:#fff}
+.mhvtime{font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.mhvwave{width:100%;max-width:300px;height:40px}
+.mhvlive{display:flex;align-items:center;gap:10px;margin:8px 0;font-size:13.5px;cursor:pointer}
+.mhvlive small{color:var(--muted);font-size:11px}
+.mhvtxt{background:var(--bg2);border-radius:12px;padding:10px 12px;font-family:var(--serif);font-size:16px;line-height:1.95;max-height:24vh;overflow:auto}
