@@ -31,7 +31,7 @@ function mhClipBar(it) {
       <button class="btn sm" data-clipplay="1">${MHI.play} استمع للمقطع</button>
       <button class="btn sm pri" data-clipdl="1">${MHI.crop} نزّل المقطع</button>
     </div>
-    ${it.type === 'youtube' ? `<p class="mhnote">فيديو يوتيوب لا يُنزَّل من الموقع مباشرة — «نزّل المقطع» يعطيك الرابط مع لحظة البداية، ويحفظ علامتيك.</p>` : ''}
+    ${it.type === 'youtube' ? `<p class="mhnote">«نزّل المقطع» يفتح منزِّل يوتيوب بالبداية والنهاية جاهزتين — صوتًا أو فيديو.</p>` : ''}
   </div>`;
 }
 function mhClipUpd(id) {
@@ -59,16 +59,9 @@ async function mhClipDownload(it) {
   const c = mhClip[it.id] || {};
   if (c.a == null || c.b == null || c.b <= c.a) { toast('علّم البداية والنهاية أوّلًا'); return; }
   if (it.type === 'youtube') {
-    const yid = ytId(it.url);
-    mhModal(`<div class="mhvhead"><b>${MHI.crop} مقطع من يوتيوب</b><span style="flex:1"></span><button class="lnk" data-mhx="1">إغلاق</button></div>
-      <p class="mkempty">من ${mmss(c.a)} إلى ${mmss(c.b)} (${mmss(c.b - c.a)}). يوتيوب يمنع التنزيل المباشر، فإليك الطرق المضمونة:</p>
-      <div class="sheetrow" style="flex-direction:column;align-items:stretch;gap:8px">
-        <a class="btn pri" href="https://www.youtube.com/watch?v=${yid}&t=${Math.floor(c.a)}s" target="_blank" rel="noopener">${ICON.ext} افتحه عند لحظة البداية</a>
-        <a class="btn" href="https://ytcropper.com/" target="_blank" rel="noopener">قصّ أونلاين (ytcropper)</a>
-        <button class="btn" data-ycopy="1">${MHI.copy} انسخ الرابط واللحظتين</button>
-      </div>`, ).addEventListener('click', e => {
-        if (e.target.closest('[data-ycopy]')) mhCopy(`https://youtu.be/${yid}?t=${Math.floor(c.a)}s\nمن ${mmss(c.a)} إلى ${mmss(c.b)}`, 'نُسخ');
-      });
+    const yid = ytId(it.url); if (!yid) { toast('رابط يوتيوب غير صالح'); return; }
+    const r = findItem(it.id);
+    ytOpen(yid, { itemId: it.id, sec: r ? (r.sub ? r.sec.id + ':' + r.sub.id : r.sec.id) : null, clip: c });
     return;
   }
   let blob = null;

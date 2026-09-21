@@ -17,6 +17,7 @@ AddType font/woff2 .woff2
 <IfModule mod_rewrite.c>
   RewriteEngine On
   RewriteRule ^api/tg/?$ api/tg.php [L,QSA]
+  RewriteRule ^api/yt/?$ api/yt.php [L,QSA]
 </IfModule>
 
 # صفحة غير موجودة -> الصفحة الرئيسية (الموقع صفحة واحدة يوجّه نفسه بالرابط بعد #)
