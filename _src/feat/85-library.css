@@ -62,3 +62,35 @@
 .vfile figcaption{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .vfile figcaption .lnk{margin-inline-start:auto;color:#c0392b}
 .vsec .lnk svg,.vrow .lnk svg,.vpw .lnk svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;vertical-align:-3px}
+
+/* ---------- الاستماع في صفحة المصحف ---------- */
+.qlisten{display:flex;align-items:center;gap:10px;margin:0 16px 14px;padding:10px 12px;border-radius:16px;
+  background:var(--acc-soft);border:1px solid color-mix(in srgb,var(--acc) 22%,transparent)}
+.qlplay{width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--acc);color:#fff;border:0;cursor:pointer;
+  box-shadow:0 6px 16px -8px var(--acc)}
+.qlplay svg{width:19px;height:19px;fill:currentColor;stroke:none}
+.qlmid{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.qlrec{display:inline-flex;align-items:center;gap:6px;background:none;border:0;padding:0;font:inherit;font-size:13px;font-weight:700;
+  color:var(--acc);cursor:pointer;text-align:start;min-width:0}
+.qlrec span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qlrec svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;flex:none}
+.qlsura{width:100%;padding:7px 10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14px}
+.qlmore{width:36px;height:36px;border-radius:10px;flex:none;background:var(--card);border:1px solid var(--line);font-size:16px;cursor:pointer;color:var(--muted)}
+.qprlist{display:flex;flex-direction:column;gap:5px;max-height:52vh;overflow:auto}
+.qpr{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;background:var(--bg2);border:1px solid transparent;
+  font:inherit;font-size:14px;color:var(--ink);cursor:pointer;text-align:start}
+.qpr.on{border-color:var(--acc);background:var(--acc-soft);font-weight:700}
+.qpr svg{width:17px;height:17px;stroke:var(--acc);fill:none;stroke-width:1.8;flex:none}
+
+/* ---------- التثبيت ---------- */
+.pinbtn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+.pinbtn.on{color:var(--acc);background:var(--acc-soft);border-color:transparent}
+.pinbtn.on svg{fill:currentColor}
+.tile.pinned{border-color:color-mix(in srgb,var(--acc) 45%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--acc) 25%,transparent)}
+.pinwrap{margin-bottom:10px}
+.pinwrap .sechead h2 svg{width:16px;height:16px;stroke:var(--acc);fill:var(--acc);vertical-align:-2px}
+.pinrow2{display:flex;align-items:center;gap:8px;padding:8px 4px;border-top:1px solid var(--line)}
+.pinrow2 b{flex:1;min-width:0;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pinrow2 .mhico[disabled]{opacity:.3;pointer-events:none}
+.pinh{margin:14px 0 4px;font-size:13px;color:var(--muted)}
+.mhvhead b svg{width:17px;height:17px;stroke:var(--acc);fill:var(--acc)}

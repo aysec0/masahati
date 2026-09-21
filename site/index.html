@@ -1766,6 +1766,26 @@ body.reading .pdfbox.paged{gap:0}
 .mhhlpop>button svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.8;flex:none;color:var(--acc)}
 .hmark{display:none!important}
 
+/* ==== feat: 50-clip.css ==== */
+/* ---------- شريط القصّ ---------- */
+.mhclip{margin:14px 0 0;padding:13px 14px;border-radius:18px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow)}
+.mhclip-h{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.mhclip-h svg{width:18px;height:18px;flex:none;stroke:var(--acc);fill:none;stroke-width:1.8}
+.mhclip-h b{font-size:14px}
+.mhclip-h .mhnote{flex:1 1 100%;margin:0}
+.mhclip-row{display:grid;grid-template-columns:auto 1fr auto 1fr auto;gap:6px;align-items:center}
+.mhclip-row>span{color:var(--muted);text-align:center}
+.mhclip-in{width:100%;min-width:0;padding:9px 8px;border-radius:11px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);
+  font:inherit;font-size:15px;font-weight:700;text-align:center;font-variant-numeric:tabular-nums}
+.mhclip-in:focus{border-color:var(--acc);outline:none;background:var(--card)}
+.mhico.clipset{width:auto;height:auto;padding:5px 9px;display:flex;flex-direction:column;align-items:center;line-height:1.25;
+  background:var(--acc-soft);color:var(--acc);border-color:transparent}
+.mhico.clipset b{font-size:12px}.mhico.clipset small{font-size:10px;opacity:.8}
+.mhclip-row2{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:10px}
+.mhclip-len{font-size:12.5px;font-weight:700;color:var(--muted)}
+.mhclip-row2 .btn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+.mhclip-row2 .btn.pri svg{stroke:#fff}
+
 /* ==== feat: 60-wall.css ==== */
 /* ---------- زرّ فتح الجدار في الرئيسية ---------- */
 .wallopenhome{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;margin:0 0 16px;
@@ -1894,6 +1914,60 @@ body.reading .pdfbox.paged{gap:0}
 .vfile figcaption{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .vfile figcaption .lnk{margin-inline-start:auto;color:#c0392b}
 .vsec .lnk svg,.vrow .lnk svg,.vpw .lnk svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;vertical-align:-3px}
+
+/* ---------- الاستماع في صفحة المصحف ---------- */
+.qlisten{display:flex;align-items:center;gap:10px;margin:0 16px 14px;padding:10px 12px;border-radius:16px;
+  background:var(--acc-soft);border:1px solid color-mix(in srgb,var(--acc) 22%,transparent)}
+.qlplay{width:46px;height:46px;border-radius:50%;flex:none;display:grid;place-items:center;background:var(--acc);color:#fff;border:0;cursor:pointer;
+  box-shadow:0 6px 16px -8px var(--acc)}
+.qlplay svg{width:19px;height:19px;fill:currentColor;stroke:none}
+.qlmid{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px}
+.qlrec{display:inline-flex;align-items:center;gap:6px;background:none;border:0;padding:0;font:inherit;font-size:13px;font-weight:700;
+  color:var(--acc);cursor:pointer;text-align:start;min-width:0}
+.qlrec span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.qlrec svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8;flex:none}
+.qlsura{width:100%;padding:7px 10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--ink);font:inherit;font-size:14px}
+.qlmore{width:36px;height:36px;border-radius:10px;flex:none;background:var(--card);border:1px solid var(--line);font-size:16px;cursor:pointer;color:var(--muted)}
+.qprlist{display:flex;flex-direction:column;gap:5px;max-height:52vh;overflow:auto}
+.qpr{display:flex;align-items:center;gap:10px;padding:11px 12px;border-radius:12px;background:var(--bg2);border:1px solid transparent;
+  font:inherit;font-size:14px;color:var(--ink);cursor:pointer;text-align:start}
+.qpr.on{border-color:var(--acc);background:var(--acc-soft);font-weight:700}
+.qpr svg{width:17px;height:17px;stroke:var(--acc);fill:none;stroke-width:1.8;flex:none}
+
+/* ---------- التثبيت ---------- */
+.pinbtn svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+.pinbtn.on{color:var(--acc);background:var(--acc-soft);border-color:transparent}
+.pinbtn.on svg{fill:currentColor}
+.tile.pinned{border-color:color-mix(in srgb,var(--acc) 45%,var(--line));box-shadow:0 0 0 1px color-mix(in srgb,var(--acc) 25%,transparent)}
+.pinwrap{margin-bottom:10px}
+.pinwrap .sechead h2 svg{width:16px;height:16px;stroke:var(--acc);fill:var(--acc);vertical-align:-2px}
+.pinrow2{display:flex;align-items:center;gap:8px;padding:8px 4px;border-top:1px solid var(--line)}
+.pinrow2 b{flex:1;min-width:0;font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pinrow2 .mhico[disabled]{opacity:.3;pointer-events:none}
+.pinh{margin:14px 0 4px;font-size:13px;color:var(--muted)}
+.mhvhead b svg{width:17px;height:17px;stroke:var(--acc);fill:var(--acc)}
+
+/* ==== feat: 88-player.css ==== */
+/* ---------- أوضاع التشغيل ---------- */
+.pbtn.pmode{position:relative}
+.pbtn.pmode.on{color:var(--acc);background:var(--acc-soft)}
+.pmz{position:absolute;top:3px;inset-inline-end:3px;width:7px;height:7px;border-radius:50%;background:var(--gold,#c9a227)}
+.pmpop{position:absolute;bottom:calc(100% + 6px);inset-inline-end:12px;width:min(290px,calc(100vw - 24px));z-index:5;
+  background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 18px 40px -12px rgba(0,0,0,.35);padding:8px;
+  display:flex;flex-direction:column;gap:2px;animation:pmIn .16s ease-out}
+@keyframes pmIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pmh{display:flex;align-items:center;gap:6px;font-size:11.5px;font-weight:700;color:var(--muted);padding:6px 8px 3px}
+.pmh svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
+.pmi{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:11px;background:none;border:0;font:inherit;font-size:13.5px;
+  color:var(--ink);cursor:pointer;text-align:start}
+.pmi svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;flex:none;color:var(--muted)}
+.pmi.on{background:var(--acc-soft);color:var(--acc);font-weight:700}
+.pmi.on svg{color:var(--acc)}
+.pmsl{display:flex;flex-wrap:wrap;gap:5px;padding:3px 6px 4px}
+.pmsl button{padding:6px 10px;border-radius:9px;border:1px solid var(--line);background:var(--bg2);font:inherit;font-size:12px;color:var(--ink);cursor:pointer}
+.pmsl button.on{border-color:var(--acc);color:var(--acc);background:var(--acc-soft);font-weight:700}
+.pmsl button.off{color:#c0392b}
+@media (max-width:420px){ .prow{gap:5px} }
 
 </style>
 
@@ -2980,7 +3054,7 @@ function vSettings(){
       </div>
       <div id="diagOut" style="font-size:12.5px;color:var(--muted);line-height:1.9;margin-top:10px"></div></div>
   </div>
-  <p class="hintp" style="text-align:center;margin:18px 0 0">مساحتي — الإصدار 3.1.0</p>`;
+  <p class="hintp" style="text-align:center;margin:18px 0 0">مساحتي — الإصدار 3.2.0</p>`;
 }
 
 /* ================= item view ================= */
@@ -7423,7 +7497,7 @@ async function txRun(it, model, resume) {
     /* إن مضت دقيقتان بلا أيّ تقدّم فالشبكة تحجب التنزيل — نقولها صراحةً */
     const stall = setInterval(() => {
       if (!TXJOB) { clearInterval(stall); return; }
-      if (Date.now() - dlT > 120000 && TXJOB.i === 0) {
+      if (Date.now() - dlT > 240000 && TXJOB.i === 0 && document.visibilityState === 'visible') {
         clearInterval(stall);
         txFail(new Error('لم يتقدّم تنزيل النموذج — شبكتك تحجب huggingface.co على الأرجح'));
       }
@@ -11213,7 +11287,7 @@ document.addEventListener('click', async ev => {
 });
 
 /* ================= التطبيق: تثبيت وتحديث وعمل بلا إنترنت ================= */
-const APP_VER='3.1.0';
+const APP_VER='3.2.0';
 let pwaPrompt=null;
 const isStandalone=()=>{ try{ return matchMedia('(display-mode: standalone)').matches || navigator.standalone===true; }catch(e){ return false; } };
 const isIOS=()=>/iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform==='MacIntel' && navigator.maxTouchPoints>1);
@@ -11897,6 +11971,48 @@ function mhDictate(onFinal, onInterim, onState) {
   start();
   return { stop() { on = false; try { r && r.stop(); } catch (e) {} } };
 }
+
+/* ================================================================
+   الشاشة تبقى مضاءة أثناء التفريغ — في الهاتف إذا انطفأت الشاشة
+   جمّد المتصفّح الصفحة فتوقّف التفريغ وكأنّه لا يعمل.
+   ================================================================ */
+let mhWake = null, mhWakeT = null;
+async function mhWakeOn() {
+  try { if ('wakeLock' in navigator && !mhWake) { mhWake = await navigator.wakeLock.request('screen'); mhWake.addEventListener('release', () => { mhWake = null; }); } } catch (e) {}
+  clearInterval(mhWakeT);
+  mhWakeT = setInterval(() => { if (!TXJOB || TXJOB.state === 'done' || TXJOB.state === 'err') mhWakeOff(); }, 3000);
+}
+function mhWakeOff() { clearInterval(mhWakeT); try { if (mhWake) mhWake.release(); } catch (e) {} mhWake = null; }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && TXJOB && TXJOB.state === 'run') mhWakeOn(); });
+const _mhTxRun = txRun;
+txRun = function () { mhWakeOn(); return _mhTxRun.apply(this, arguments); };
+const _mhCloudRun = mhCloudRun;
+mhCloudRun = function () { mhWakeOn(); return _mhCloudRun.apply(this, arguments); };
+/* تنبيهٌ صريح في نافذة التقدّم */
+const _mhTxProgress = txProgress;
+txProgress = function (msg) {
+  const card = _mhTxProgress.apply(this, arguments);
+  try {
+    const n = document.createElement('p'); n.className = 'mhwarn'; n.style.marginTop = '10px';
+    n.innerHTML = ('wakeLock' in navigator ? 'أبقيتُ الشاشة مضاءة حتى ينتهي. ' : 'لا تُطفئ الشاشة حتى ينتهي. ') +
+      'إن خرجتَ من الموقع يتوقّف التفريغ، وما فُرّغ محفوظ — ارجع واضغط «تفريغ» فيُكمل من حيث وقف.';
+    card.appendChild(n);
+  } catch (e) {}
+  return card;
+};
+/* هاتفٌ محدود الذاكرة: نقترح النموذج الأخفّ */
+const _mhTxPick2 = txPick;
+txPick = function (it, resume) {
+  _mhTxPick2.apply(this, arguments);
+  try {
+    const mem = navigator.deviceMemory, card = document.querySelector('.sheet .sheetcard');
+    if (card && mem && mem <= 4) {
+      const n = document.createElement('p'); n.className = 'mhwarn'; n.style.margin = '0 0 10px';
+      n.textContent = 'ذاكرة جهازك ' + AR(mem) + ' جيجا — «سريع» أنسب له داخل الجهاز، أو استعمل المحرّك السريع (Groq).';
+      const rows = card.querySelector('.rows'); if (rows) rows.before(n);
+    }
+  } catch (e) {}
+};
 
 /* ==== feat: 30-editor.js ==== */
 /* ================================================================
@@ -13101,11 +13217,11 @@ function mhClipBar(it) {
     <div class="mhclip-h">${MHI.crop}<b>قصّ مقطعًا</b>
       <span class="mhnote" style="margin:0">علّم البداية والنهاية أثناء التشغيل، ثمّ نزّل الجزء بينهما.</span></div>
     <div class="mhclip-row">
-      <button class="mhico" data-clipset="a" title="البداية = اللحظة الحالية">${MHI.mic ? '⟝' : 'A'}</button>
+      <button class="mhico clipset" data-clipset="a" title="البداية = اللحظة الحالية"><b>بداية</b><small>الآن</small></button>
       <input type="text" class="mhclip-in" data-clipin="a" dir="ltr" value="${c.a != null ? mmss(c.a) : ''}" placeholder="٠:٠٠">
       <span>←</span>
       <input type="text" class="mhclip-in" data-clipin="b" dir="ltr" value="${c.b != null ? mmss(c.b) : ''}" placeholder="النهاية">
-      <button class="mhico" data-clipset="b" title="النهاية = اللحظة الحالية">⟞</button>
+      <button class="mhico clipset" data-clipset="b" title="النهاية = اللحظة الحالية"><b>نهاية</b><small>الآن</small></button>
     </div>
     <div class="mhclip-row2">
       <span class="mhclip-len" id="clipLen">${c.a != null && c.b != null && c.b > c.a ? 'المدّة: ' + mmss(c.b - c.a) : ''}</span>
@@ -13160,31 +13276,73 @@ async function mhClipDownload(it) {
   if (it.type === 'video' || /^video\//.test(blob.type)) return mhClipVideo(it, blob, c);
   return mhClipAudio(it, blob, c);
 }
-/* ---------- قصّ الصوت: دقّةُ العيّنة، وخرج WAV مضمون التشغيل ---------- */
+/* ---------- قصّ الصوت ----------
+   MP3: نقطع الملفّ الأصليّ نفسه على حدود إطاراته — بلا فكّ ترميز ولا ذاكرة إضافية،
+        ودقّته إطارٌ واحد (نحو ٢٦ جزءًا من الألف من الثانية)، وجودته هي جودة الأصل.
+   غيره: ملفٌّ صغير يُفكّ ويُقصّ بدقّة العيّنة (WAV)، وكبير يُسجَّل المقطع وحده من التشغيل. */
+async function mhMp3Cut(blob, a, b) {
+  const buf = new Uint8Array(await blob.arrayBuffer());
+  let i = mhSync(buf, mhId3Size(buf.subarray(0, 10)));
+  if (i < 0) return null;
+  let t = 0, s0 = -1, s1 = buf.length, ta = 0, tb = 0;
+  while (i < buf.length - 4) {
+    const L = mhFrameLen(buf, i);
+    if (!L) { const j = mhSync(buf, i + 1); if (j < 0) break; i = j; continue; }
+    const ver = (buf[i + 1] >> 3) & 3, sr = MH_SR[ver][(buf[i + 2] >> 2) & 3], dt = (ver === 3 ? 1152 : 576) / sr;
+    if (s0 < 0 && t + dt > a) { s0 = i; ta = t; }
+    if (t >= b) { s1 = i; tb = t; break; }
+    t += dt; i += L; tb = t;
+  }
+  if (s0 < 0 || s1 <= s0) return null;
+  return { blob: new Blob([buf.subarray(s0, s1)], { type: 'audio/mpeg' }), from: ta, to: tb };
+}
+/* تسجيل المقطع وحده أثناء تشغيله صامتًا — لأيّ صيغة، وبذاكرةٍ قليلة */
+async function mhRecordRange(blob, a, b, say) {
+  const AC = window.AudioContext || window.webkitAudioContext, ctx = new AC();
+  const el = new Audio(); el.src = URL.createObjectURL(blob); el.preload = 'auto';
+  await new Promise((res, rej) => { el.onloadedmetadata = res; el.onerror = () => rej(new Error('تعذّر فتح الصوت')); });
+  const src = ctx.createMediaElementSource(el), dst = ctx.createMediaStreamDestination();
+  src.connect(dst);
+  const mt = ['audio/webm;codecs=opus', 'audio/mp4', 'audio/webm', 'audio/ogg'].find(x => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(x)) || '';
+  const rec = new MediaRecorder(dst.stream, mt ? { mimeType: mt } : undefined), chunks = [];
+  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
+  el.currentTime = a; await new Promise(r => { el.onseeked = r; });
+  await ctx.resume(); rec.start(250); await el.play();
+  await new Promise(res => { const iv = setInterval(() => {
+    say(5 + Math.min(1, (el.currentTime - a) / (b - a)) * 93, 'أسجّل المقطع… ' + mmss(el.currentTime - a) + ' من ' + mmss(b - a));
+    if (el.currentTime >= b || el.ended) { clearInterval(iv); res(); } }, 50); });
+  el.pause(); rec.stop();
+  const out = await new Promise(r => { rec.onstop = () => r(new Blob(chunks, { type: rec.mimeType || mt || 'audio/webm' })); });
+  try { ctx.close(); } catch (e) {}
+  return out;
+}
 async function mhClipAudio(it, blob, c) {
   const st = mhModal(`<div class="mhvhead"><b>${MHI.crop} أقصّ المقطع…</b></div>
-    <div class="bar"><i id="clipBar" style="width:8%"></i></div><p class="mhnote" id="clipMsg">أفكّ ترميز الصوت…</p>`);
-  const say = (p, m) => { const b = st.querySelector('#clipBar'); if (b) b.style.width = p + '%'; const t = st.querySelector('#clipMsg'); if (m && t) t.textContent = m; };
+    <div class="bar"><i id="clipBar" style="width:8%"></i></div><p class="mhnote" id="clipMsg">أجهّز…</p>`);
+  const say = (p, m) => { const bb = st.querySelector('#clipBar'); if (bb) bb.style.width = p + '%'; const t = st.querySelector('#clipMsg'); if (m && t) t.textContent = m; };
+  const base = (it.name || 'مقطع') + ' [' + mmss(c.a).replace(/:/g, '.') + '-' + mmss(c.b).replace(/:/g, '.') + ']';
   try {
-    const ab = await blob.arrayBuffer();
-    const AC = window.AudioContext || window.webkitAudioContext;
-    const tmp = new AC(); const buf = await tmp.decodeAudioData(ab.slice(0)); tmp.close();
-    const sr = buf.sampleRate, ch = buf.numberOfChannels;
-    const from = Math.round(c.a * sr), to = Math.min(buf.length, Math.round(c.b * sr)), len = to - from;
-    if (len <= 0) { st.close(); toast('المدّة غير صحيحة'); return; }
-    say(45, 'أستخرج الجزء بدقّة العيّنة…');
-    const out = new AudioBuffer ? new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(ch, len, sr) : null;
-    const clip = out.createBuffer ? out.createBuffer(ch, len, sr) : null;
-    /* ننسخ العيّنات مباشرة: لا إعادة ترميز، فلا فقدان ولا انزياح */
-    const data = [];
-    for (let c2 = 0; c2 < ch; c2++) data.push(buf.getChannelData(c2).subarray(from, to));
-    say(70, 'أكتب ملفّ WAV…');
-    const wav = mhWavMulti(data, sr);
-    say(100, 'تمّ');
-    const name = (it.name || 'مقطع') + ' [' + mmss(c.a).replace(/:/g, '.') + '-' + mmss(c.b).replace(/:/g, '.') + '].wav';
-    st.close();
-    saveBlob(wav, name, false);
-    mhClipSaveLib(it, wav, name, 'audio', c);
+    const head = await mhHead(blob, 12);
+    let out = null, name = '';
+    if (mhIsMp3(blob, head)) {
+      say(30, 'أقطع الملفّ على حدود إطاراته…');
+      const r = await mhMp3Cut(blob, c.a, c.b);
+      if (r) { out = r.blob; name = base + '.mp3'; }
+    }
+    if (!out && blob.size < 15 * 1024 * 1024) {
+      say(30, 'أفكّ ترميز الصوت…');
+      const AC = window.AudioContext || window.webkitAudioContext;
+      const tmp = new AC(); const buf = await tmp.decodeAudioData((await blob.arrayBuffer()).slice(0)); tmp.close();
+      const sr = buf.sampleRate, ch = buf.numberOfChannels;
+      const from = Math.round(c.a * sr), to = Math.min(buf.length, Math.round(c.b * sr));
+      if (to <= from) throw new Error('المدّة خارج الملفّ');
+      const data = []; for (let k = 0; k < ch; k++) data.push(buf.getChannelData(k).subarray(from, to));
+      say(80, 'أكتب الملفّ…'); out = mhWavMulti(data, sr); name = base + '.wav';
+    }
+    if (!out) { out = await mhRecordRange(blob, c.a, c.b, say); name = base + (/mp4/.test(out.type) ? '.m4a' : '.webm'); }
+    say(100, 'تمّ'); st.close();
+    saveBlob(out, name, false);
+    mhClipSaveLib(it, out, name, 'audio', c);
   } catch (e) { st.close(); toast('تعذّر قصّ الصوت: ' + (e.message || e)); }
 }
 function mhWavMulti(chans, sr) {
@@ -13794,8 +13952,6 @@ async function mhQariGet(rid, n, silent) {
     if (!blob || blob.size < 2000) throw new Error('فارغ');
     const key = 'qf_' + rid + '_' + n; await putFile(key, blob);
     mhQari[rid] = mhQari[rid] || {}; mhQari[rid][n] = key; saveQari();
-    /* اربطها بالمكتبة الصوتية للقارئ */
-    mhQariLib(rec, n, key, blob.size);
     if (!silent && location.hash === '#/qari/' + rid) render();
     return true;
   } catch (e) { if (row) row.classList.remove('getting'); if (!silent) toast('تعذّر تنزيل السورة — تحقّق من الاتصال'); return false; }
@@ -13814,7 +13970,6 @@ document.addEventListener('click', async ev => {
   const d = ev.target.closest('[data-qdel]');
   if (d) { const [rid, n] = d.dataset.qdel.split(':'); const key = (mhQari[rid] || {})[n];
     if (key) dropFile(key); delete mhQari[rid][n]; saveQari();
-    const sec = tree.find(s => s.id === 'secQari_' + rid); if (sec) { sec.items = sec.items.filter(x => x.surah !== +n); saveTree(); }
     render(); return; }
   const p = ev.target.closest('[data-qplay]');
   if (p) { const [rid, n] = p.dataset.qplay.split(':'); const key = (mhQari[rid] || {})[+n];
@@ -13857,6 +14012,156 @@ async function mhQariAll(rid) {
 mhAfter(h => {
   if (!h.startsWith('#/s/secQuran') && h !== '#/lib') return;
   const host = document.querySelector('.seclinks') || document.querySelector('main .sechead');
+});
+
+/* ما نُزّل من القرّاء يبقى في قسم القرّاء وحده — ونزيل ما أُنشئ سابقًا في المكتبة (الملفّات تبقى) */
+(function () {
+  const n0 = tree.length;
+  tree = tree.filter(s => !String(s.id).startsWith('secQari_'));
+  if (tree.length !== n0) saveTree();
+})();
+
+/* ================================================================
+   الاستماع في صفحة المصحف: اختر القارئ والسورة واضغط — بلا تنزيل
+   ================================================================ */
+const SURA_START = [1,2,50,77,106,128,151,177,187,208,221,235,249,255,262,267,282,293,305,312,322,332,342,350,359,367,377,385,396,404,411,415,418,428,434,440,446,453,458,467,477,483,489,496,499,502,507,511,515,518,520,523,526,528,531,534,537,542,545,549,551,553,554,556,558,560,562,564,566,568,570,572,574,575,577,578,580,582,583,585,586,587,587,589,590,591,591,592,593,594,595,595,596,596,597,597,598,598,599,599,600,600,601,601,601,602,602,602,603,603,603,604,604,604];
+function mhSurahAtPage(p) {
+  const q = (p || 1) - (+S.get('qOff', 0) || 0);
+  let n = 1; for (let i = 0; i < 114; i++) if (SURA_START[i] <= q) n = i + 1; else break;
+  return n;
+}
+function mhQSel() { return S.get('qariSel', null) || QARIS[0]; }
+let MHQ = null;                      /* ما يُسمع الآن {rec, n} */
+async function mhQPlay(rec, n) {
+  n = Math.max(1, Math.min(114, n));
+  const have = (mhQari[rec.id] || {})[n];
+  let src = mhQariUrl(rec, n);
+  if (have) { const b = await getFile(have); if (b) src = URL.createObjectURL(b); }
+  try { if (typeof current !== 'undefined') current = null; } catch (e) {}
+  MHQ = { rec, n };
+  au.src = src; au.playbackRate = S.get('rate', 1);
+  P.el.classList.add('up');
+  P.title.innerHTML = `<b>سورة ${esc(SURAS[n - 1])}</b><small>${esc(rec.n)}</small>`;
+  P.title.href = '#/i/' + QURAN_ID;
+  try { if ('mediaSession' in navigator) navigator.mediaSession.metadata = new MediaMetadata({ title: 'سورة ' + SURAS[n - 1], artist: rec.n, album: 'المصحف' }); } catch (e) {}
+  au.play().catch(() => toast('اضغط ▶ في المشغّل'));
+  mhQBarSync();
+}
+/* بعد انتهاء السورة: التي تليها (إن شئت) */
+au.addEventListener('ended', () => {
+  if (!MHQ || !au.src) return;
+  if (S.get('qCont', true) && MHQ.n < 114) mhQPlay(MHQ.rec, MHQ.n + 1); else { MHQ = null; mhQBarSync(); }
+});
+au.addEventListener('play', mhQBarSync); au.addEventListener('pause', mhQBarSync);
+function mhQBarHTML() {
+  const rec = mhQSel();
+  const box = document.getElementById('pdfbox');
+  const cur = MHQ ? MHQ.n : mhSurahAtPage(box && box.__pdf ? pageAtTop(box) : wirdAt());
+  const playing = MHQ && !au.paused;
+  return `<div class="qlisten" id="qListen">
+    <button class="qlplay ${playing ? 'on' : ''}" data-ql="play" aria-label="استمع">${playing ? MHI.stop : MHI.play}</button>
+    <div class="qlmid">
+      <button class="qlrec" data-ql="rec">${MHI.headph}<span>${esc(rec.n)}</span>▾</button>
+      <select class="qlsura" data-ql="sura">${SURAS.map((s, i) => `<option value="${i + 1}" ${i + 1 === cur ? 'selected' : ''}>${AR(i + 1)} · ${s}</option>`).join('')}</select>
+    </div>
+    <button class="qlmore" data-ql="set" title="إعدادات">⚙</button>
+  </div>`;
+}
+function mhQBarSync() {
+  const b = document.getElementById('qListen'); if (!b) return;
+  const playing = MHQ && !au.paused;
+  const pl = b.querySelector('.qlplay'); pl.classList.toggle('on', !!playing); pl.innerHTML = playing ? MHI.stop : MHI.play;
+  if (MHQ) { const s = b.querySelector('.qlsura'); if (s) s.value = MHQ.n; }
+}
+mhAfter(h => {
+  if (h !== '#/i/' + QURAN_ID) return;
+  if (document.getElementById('qListen')) return;
+  const acts = document.querySelector('.panel .acts'); if (!acts) return;
+  const d = document.createElement('div'); d.innerHTML = mhQBarHTML();
+  acts.after(d.firstElementChild);
+});
+document.addEventListener('change', ev => {
+  const s = ev.target.closest('[data-ql="sura"]'); if (!s) return;
+  mhQPlay(mhQSel(), +s.value);
+});
+document.addEventListener('click', ev => {
+  const b = ev.target.closest('#qListen [data-ql]'); if (!b) return;
+  const k = b.dataset.ql;
+  if (k === 'play') {
+    if (MHQ && au.src) { if (au.paused) au.play(); else au.pause(); return; }
+    mhQPlay(mhQSel(), +document.querySelector('#qListen .qlsura').value); return;
+  }
+  if (k === 'rec') { mhQPickReciter(); return; }
+  if (k === 'set') { mhQSettings(); return; }
+});
+/* اختيار القارئ: المشهورون أوّلًا، والبحث في كل القرّاء (أكثر من ٢٠٠) */
+let mhAllQari = null;
+async function mhQLoadAll() {
+  if (mhAllQari) return mhAllQari;
+  const r = await fetch('https://www.mp3quran.net/api/v3/reciters?language=ar');
+  const j = await r.json(); const out = [];
+  j.reciters.forEach(x => (x.moshaf || []).forEach(m => { if (m.surah_total >= 100)
+    out.push({ id: x.id + '_' + m.id, n: x.name + (x.moshaf.length > 1 ? ' — ' + m.name.split(' - ')[0] : ''), s: m.server, list: m.surah_list }); }));
+  mhAllQari = out; return out;
+}
+function mhQPickReciter() {
+  const sel = mhQSel();
+  const row = r => `<button class="qpr ${r.id === sel.id ? 'on' : ''}" data-qpr='${esc(JSON.stringify({ id: r.id, n: r.n, s: r.s }))}' data-q="${esc(norm(r.n))}">${MHI.headph}<span>${esc(r.n)}</span></button>`;
+  mhModal(`<div class="mhvhead"><b>${MHI.headph} اختر القارئ</b><span style="flex:1"></span><button class="lnk" data-mhx="1">إغلاق</button></div>
+    <div class="sbox"><input type="text" id="qpQ" placeholder="ابحث باسم القارئ…">${ICON.search}</div>
+    <div class="qprlist" id="qpList">${QARIS.map(row).join('')}</div>
+    <button class="btn" id="qpAll" style="width:100%;justify-content:center;margin-top:8px">كل القرّاء (أكثر من ٢٠٠)</button>
+    <p class="mhnote" id="qpSt"></p>`, m => {
+    const list = m.querySelector('#qpList');
+    const filter = () => { const v = norm(m.querySelector('#qpQ').value.trim());
+      list.querySelectorAll('.qpr').forEach(b => b.style.display = !v || b.dataset.q.includes(v) ? '' : 'none'); };
+    m.querySelector('#qpQ').oninput = filter;
+    m.querySelector('#qpAll').onclick = async () => {
+      const st = m.querySelector('#qpSt'); st.textContent = 'أجلب القائمة…';
+      try { const all = await mhQLoadAll(); list.innerHTML = all.map(row).join(''); st.textContent = AR(all.length) + ' مصحفًا'; m.querySelector('#qpAll').remove(); filter(); }
+      catch (e) { st.textContent = 'تعذّر جلب القائمة — تحقّق من الاتصال'; }
+    };
+    list.addEventListener('click', ev => {
+      const b = ev.target.closest('[data-qpr]'); if (!b) return;
+      const r = JSON.parse(b.dataset.qpr); S.set('qariSel', r); m.close();
+      const bar = document.getElementById('qListen');
+      if (bar) { const d = document.createElement('div'); d.innerHTML = mhQBarHTML(); bar.replaceWith(d.firstElementChild); }
+      if (MHQ) mhQPlay(r, MHQ.n); else toast('القارئ: ' + r.n);
+    });
+  });
+}
+function mhQSettings() {
+  mhModal(`<div class="mhvhead"><b>⚙ الاستماع</b><span style="flex:1"></span><button class="lnk" data-mhx="1">إغلاق</button></div>
+    <div class="urow"><span class="ulbl">إذا انتهت السورة فشغّل التي تليها</span><button class="usw ${S.get('qCont', true) ? 'on' : ''}" id="qsCont"></button></div>
+    <div class="field" style="margin-top:10px"><label>رقم صفحة الفاتحة في ملفّ مصحفك</label>
+      <input type="number" id="qsOff" min="1" max="40" value="${(+S.get('qOff', 0) || 0) + 1}">
+      <p class="mhnote">لتُختار سورة الصفحة التي تقرؤها تلقائيًّا. إن كان ملفّك يبدأ بغلافٍ أو مقدّمة فاكتب رقم الصفحة التي فيها الفاتحة.</p></div>
+    <div class="sheetrow"><button class="btn pri" id="qsSave">${ICON.chk} احفظ</button>
+      <a class="btn" href="#/qari">${ICON.dl} نزّل سورًا للاستماع بلا إنترنت</a></div>`, m => {
+    m.querySelector('#qsCont').onclick = e => e.target.classList.toggle('on');
+    m.querySelector('#qsSave').onclick = () => {
+      S.set('qCont', m.querySelector('#qsCont').classList.contains('on'));
+      S.set('qOff', Math.max(0, (+m.querySelector('#qsOff').value || 1) - 1));
+      m.close(); const bar = document.getElementById('qListen');
+      if (bar) { const d = document.createElement('div'); d.innerHTML = mhQBarHTML(); bar.replaceWith(d.firstElementChild); }
+    };
+  });
+}
+/* في وضع القراءة بملء الشاشة: زرّ الاستماع في الأعلى */
+const _mhRdBarsQ = rdBars;
+rdBars = function () {
+  _mhRdBarsQ.apply(this, arguments);
+  const box = RD.box; if (!box || box.dataset.item !== QURAN_ID) return;
+  const top = document.getElementById('rdTop'); if (!top || top.querySelector('[data-rdq]')) return;
+  const b = document.createElement('button'); b.className = 'rb'; b.dataset.rdq = '1'; b.title = 'استمع'; b.innerHTML = MHI.headph;
+  const more = top.querySelector('[data-rd="more"]'); if (more) more.before(b); else top.appendChild(b);
+};
+document.addEventListener('click', ev => {
+  if (!ev.target.closest('[data-rdq]')) return;
+  const box = document.getElementById('pdfbox');
+  if (MHQ && au.src && !au.paused) { au.pause(); rdTip('أُوقف'); return; }
+  const n = MHQ ? MHQ.n : mhSurahAtPage(box ? pageAtTop(box) : 1);
+  mhQPlay(mhQSel(), n); rdTip('سورة ' + SURAS[n - 1] + ' — ' + mhQSel().n);
 });
 
 /* ==== feat: 85-library.js ==== */
@@ -13989,7 +14294,7 @@ function mhSoundcloud() {
   mhModal(`<div class="mhvhead"><b>${MHI.cloud} ساوندكلاود</b><span style="flex:1"></span><button class="lnk" data-mhx="1">إغلاق</button></div>
     <div class="field"><label>رابط مقطع أو قائمة تشغيل</label><input type="url" id="scU" dir="ltr" placeholder="https://soundcloud.com/…"></div>
     <div class="sheetrow"><button class="btn pri" data-sc="1">${ICON.plus} أضِف واعرض في المكتبة</button></div>
-    <p class="mhnote" id="scSt">يُعرض مشغّل ساوندكلاود داخل الموقع. التنزيل غير متاح منه، لكنّه يعمل بالإنترنت.</p>`, m => {
+    <p class="mhnote" id="scSt">يُعرض مشغّل ساوندكلاود داخل الموقع، ومن صفحته زرّ «نزّله إلى مكتبتي» إن سمح صاحبه بالتنزيل.</p>`, m => {
     const go = async () => {
       const u = (m.querySelector('#scU').value || '').trim(); const st = m.querySelector('#scSt');
       if (!/soundcloud\.com|snd\.sc/.test(u)) { st.textContent = 'الصق رابط ساوندكلاود صحيحًا (يبدأ بـ soundcloud.com)'; return; }
@@ -14031,6 +14336,279 @@ mhAfter(h => {
 });
 /* نوع ساوندكلاود يظهر بأيقونة */
 if (typeof TYPES !== 'undefined') TYPES.soundcloud = { t: 'ساوندكلاود', ic: MHI.cloud };
+
+/* ================================================================
+   ساوندكلاود: تنزيل المقطع إلى مكتبتك حين يسمح صاحبه بالتنزيل،
+   وإلّا يبقى يُسمَع من المشغّل المدمج.
+   ================================================================ */
+async function mhScGet(url, asText) {
+  try { const r = await fetch(url); if (r.ok) return asText ? await r.text() : await r.blob(); } catch (e) {}
+  return await grab(url, asText !== false ? true : false, 25000);
+}
+async function mhScClientId() {
+  const c = S.get('scCid', null); if (c && Date.now() - c.t < 86400000) return c.id;
+  const html = await mhScGet('https://soundcloud.com/', true);
+  const assets = (html.match(/https:\/\/a-v2\.sndcdn\.com\/assets\/[^"']+\.js/g) || []).reverse();
+  for (const a of assets.slice(0, 8)) {
+    try { const js = await mhScGet(a, true); const m = /client_id\s*[:=]\s*"([A-Za-z0-9]{20,40})"/.exec(js);
+      if (m) { S.set('scCid', { id: m[1], t: Date.now() }); return m[1]; } } catch (e) {}
+  }
+  throw new Error('تعذّر الاتصال بساوندكلاود');
+}
+async function mhScResolve(u) {
+  const cid = await mhScClientId();
+  const j = JSON.parse(await mhScGet('https://api-v2.soundcloud.com/resolve?url=' + encodeURIComponent(u) + '&client_id=' + cid, true));
+  return { cid, j };
+}
+async function mhScTrackFile(t, cid) {
+  const tr = ((t.media || {}).transcodings || []).find(x => x.format && x.format.protocol === 'progressive');
+  if (!tr) throw new Error('لا نسخة قابلة للتنزيل');
+  const info = JSON.parse(await mhScGet(tr.url + '?client_id=' + cid, true));
+  const r = await fetch(info.url); if (!r.ok) throw new Error('HTTP ' + r.status);
+  return await r.blob();
+}
+async function mhScDownload(it, st) {
+  const say = t => { if (st) st.textContent = t; };
+  try {
+    say('أتصل بساوندكلاود…');
+    const { cid, j } = await mhScResolve(it.url);
+    let tracks = j.kind === 'playlist' ? (j.tracks || []) : [j];
+    if (j.kind === 'playlist' && tracks.some(t => !t.media)) {
+      const ids = tracks.map(t => t.id).join(',');
+      tracks = JSON.parse(await mhScGet('https://api-v2.soundcloud.com/tracks?ids=' + ids + '&client_id=' + cid, true));
+    }
+    const ok = tracks.filter(t => t.downloadable), no = tracks.length - ok.length;
+    if (!ok.length) { say(tracks.length > 1 ? 'أصحاب هذه المقاطع لم يسمحوا بتنزيلها — تبقى تُسمَع من المشغّل هنا.' : 'صاحب هذا المقطع لم يسمح بتنزيله — يبقى يُسمَع من المشغّل هنا.'); return 0; }
+    const r = findItem(it.id), sec = r ? r.sec : mhSecEnsure('secAudioLinks', 'روابط صوتية');
+    let n = 0;
+    for (const t of ok) {
+      say('أنزّل «' + (t.title || 'مقطع') + '»… (' + AR(n + 1) + ' من ' + AR(ok.length) + ')');
+      const blob = await mhScTrackFile(t, cid);
+      const key = uid('f'); await putFile(key, blob);
+      sec.items.push({ id: uid('i'), type: 'audio', name: t.title || 'مقطع', file: key, size: blob.size, mime: blob.type || 'audio/mpeg',
+        dur: Math.round((t.duration || t.full_duration || 0) / 1000) || undefined, src: t.permalink_url, ts: Date.now() });
+      saveTree(); n++;
+    }
+    say('نُزّل ' + AR(n) + ' إلى «' + sec.name + '»' + (no ? ' — و' + AR(no) + ' لم يسمح أصحابها بالتنزيل فتبقى في المشغّل.' : ''));
+    toast('نُزّل إلى مكتبتك'); return n;
+  } catch (e) { say('تعذّر: ' + (e.message || e) + (onGithub && onGithub() ? ' — على الاستضافة (Hostinger) يعمل عبر الوسيط الخاصّ بموثوقية أعلى.' : '')); return 0; }
+}
+mhAfter(h => {
+  const m = /^#\/i\/(.+)$/.exec(h); if (!m) return;
+  const r = findItem(m[1]); if (!r || r.it.type !== 'soundcloud') return;
+  const acts = document.querySelector('.panel .acts'); if (!acts || acts.querySelector('[data-scdl]')) return;
+  const b = document.createElement('button'); b.className = 'btn pri'; b.dataset.scdl = r.it.id;
+  b.innerHTML = `${ICON.dl} نزّله إلى مكتبتي`; acts.prepend(b);
+  const st = document.createElement('p'); st.className = 'mhnote'; st.id = 'scSt2'; st.style.margin = '0 16px 10px';
+  st.textContent = 'يُنزَّل إن سمح صاحبه بالتنزيل، وإلّا يبقى يُسمَع من المشغّل أدناه.';
+  acts.after(st);
+});
+document.addEventListener('click', async ev => {
+  const b = ev.target.closest('[data-scdl]'); if (!b) return;
+  const r = findItem(b.dataset.scdl); if (!r) return;
+  b.disabled = true; await mhScDownload(r.it, document.getElementById('scSt2')); b.disabled = false;
+});
+
+/* ==== feat: 87-pins.js ==== */
+/* ================================================================
+   التثبيت في المكتبة: خمسة أقسام وخمسة ملفّات في الأعلى، بالترتيب الذي تريده
+   ================================================================ */
+const PIN_MAX = 5;
+function pinS() { return (S.get('pinS', []) || []).filter(id => findSec(id)); }
+function pinF() { return (S.get('pinF', []) || []).filter(id => findItem(id)); }
+function pinToggle(kind, id) {
+  const key = kind === 's' ? 'pinS' : 'pinF';
+  let list = kind === 's' ? pinS() : pinF();
+  if (list.includes(id)) { list = list.filter(x => x !== id); S.set(key, list); toast('أُلغي التثبيت'); return false; }
+  if (list.length >= PIN_MAX) { toast('ثبّتّ ' + AR(PIN_MAX) + ' — ألغِ واحدًا أوّلًا'); return null; }
+  list.push(id); S.set(key, list); toast('ثُبِّت في أعلى المكتبة'); return true;
+}
+const PIN_IC = '<svg viewBox="0 0 24 24"><path d="M9 4h6l-1 6 4 3v2h-5v5l-1 1-1-1v-5H6v-2l4-3z"/></svg>';
+
+/* زرّ التثبيت في صفّ كل ملفّ */
+const _mhItemRow = itemRow;
+itemRow = function (it) {
+  let html = _mhItemRow.apply(this, arguments);
+  const on = pinF().includes(it.id);
+  const btn = `<button class="favbtn pinbtn ${on ? 'on' : ''}" data-pinf="${it.id}" title="${on ? 'ألغِ التثبيت' : 'ثبّت في أعلى المكتبة'}">${PIN_IC}</button>`;
+  return html.replace(/(<button class="favbtn" data-edititem=)/, btn + '$1');
+};
+document.addEventListener('click', ev => {
+  const f = ev.target.closest('[data-pinf]');
+  if (f) { ev.preventDefault(); ev.stopPropagation(); const r = pinToggle('f', f.dataset.pinf); if (r !== null) { f.classList.toggle('on', r); if (location.hash === '#/lib') render(); } return; }
+  const s = ev.target.closest('[data-pins]');
+  if (s) { ev.preventDefault(); ev.stopPropagation(); const r = pinToggle('s', s.dataset.pins); if (r !== null) render(); return; }
+  if (ev.target.closest('[data-pinarr]')) pinArrange();
+}, true);
+
+/* المكتبة: المثبّت أوّلًا */
+mhAfter(h => {
+  if (h !== '#/lib') return;
+  const view = document.getElementById('view'); if (!view) return;
+  const ps = pinS(), pf = pinF();
+  /* الأقسام: زرّ تثبيت على كلّ بطاقة، والمثبّتة أوّلًا بترتيبها */
+  const grid = view.querySelector('[data-sortlist="secs"]');
+  if (grid) {
+    grid.querySelectorAll('.tile[data-sortid]').forEach(t => {
+      const id = t.dataset.sortid, on = ps.includes(id);
+      t.classList.toggle('pinned', on);
+      if (!t.querySelector('[data-pins]')) {
+        const b = document.createElement('button'); b.className = 'favbtn pinbtn' + (on ? ' on' : ''); b.dataset.pins = id;
+        b.title = on ? 'ألغِ التثبيت' : 'ثبّت القسم في الأعلى'; b.innerHTML = PIN_IC;
+        const more = t.querySelector('[data-editsec]'); if (more) more.before(b); else t.appendChild(b);
+      }
+    });
+    [...ps].reverse().forEach(id => { const t = grid.querySelector(`.tile[data-sortid="${id}"]`); if (t) grid.prepend(t); });
+  }
+  /* الملفّات المثبّتة: شريطٌ في الأعلى */
+  if ((pf.length || ps.length) && !view.querySelector('.pinwrap')) {
+    const w = document.createElement('div'); w.className = 'pinwrap';
+    w.innerHTML = `<div class="sechead" style="margin-top:4px"><h2>${PIN_IC} المثبّتة</h2><div class="ln"></div>
+        <button data-pinarr="1">رتّبها</button></div>
+      ${pf.length ? `<div class="rows one">${pf.map(id => itemRow(findItem(id).it)).join('')}</div>` : '<p class="mhnote" style="margin:0 0 6px">ثبّت ملفًّا من زرّ الدبّوس بجانبه.</p>'}`;
+    const anchor = view.querySelector('.libtiles') || view.querySelector('.sechead');
+    if (anchor) anchor.after(w); else view.prepend(w);
+  }
+});
+/* ترتيب المثبّتات */
+function pinArrange() {
+  const row = (kind, id, i, n) => {
+    const name = kind === 's' ? (findSec(id) || {}).name : (findItem(id) || { it: {} }).it.name;
+    return `<div class="pinrow2" data-k="${kind}" data-id="${id}"><span class="nbano">${AR(i + 1)}</span><b>${esc(name || '')}</b>
+      <button class="mhico" data-pmv="-1" ${i === 0 ? 'disabled' : ''}>${MHI.up}</button>
+      <button class="mhico" data-pmv="1" ${i === n - 1 ? 'disabled' : ''}>${MHI.down}</button>
+      <button class="mhico" data-prm="1">${MHI.trash}</button></div>`;
+  };
+  const body = () => {
+    const ps = pinS(), pf = pinF();
+    return `<div class="mhvhead"><b>${PIN_IC} ترتيب المثبّتة</b><span style="flex:1"></span><button class="lnk" data-mhx="1">تمّ</button></div>
+      <h4 class="pinh">الأقسام (${AR(ps.length)} من ${AR(PIN_MAX)})</h4>
+      ${ps.length ? ps.map((id, i) => row('s', id, i, ps.length)).join('') : '<p class="mhnote">لا أقسام مثبّتة — اضغط الدبّوس على أيّ قسم.</p>'}
+      <h4 class="pinh">الملفّات (${AR(pf.length)} من ${AR(PIN_MAX)})</h4>
+      ${pf.length ? pf.map((id, i) => row('f', id, i, pf.length)).join('') : '<p class="mhnote">لا ملفّات مثبّتة — اضغط الدبّوس بجانب أيّ ملفّ.</p>'}`;
+  };
+  const m = mhModal(body(), { onClose: () => { if (location.hash === '#/lib') render(); } });
+  m.addEventListener('click', ev => {
+    const r = ev.target.closest('.pinrow2'); if (!r) return;
+    const key = r.dataset.k === 's' ? 'pinS' : 'pinF', list = r.dataset.k === 's' ? pinS() : pinF(), i = list.indexOf(r.dataset.id);
+    const mv = ev.target.closest('[data-pmv]');
+    if (mv) { const j = i + (+mv.dataset.pmv); if (j < 0 || j >= list.length) return; [list[i], list[j]] = [list[j], list[i]]; S.set(key, list); }
+    else if (ev.target.closest('[data-prm]')) { list.splice(i, 1); S.set(key, list); }
+    else return;
+    m.querySelector('.mhmcard').innerHTML = body();
+  });
+}
+
+/* ==== feat: 88-player.js ==== */
+/* ================================================================
+   أوضاع التشغيل: قائمة صغيرة في المشغّل — بعد الانتهاء: توقّف / التالي /
+   كرّر هذا / كرّر القسم / عشوائيّ، ومؤقّت نوم.
+   ================================================================ */
+const PM_IC = {
+  once: '<svg viewBox="0 0 24 24"><path d="M5 12h11"/><path d="m12 7 5 5-5 5"/><path d="M20 6v12"/></svg>',
+  next: '<svg viewBox="0 0 24 24"><path d="M4 7h10M4 12h10M4 17h6"/><path d="m16 14 4 3-4 3z"/></svg>',
+  one: '<svg viewBox="0 0 24 24"><path d="M17 3l3 3-3 3"/><path d="M4 11V9a3 3 0 0 1 3-3h13"/><path d="M7 21l-3-3 3-3"/><path d="M20 13v2a3 3 0 0 1-3 3H4"/><path d="M11.5 10.5 12.5 10v4.5"/></svg>',
+  all: '<svg viewBox="0 0 24 24"><path d="M17 3l3 3-3 3"/><path d="M4 11V9a3 3 0 0 1 3-3h13"/><path d="M7 21l-3-3 3-3"/><path d="M20 13v2a3 3 0 0 1-3 3H4"/></svg>',
+  shuf: '<svg viewBox="0 0 24 24"><path d="M16 3h5v5"/><path d="M4 20 21 3"/><path d="M21 16v5h-5"/><path d="m15 15 6 6"/><path d="M4 4l5 5"/></svg>',
+  moon: '<svg viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></svg>'
+};
+const PM_MODES = [
+  ['once', 'توقّف بعد انتهاء المقطع'],
+  ['next', 'شغّل التالي في القسم'],
+  ['one', 'كرّر هذا المقطع'],
+  ['all', 'كرّر القسم كلّه'],
+  ['shuf', 'عشوائيّ من القسم']
+];
+function pmMode() { const m = S.get('pMode', 'once'); return PM_IC[m] ? m : 'once'; }
+let pmSleep = null;           /* {at: وقت الإيقاف} أو {end:true} = بعد انتهاء المقطع */
+let pmSleepT = null;
+
+/* الزرّ في المشغّل */
+(function () {
+  const row = document.querySelector('#player .prow'); if (!row) return;
+  const b = document.createElement('button'); b.className = 'pbtn pmode'; b.id = 'pMode'; b.title = 'وضع التشغيل';
+  const rate = document.getElementById('pRate'); row.insertBefore(b, rate);
+  pmPaint();
+})();
+function pmPaint() {
+  const b = document.getElementById('pMode'); if (!b) return;
+  const m = pmMode();
+  b.innerHTML = PM_IC[m] + (pmSleep ? '<i class="pmz"></i>' : '');
+  b.classList.toggle('on', m !== 'once' || !!pmSleep);
+  b.title = (PM_MODES.find(x => x[0] === m) || [])[1] || '';
+}
+
+/* القائمة المنسدلة */
+function pmMenu() {
+  let pop = document.getElementById('pmPop');
+  if (pop) { pop.remove(); return; }
+  pop = document.createElement('div'); pop.id = 'pmPop'; pop.className = 'pmpop';
+  const fill = () => {
+    const m = pmMode();
+    const left = pmSleep && pmSleep.at ? Math.max(1, Math.round((pmSleep.at - Date.now()) / 60000)) : 0;
+    pop.innerHTML = `<div class="pmh">بعد انتهاء المقطع</div>
+      ${PM_MODES.map(([k, t]) => `<button class="pmi ${k === m ? 'on' : ''}" data-pm="${k}">${PM_IC[k]}<span>${t}</span></button>`).join('')}
+      <div class="pmh">${PM_IC.moon} مؤقّت النوم${pmSleep ? ' — ' + (pmSleep.end ? 'بعد هذا المقطع' : 'بعد ' + AR(left) + ' د') : ''}</div>
+      <div class="pmsl">${[15, 30, 45, 60].map(n => `<button data-pms="${n}">${AR(n)} د</button>`).join('')}
+        <button data-pms="end" class="${pmSleep && pmSleep.end ? 'on' : ''}">نهاية المقطع</button>
+        ${pmSleep ? '<button data-pms="0" class="off">إلغاء</button>' : ''}</div>`;
+  };
+  fill();
+  document.getElementById('player').appendChild(pop);
+  pop.addEventListener('click', ev => {
+    ev.stopPropagation();
+    const a = ev.target.closest('[data-pm]');
+    if (a) { S.set('pMode', a.dataset.pm); pmPaint(); pop.remove(); toast(PM_MODES.find(x => x[0] === a.dataset.pm)[1]); return; }
+    const s = ev.target.closest('[data-pms]');
+    if (s) { pmSetSleep(s.dataset.pms); fill(); }
+  });
+  setTimeout(() => document.addEventListener('pointerdown', function off(e) {
+    if (pop.contains(e.target) || e.target.closest('#pMode')) return;
+    pop.remove(); document.removeEventListener('pointerdown', off, true);
+  }, true), 0);
+}
+document.getElementById('pMode') && (document.getElementById('pMode').onclick = e => { e.stopPropagation(); pmMenu(); });
+
+function pmSetSleep(v) {
+  clearTimeout(pmSleepT); pmSleep = null;
+  if (v === 'end') { pmSleep = { end: true }; toast('سيتوقّف بعد انتهاء هذا المقطع'); }
+  else if (+v > 0) {
+    pmSleep = { at: Date.now() + v * 60000 };
+    pmSleepT = setTimeout(() => { au.pause(); pmSleep = null; pmPaint(); toast('أُوقف التشغيل — مؤقّت النوم'); }, v * 60000);
+    toast('سيتوقّف بعد ' + AR(+v) + ' دقيقة');
+  } else toast('أُلغي المؤقّت');
+  pmPaint();
+}
+
+/* قائمة القسم الذي يعمل منه المقطع */
+function pmList() {
+  if (!current) return [];
+  const r = findItem(current.id); if (!r) return [];
+  const list = (r.sub ? r.sub.items : r.sec.items) || [];
+  return list.filter(x => (x.type === 'audio' || x.type === 'video') && (x.file || x.url));
+}
+au.addEventListener('ended', () => {
+  if (!current) return;                                   /* المصحف له مسلكه الخاصّ */
+  if (pmSleep && pmSleep.end) { pmSleep = null; pmPaint(); return; }
+  const m = pmMode(); if (m === 'once') return;
+  if (m === 'one') { const id = current.id; setTimeout(() => play(id, 0), 60); return; }
+  const pl = pmList(), i = pl.findIndex(x => x.id === current.id);
+  if (!pl.length || i < 0) return;
+  let n = null;
+  if (m === 'next') n = pl[i + 1];
+  else if (m === 'all') n = pl[(i + 1) % pl.length];
+  else if (m === 'shuf') { const rest = pl.filter(x => x.id !== current.id); n = rest.length ? rest[Math.floor(Math.random() * rest.length)] : pl[i]; }
+  if (!n) { toast('انتهى القسم'); return; }
+  /* المقطع التالي يبدأ من أوّله إن كان قد انتهى سابقًا، وإلّا من حيث توقّفت */
+  setTimeout(() => play(n.id, n.id === current.id ? 0 : (pos[n.id] || 0)), 60);
+});
+
+/* تشغيل مقطع من المكتبة يُنهي جلسة الاستماع للمصحف (فلا تعود السور بعده) */
+const _pmPlay = play;
+play = function (id) {
+  if (typeof MHQ !== 'undefined' && MHQ) { MHQ = null; try { mhQBarSync(); } catch (e) {} }
+  return _pmPlay.apply(this, arguments);
+};
 
 /* ==== feat: 90-vault.js ==== */
 /* ================================================================

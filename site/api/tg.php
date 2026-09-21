@@ -11,8 +11,9 @@
    سُدس حجمها ولضاعت المنشورات. لذلك نجمع الترويسات أوّلًا ثمّ نقرّر.
    ============================================================ */
 
-$ALLOW = '~^https?://([a-z0-9-]+\.)*(t\.me|telegram\.me|telegram\.org|cdn-telegram\.org|telesco\.pe|youtube\.com|youtu\.be|googlevideo\.com)/~i';
+$ALLOW = '~^https?://([a-z0-9-]+\.)*(t\.me|telegram\.me|telegram\.org|cdn-telegram\.org|telesco\.pe|youtube\.com|youtu\.be|googlevideo\.com|soundcloud\.com|sndcdn\.com)/~i';
 
+@ini_set('display_errors', '0');          /* لا تختلط تحذيرات PHP بالردّ */
 header_remove('X-Powered-By');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Headers: *');
@@ -111,7 +112,7 @@ while ($hops < 6) {
     $status = 0; $redirect = null; $got = [];
     $okExec = curl_exec($ch);
     $err = curl_error($ch);
-    curl_close($ch);
+    if (PHP_VERSION_ID < 80000) curl_close($ch);
 
     if ($status >= 300 && $status < 400 && $redirect) {
         if (!preg_match('~^https?://~i', $redirect)) {       /* تحويل نسبيّ */

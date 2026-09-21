@@ -8,7 +8,7 @@ SRC = ROOT / '_src' / 'masahati' / 'index.html'
 DST = ROOT / 'site' / 'index.html'
 html = SRC.read_text(encoding='utf-8')
 
-APP_VER = '3.1.0'
+APP_VER = '3.2.0'
 
 def rep(old, new, count=1):
     global html
@@ -136,6 +136,10 @@ rep("""  return `${head(\'فوائدي\', `${helpBtn(\'notes\')}${adv()?`<button
   ${(typeof mhRecsPanel===\'function\'?mhRecsPanel():\'\')}
   ${writesPanel()}
   ${mindsPanel()}""")
+
+# ---------------------------------------------------------------- transcription: no false "network blocked" error while the phone screen is off
+rep("""      if (Date.now() - dlT > 120000 && TXJOB.i === 0) {""",
+"""      if (Date.now() - dlT > 240000 && TXJOB.i === 0 && document.visibilityState === 'visible') {""")
 # ---------------------------------------------------------------- fonts system (inserted before NAV)
 FONTS_JS = r'''
 /* ================= الخطوط =================

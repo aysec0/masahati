@@ -19,11 +19,11 @@ function mhClipBar(it) {
     <div class="mhclip-h">${MHI.crop}<b>قصّ مقطعًا</b>
       <span class="mhnote" style="margin:0">علّم البداية والنهاية أثناء التشغيل، ثمّ نزّل الجزء بينهما.</span></div>
     <div class="mhclip-row">
-      <button class="mhico" data-clipset="a" title="البداية = اللحظة الحالية">${MHI.mic ? '⟝' : 'A'}</button>
+      <button class="mhico clipset" data-clipset="a" title="البداية = اللحظة الحالية"><b>بداية</b><small>الآن</small></button>
       <input type="text" class="mhclip-in" data-clipin="a" dir="ltr" value="${c.a != null ? mmss(c.a) : ''}" placeholder="٠:٠٠">
       <span>←</span>
       <input type="text" class="mhclip-in" data-clipin="b" dir="ltr" value="${c.b != null ? mmss(c.b) : ''}" placeholder="النهاية">
-      <button class="mhico" data-clipset="b" title="النهاية = اللحظة الحالية">⟞</button>
+      <button class="mhico clipset" data-clipset="b" title="النهاية = اللحظة الحالية"><b>نهاية</b><small>الآن</small></button>
     </div>
     <div class="mhclip-row2">
       <span class="mhclip-len" id="clipLen">${c.a != null && c.b != null && c.b > c.a ? 'المدّة: ' + mmss(c.b - c.a) : ''}</span>
@@ -78,31 +78,73 @@ async function mhClipDownload(it) {
   if (it.type === 'video' || /^video\//.test(blob.type)) return mhClipVideo(it, blob, c);
   return mhClipAudio(it, blob, c);
 }
-/* ---------- قصّ الصوت: دقّةُ العيّنة، وخرج WAV مضمون التشغيل ---------- */
+/* ---------- قصّ الصوت ----------
+   MP3: نقطع الملفّ الأصليّ نفسه على حدود إطاراته — بلا فكّ ترميز ولا ذاكرة إضافية،
+        ودقّته إطارٌ واحد (نحو ٢٦ جزءًا من الألف من الثانية)، وجودته هي جودة الأصل.
+   غيره: ملفٌّ صغير يُفكّ ويُقصّ بدقّة العيّنة (WAV)، وكبير يُسجَّل المقطع وحده من التشغيل. */
+async function mhMp3Cut(blob, a, b) {
+  const buf = new Uint8Array(await blob.arrayBuffer());
+  let i = mhSync(buf, mhId3Size(buf.subarray(0, 10)));
+  if (i < 0) return null;
+  let t = 0, s0 = -1, s1 = buf.length, ta = 0, tb = 0;
+  while (i < buf.length - 4) {
+    const L = mhFrameLen(buf, i);
+    if (!L) { const j = mhSync(buf, i + 1); if (j < 0) break; i = j; continue; }
+    const ver = (buf[i + 1] >> 3) & 3, sr = MH_SR[ver][(buf[i + 2] >> 2) & 3], dt = (ver === 3 ? 1152 : 576) / sr;
+    if (s0 < 0 && t + dt > a) { s0 = i; ta = t; }
+    if (t >= b) { s1 = i; tb = t; break; }
+    t += dt; i += L; tb = t;
+  }
+  if (s0 < 0 || s1 <= s0) return null;
+  return { blob: new Blob([buf.subarray(s0, s1)], { type: 'audio/mpeg' }), from: ta, to: tb };
+}
+/* تسجيل المقطع وحده أثناء تشغيله صامتًا — لأيّ صيغة، وبذاكرةٍ قليلة */
+async function mhRecordRange(blob, a, b, say) {
+  const AC = window.AudioContext || window.webkitAudioContext, ctx = new AC();
+  const el = new Audio(); el.src = URL.createObjectURL(blob); el.preload = 'auto';
+  await new Promise((res, rej) => { el.onloadedmetadata = res; el.onerror = () => rej(new Error('تعذّر فتح الصوت')); });
+  const src = ctx.createMediaElementSource(el), dst = ctx.createMediaStreamDestination();
+  src.connect(dst);
+  const mt = ['audio/webm;codecs=opus', 'audio/mp4', 'audio/webm', 'audio/ogg'].find(x => MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(x)) || '';
+  const rec = new MediaRecorder(dst.stream, mt ? { mimeType: mt } : undefined), chunks = [];
+  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
+  el.currentTime = a; await new Promise(r => { el.onseeked = r; });
+  await ctx.resume(); rec.start(250); await el.play();
+  await new Promise(res => { const iv = setInterval(() => {
+    say(5 + Math.min(1, (el.currentTime - a) / (b - a)) * 93, 'أسجّل المقطع… ' + mmss(el.currentTime - a) + ' من ' + mmss(b - a));
+    if (el.currentTime >= b || el.ended) { clearInterval(iv); res(); } }, 50); });
+  el.pause(); rec.stop();
+  const out = await new Promise(r => { rec.onstop = () => r(new Blob(chunks, { type: rec.mimeType || mt || 'audio/webm' })); });
+  try { ctx.close(); } catch (e) {}
+  return out;
+}
 async function mhClipAudio(it, blob, c) {
   const st = mhModal(`<div class="mhvhead"><b>${MHI.crop} أقصّ المقطع…</b></div>
-    <div class="bar"><i id="clipBar" style="width:8%"></i></div><p class="mhnote" id="clipMsg">أفكّ ترميز الصوت…</p>`);
-  const say = (p, m) => { const b = st.querySelector('#clipBar'); if (b) b.style.width = p + '%'; const t = st.querySelector('#clipMsg'); if (m && t) t.textContent = m; };
+    <div class="bar"><i id="clipBar" style="width:8%"></i></div><p class="mhnote" id="clipMsg">أجهّز…</p>`);
+  const say = (p, m) => { const bb = st.querySelector('#clipBar'); if (bb) bb.style.width = p + '%'; const t = st.querySelector('#clipMsg'); if (m && t) t.textContent = m; };
+  const base = (it.name || 'مقطع') + ' [' + mmss(c.a).replace(/:/g, '.') + '-' + mmss(c.b).replace(/:/g, '.') + ']';
   try {
-    const ab = await blob.arrayBuffer();
-    const AC = window.AudioContext || window.webkitAudioContext;
-    const tmp = new AC(); const buf = await tmp.decodeAudioData(ab.slice(0)); tmp.close();
-    const sr = buf.sampleRate, ch = buf.numberOfChannels;
-    const from = Math.round(c.a * sr), to = Math.min(buf.length, Math.round(c.b * sr)), len = to - from;
-    if (len <= 0) { st.close(); toast('المدّة غير صحيحة'); return; }
-    say(45, 'أستخرج الجزء بدقّة العيّنة…');
-    const out = new AudioBuffer ? new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(ch, len, sr) : null;
-    const clip = out.createBuffer ? out.createBuffer(ch, len, sr) : null;
-    /* ننسخ العيّنات مباشرة: لا إعادة ترميز، فلا فقدان ولا انزياح */
-    const data = [];
-    for (let c2 = 0; c2 < ch; c2++) data.push(buf.getChannelData(c2).subarray(from, to));
-    say(70, 'أكتب ملفّ WAV…');
-    const wav = mhWavMulti(data, sr);
-    say(100, 'تمّ');
-    const name = (it.name || 'مقطع') + ' [' + mmss(c.a).replace(/:/g, '.') + '-' + mmss(c.b).replace(/:/g, '.') + '].wav';
-    st.close();
-    saveBlob(wav, name, false);
-    mhClipSaveLib(it, wav, name, 'audio', c);
+    const head = await mhHead(blob, 12);
+    let out = null, name = '';
+    if (mhIsMp3(blob, head)) {
+      say(30, 'أقطع الملفّ على حدود إطاراته…');
+      const r = await mhMp3Cut(blob, c.a, c.b);
+      if (r) { out = r.blob; name = base + '.mp3'; }
+    }
+    if (!out && blob.size < 15 * 1024 * 1024) {
+      say(30, 'أفكّ ترميز الصوت…');
+      const AC = window.AudioContext || window.webkitAudioContext;
+      const tmp = new AC(); const buf = await tmp.decodeAudioData((await blob.arrayBuffer()).slice(0)); tmp.close();
+      const sr = buf.sampleRate, ch = buf.numberOfChannels;
+      const from = Math.round(c.a * sr), to = Math.min(buf.length, Math.round(c.b * sr));
+      if (to <= from) throw new Error('المدّة خارج الملفّ');
+      const data = []; for (let k = 0; k < ch; k++) data.push(buf.getChannelData(k).subarray(from, to));
+      say(80, 'أكتب الملفّ…'); out = mhWavMulti(data, sr); name = base + '.wav';
+    }
+    if (!out) { out = await mhRecordRange(blob, c.a, c.b, say); name = base + (/mp4/.test(out.type) ? '.m4a' : '.webm'); }
+    say(100, 'تمّ'); st.close();
+    saveBlob(out, name, false);
+    mhClipSaveLib(it, out, name, 'audio', c);
   } catch (e) { st.close(); toast('تعذّر قصّ الصوت: ' + (e.message || e)); }
 }
 function mhWavMulti(chans, sr) {

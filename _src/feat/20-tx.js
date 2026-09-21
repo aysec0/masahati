@@ -365,3 +365,45 @@ function mhDictate(onFinal, onInterim, onState) {
   start();
   return { stop() { on = false; try { r && r.stop(); } catch (e) {} } };
 }
+
+/* ================================================================
+   الشاشة تبقى مضاءة أثناء التفريغ — في الهاتف إذا انطفأت الشاشة
+   جمّد المتصفّح الصفحة فتوقّف التفريغ وكأنّه لا يعمل.
+   ================================================================ */
+let mhWake = null, mhWakeT = null;
+async function mhWakeOn() {
+  try { if ('wakeLock' in navigator && !mhWake) { mhWake = await navigator.wakeLock.request('screen'); mhWake.addEventListener('release', () => { mhWake = null; }); } } catch (e) {}
+  clearInterval(mhWakeT);
+  mhWakeT = setInterval(() => { if (!TXJOB || TXJOB.state === 'done' || TXJOB.state === 'err') mhWakeOff(); }, 3000);
+}
+function mhWakeOff() { clearInterval(mhWakeT); try { if (mhWake) mhWake.release(); } catch (e) {} mhWake = null; }
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && TXJOB && TXJOB.state === 'run') mhWakeOn(); });
+const _mhTxRun = txRun;
+txRun = function () { mhWakeOn(); return _mhTxRun.apply(this, arguments); };
+const _mhCloudRun = mhCloudRun;
+mhCloudRun = function () { mhWakeOn(); return _mhCloudRun.apply(this, arguments); };
+/* تنبيهٌ صريح في نافذة التقدّم */
+const _mhTxProgress = txProgress;
+txProgress = function (msg) {
+  const card = _mhTxProgress.apply(this, arguments);
+  try {
+    const n = document.createElement('p'); n.className = 'mhwarn'; n.style.marginTop = '10px';
+    n.innerHTML = ('wakeLock' in navigator ? 'أبقيتُ الشاشة مضاءة حتى ينتهي. ' : 'لا تُطفئ الشاشة حتى ينتهي. ') +
+      'إن خرجتَ من الموقع يتوقّف التفريغ، وما فُرّغ محفوظ — ارجع واضغط «تفريغ» فيُكمل من حيث وقف.';
+    card.appendChild(n);
+  } catch (e) {}
+  return card;
+};
+/* هاتفٌ محدود الذاكرة: نقترح النموذج الأخفّ */
+const _mhTxPick2 = txPick;
+txPick = function (it, resume) {
+  _mhTxPick2.apply(this, arguments);
+  try {
+    const mem = navigator.deviceMemory, card = document.querySelector('.sheet .sheetcard');
+    if (card && mem && mem <= 4) {
+      const n = document.createElement('p'); n.className = 'mhwarn'; n.style.margin = '0 0 10px';
+      n.textContent = 'ذاكرة جهازك ' + AR(mem) + ' جيجا — «سريع» أنسب له داخل الجهاز، أو استعمل المحرّك السريع (Groq).';
+      const rows = card.querySelector('.rows'); if (rows) rows.before(n);
+    }
+  } catch (e) {}
+};

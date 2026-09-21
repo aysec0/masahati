@@ -127,7 +127,7 @@ function mhSoundcloud() {
   mhModal(`<div class="mhvhead"><b>${MHI.cloud} ساوندكلاود</b><span style="flex:1"></span><button class="lnk" data-mhx="1">إغلاق</button></div>
     <div class="field"><label>رابط مقطع أو قائمة تشغيل</label><input type="url" id="scU" dir="ltr" placeholder="https://soundcloud.com/…"></div>
     <div class="sheetrow"><button class="btn pri" data-sc="1">${ICON.plus} أضِف واعرض في المكتبة</button></div>
-    <p class="mhnote" id="scSt">يُعرض مشغّل ساوندكلاود داخل الموقع. التنزيل غير متاح منه، لكنّه يعمل بالإنترنت.</p>`, m => {
+    <p class="mhnote" id="scSt">يُعرض مشغّل ساوندكلاود داخل الموقع، ومن صفحته زرّ «نزّله إلى مكتبتي» إن سمح صاحبه بالتنزيل.</p>`, m => {
     const go = async () => {
       const u = (m.querySelector('#scU').value || '').trim(); const st = m.querySelector('#scSt');
       if (!/soundcloud\.com|snd\.sc/.test(u)) { st.textContent = 'الصق رابط ساوندكلاود صحيحًا (يبدأ بـ soundcloud.com)'; return; }
@@ -169,3 +169,75 @@ mhAfter(h => {
 });
 /* نوع ساوندكلاود يظهر بأيقونة */
 if (typeof TYPES !== 'undefined') TYPES.soundcloud = { t: 'ساوندكلاود', ic: MHI.cloud };
+
+/* ================================================================
+   ساوندكلاود: تنزيل المقطع إلى مكتبتك حين يسمح صاحبه بالتنزيل،
+   وإلّا يبقى يُسمَع من المشغّل المدمج.
+   ================================================================ */
+async function mhScGet(url, asText) {
+  try { const r = await fetch(url); if (r.ok) return asText ? await r.text() : await r.blob(); } catch (e) {}
+  return await grab(url, asText !== false ? true : false, 25000);
+}
+async function mhScClientId() {
+  const c = S.get('scCid', null); if (c && Date.now() - c.t < 86400000) return c.id;
+  const html = await mhScGet('https://soundcloud.com/', true);
+  const assets = (html.match(/https:\/\/a-v2\.sndcdn\.com\/assets\/[^"']+\.js/g) || []).reverse();
+  for (const a of assets.slice(0, 8)) {
+    try { const js = await mhScGet(a, true); const m = /client_id\s*[:=]\s*"([A-Za-z0-9]{20,40})"/.exec(js);
+      if (m) { S.set('scCid', { id: m[1], t: Date.now() }); return m[1]; } } catch (e) {}
+  }
+  throw new Error('تعذّر الاتصال بساوندكلاود');
+}
+async function mhScResolve(u) {
+  const cid = await mhScClientId();
+  const j = JSON.parse(await mhScGet('https://api-v2.soundcloud.com/resolve?url=' + encodeURIComponent(u) + '&client_id=' + cid, true));
+  return { cid, j };
+}
+async function mhScTrackFile(t, cid) {
+  const tr = ((t.media || {}).transcodings || []).find(x => x.format && x.format.protocol === 'progressive');
+  if (!tr) throw new Error('لا نسخة قابلة للتنزيل');
+  const info = JSON.parse(await mhScGet(tr.url + '?client_id=' + cid, true));
+  const r = await fetch(info.url); if (!r.ok) throw new Error('HTTP ' + r.status);
+  return await r.blob();
+}
+async function mhScDownload(it, st) {
+  const say = t => { if (st) st.textContent = t; };
+  try {
+    say('أتصل بساوندكلاود…');
+    const { cid, j } = await mhScResolve(it.url);
+    let tracks = j.kind === 'playlist' ? (j.tracks || []) : [j];
+    if (j.kind === 'playlist' && tracks.some(t => !t.media)) {
+      const ids = tracks.map(t => t.id).join(',');
+      tracks = JSON.parse(await mhScGet('https://api-v2.soundcloud.com/tracks?ids=' + ids + '&client_id=' + cid, true));
+    }
+    const ok = tracks.filter(t => t.downloadable), no = tracks.length - ok.length;
+    if (!ok.length) { say(tracks.length > 1 ? 'أصحاب هذه المقاطع لم يسمحوا بتنزيلها — تبقى تُسمَع من المشغّل هنا.' : 'صاحب هذا المقطع لم يسمح بتنزيله — يبقى يُسمَع من المشغّل هنا.'); return 0; }
+    const r = findItem(it.id), sec = r ? r.sec : mhSecEnsure('secAudioLinks', 'روابط صوتية');
+    let n = 0;
+    for (const t of ok) {
+      say('أنزّل «' + (t.title || 'مقطع') + '»… (' + AR(n + 1) + ' من ' + AR(ok.length) + ')');
+      const blob = await mhScTrackFile(t, cid);
+      const key = uid('f'); await putFile(key, blob);
+      sec.items.push({ id: uid('i'), type: 'audio', name: t.title || 'مقطع', file: key, size: blob.size, mime: blob.type || 'audio/mpeg',
+        dur: Math.round((t.duration || t.full_duration || 0) / 1000) || undefined, src: t.permalink_url, ts: Date.now() });
+      saveTree(); n++;
+    }
+    say('نُزّل ' + AR(n) + ' إلى «' + sec.name + '»' + (no ? ' — و' + AR(no) + ' لم يسمح أصحابها بالتنزيل فتبقى في المشغّل.' : ''));
+    toast('نُزّل إلى مكتبتك'); return n;
+  } catch (e) { say('تعذّر: ' + (e.message || e) + (onGithub && onGithub() ? ' — على الاستضافة (Hostinger) يعمل عبر الوسيط الخاصّ بموثوقية أعلى.' : '')); return 0; }
+}
+mhAfter(h => {
+  const m = /^#\/i\/(.+)$/.exec(h); if (!m) return;
+  const r = findItem(m[1]); if (!r || r.it.type !== 'soundcloud') return;
+  const acts = document.querySelector('.panel .acts'); if (!acts || acts.querySelector('[data-scdl]')) return;
+  const b = document.createElement('button'); b.className = 'btn pri'; b.dataset.scdl = r.it.id;
+  b.innerHTML = `${ICON.dl} نزّله إلى مكتبتي`; acts.prepend(b);
+  const st = document.createElement('p'); st.className = 'mhnote'; st.id = 'scSt2'; st.style.margin = '0 16px 10px';
+  st.textContent = 'يُنزَّل إن سمح صاحبه بالتنزيل، وإلّا يبقى يُسمَع من المشغّل أدناه.';
+  acts.after(st);
+});
+document.addEventListener('click', async ev => {
+  const b = ev.target.closest('[data-scdl]'); if (!b) return;
+  const r = findItem(b.dataset.scdl); if (!r) return;
+  b.disabled = true; await mhScDownload(r.it, document.getElementById('scSt2')); b.disabled = false;
+});
