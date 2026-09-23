@@ -15,8 +15,25 @@ $ALLOW = '~^https?://([a-z0-9-]+\.)*(t\.me|telegram\.me|telegram\.org|cdn-telegr
 
 @ini_set('display_errors', '0');          /* لا تختلط تحذيرات PHP بالردّ */
 header_remove('X-Powered-By');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Headers: *');
+
+/* من يستعمل هذا الملفّ؟ موقعك نفسه ونسخة GitHub وما تضيفه هنا — لا مواقع الغير
+   (يُمنع الطلب حين يأتي باسم موقعٍ آخر؛ الطلبات بلا مصدر تمرّ لأنّ التنزيل المباشر منها) */
+$ORIGINS = [];   /* مثال: ['https://example.com'] */
+function origin_ok($o) {
+    global $ORIGINS;
+    if ($o === '') return true;
+    $h = strtolower((string)(parse_url($o, PHP_URL_HOST) ?? ''));
+    if ($h === '') return false;
+    $me = preg_replace('~:\d+$~', '', strtolower($_SERVER['HTTP_HOST'] ?? ''));
+    if ($h === $me || $h === 'localhost' || $h === '127.0.0.1' || preg_match('~\.github\.io$~', $h)) return true;
+    foreach ($ORIGINS as $x) if (strtolower((string)(parse_url($x, PHP_URL_HOST) ?? $x)) === $h) return true;
+    return false;
+}
+$origin = $_SERVER['HTTP_ORIGIN'] ?? ''; $referer = $_SERVER['HTTP_REFERER'] ?? '';
+if (!origin_ok($origin) || !origin_ok($referer)) { http_response_code(403); header('Content-Type: text/plain; charset=utf-8'); echo 'origin not allowed'; exit; }
+header('Access-Control-Allow-Origin: ' . ($origin !== '' ? $origin : '*'));
+header('Vary: Origin');
+header('Access-Control-Allow-Headers: Range, Content-Type');
 header('Access-Control-Allow-Methods: GET, HEAD, OPTIONS');
 header('Access-Control-Expose-Headers: Content-Length, Content-Range, Accept-Ranges, Content-Type');
 header('X-Content-Type-Options: nosniff');
@@ -83,6 +100,8 @@ $flush = function () use (&$sent, &$status, &$got, $PASS) {
         header($h . ': ' . $got[$h]);
     }
     header('Cache-Control: public, max-age=60');
+    /* صفحةٌ مُمرَّرة لا تُنفَّذ سكربتاتها باسم موقعك لو فُتحت مباشرة */
+    if (stripos($got['content-type'] ?? '', 'text/html') !== false) header('Content-Security-Policy: sandbox');
 };
 
 $onBody = function ($ch, $data) use (&$status, &$redirect, $flush) {

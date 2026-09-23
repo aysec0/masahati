@@ -53,17 +53,18 @@ function pmMenu() {
   };
   fill();
   document.getElementById('player').appendChild(pop);
+  const off = e => {
+    if (e && (pop.contains(e.target) || e.target.closest('#pMode'))) return;
+    pop.remove(); document.removeEventListener('pointerdown', off, true);
+  };
   pop.addEventListener('click', ev => {
     ev.stopPropagation();
     const a = ev.target.closest('[data-pm]');
-    if (a) { S.set('pMode', a.dataset.pm); pmPaint(); pop.remove(); toast(PM_MODES.find(x => x[0] === a.dataset.pm)[1]); return; }
+    if (a) { S.set('pMode', a.dataset.pm); pmPaint(); off(); toast(PM_MODES.find(x => x[0] === a.dataset.pm)[1]); return; }
     const s = ev.target.closest('[data-pms]');
     if (s) { pmSetSleep(s.dataset.pms); fill(); }
   });
-  setTimeout(() => document.addEventListener('pointerdown', function off(e) {
-    if (pop.contains(e.target) || e.target.closest('#pMode')) return;
-    pop.remove(); document.removeEventListener('pointerdown', off, true);
-  }, true), 0);
+  setTimeout(() => document.addEventListener('pointerdown', off, true), 0);
 }
 document.getElementById('pMode') && (document.getElementById('pMode').onclick = e => { e.stopPropagation(); pmMenu(); });
 

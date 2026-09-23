@@ -69,9 +69,9 @@ async function mhDecode16k(ab) {
   const ctx = new OAC(1, 16000, 16000);
   const buf = await new Promise((res, rej) => { const p = ctx.decodeAudioData(ab, res, rej); if (p && p.then) p.then(res, rej); });
   const n = buf.numberOfChannels, len = buf.length;
-  if (n === 1) return buf.getChannelData(0).slice();
-  const out = new Float32Array(len);
-  for (let c = 0; c < n; c++) { const d = buf.getChannelData(c); for (let i = 0; i < len; i++) out[i] += d[i] / n; }
+  let out;
+  if (n === 1) out = buf.getChannelData(0).slice();
+  else { out = new Float32Array(len); for (let c = 0; c < n; c++) { const d = buf.getChannelData(c); for (let i = 0; i < len; i++) out[i] += d[i] / n; } }
   if (buf.sampleRate !== 16000) {   /* احتياط: بعض المتصفّحات لا تعيد العيّنة */
     const r = buf.sampleRate / 16000, m = Math.floor(len / r), o2 = new Float32Array(m);
     for (let i = 0; i < m; i++) o2[i] = out[Math.floor(i * r)];
@@ -136,12 +136,18 @@ async function mhCaptureStream(blob, dur) {
   const sp = ctx.createScriptProcessor(16384, 2, 1);
   const g = ctx.createGain(); g.gain.value = 0;
   src.connect(sp); sp.connect(g); g.connect(ctx.destination);
-  let buf = new Float32Array(0), pos = 0, ended = false, wait = null;
+  /* المخزن قطعٌ تُضمّ عند الطلب (لا نسخٌ كاملٌ كلّ ثلث ثانية)، ويتوقّف التشغيل حين يسبق التفريغ بكثير */
+  const MAX = 120 * 16000;
+  let chunks = [], clen = 0, buf = new Float32Array(0), pos = 0, ended = false, wait = null, closed = false;
+  const shutdown = () => { if (closed) return; closed = true; try { a.pause(); } catch (x) {} try { ctx.close(); } catch (x) {} try { URL.revokeObjectURL(a.src); } catch (x) {} };
+  const join = () => { if (chunks.length) { const nb = new Float32Array(buf.length + clen); nb.set(buf); let o = buf.length; for (const c of chunks) { nb.set(c, o); o += c.length; } buf = nb; chunks = []; clen = 0; } };
   sp.onaudioprocess = e => {
+    if (typeof TXJOB !== 'undefined' && !TXJOB) { shutdown(); return; }   /* أوقف المستخدم التفريغ */
     if (a.paused && !ended) return;
     const L = e.inputBuffer.getChannelData(0), R = e.inputBuffer.numberOfChannels > 1 ? e.inputBuffer.getChannelData(1) : L;
     const m = new Float32Array(L.length); for (let i = 0; i < L.length; i++) m[i] = (L[i] + R[i]) / 2;
-    const nb = new Float32Array(buf.length + m.length); nb.set(buf); nb.set(m, buf.length); buf = nb;
+    chunks.push(m); clen += m.length;
+    if (buf.length + clen > MAX && !ended) { try { a.pause(); } catch (x) {} }
     if (wait) wait();
   };
   a.onended = () => { ended = true; if (wait) wait(); };
@@ -149,11 +155,15 @@ async function mhCaptureStream(blob, dur) {
   return {
     length: Math.ceil((dur || a.duration || 0) * 16000), streamed: true,
     async win(from, to) {
-      while (pos + buf.length < to && !ended) await new Promise(r => { wait = () => { wait = null; r(); }; setTimeout(r, 2000); });
+      while (pos + buf.length + clen < to && !ended && !closed) {
+        if (a.paused) { try { await a.play(); } catch (x) {} }
+        await new Promise(r => { wait = () => { wait = null; r(); }; setTimeout(r, 2000); });
+      }
+      join();
       const s = Math.max(0, from - pos), e = Math.min(buf.length, to - pos);
       const out = e > s ? buf.slice(s, e) : new Float32Array(0);
       const keep = Math.max(0, from - pos - 16000); if (keep > 0) { buf = buf.slice(keep); pos += keep; }
-      if (ended && pos + buf.length <= to) { try { ctx.close(); } catch (x) {} }
+      if (ended && pos + buf.length <= to) shutdown();
       return out;
     }
   };
@@ -246,15 +256,18 @@ async function mhCloudParts(it, P) {
     return { file: mhWav(s), name: 'part' + i + '.wav', dur: s.length / 16000 };
   } };
 }
-async function mhCloudRun(it, p) {
+async function mhCloudRun(it, p, resume) {
   if (TXJOB && TXJOB.state !== 'done') { toast('هناك تفريغ يعمل الآن — انتظره أو أوقفه'); return; }
   const P = MHTX[p];
   txProgress('تفريغ سريع عبر ' + P.name + '…');
   let parts;
   try { txSet(3, 'أجهّز الصوت…'); parts = await mhCloudParts(it, P); } catch (e) { txFail(e); return; }
-  TXJOB = { itemId: it.id, name: it.name, total: parts.n, i: 0, segs: [], state: 'run', model: p, t0: Date.now() };
+  /* إكمالٌ حقيقيّ: من القطعة التي وقف عندها (وحداتها قطعٌ سحابيّة لا مقاطع محلّيّة) */
+  const old = resume ? txOf(it.id) : null;
+  const cont = !!(old && old.how === 'cloud' && old.total === parts.n && old.next < parts.n);
+  TXJOB = { itemId: it.id, name: it.name, total: parts.n, i: cont ? old.next : 0, segs: cont ? (old.segs || []).slice() : [], state: 'run', model: p, t0: Date.now() };
   txPill();
-  let offset = 0;
+  let offset = cont ? (old.offset || 0) : 0;
   try {
     while (TXJOB && TXJOB.i < TXJOB.total) {
       if (TXJOB.state === 'pause') { await new Promise(r => setTimeout(r, 400)); continue; }
@@ -268,7 +281,7 @@ async function mhCloudRun(it, p) {
       segs.forEach(sg => { const t = (sg.text || '').trim(); if (t) TXJOB.segs.push({ s: Math.round(offset + (+sg.start || 0)), t }); });
       offset += part.dur || +out.duration || (segs.length ? +segs[segs.length - 1].end || 0 : 0);
       TXJOB.i = k + 1;
-      saveTx(it.id, { how: 'cloud', model: p, at: Date.now(), segs: TXJOB.segs, next: TXJOB.i, total: TXJOB.total, done: TXJOB.i >= TXJOB.total });
+      saveTx(it.id, { how: 'cloud', model: p, at: Date.now(), segs: TXJOB.segs, next: TXJOB.i, total: TXJOB.total, offset, done: TXJOB.i >= TXJOB.total });
       txSet(5 + (TXJOB.i / TXJOB.total) * 95, 'فُرّغ ' + AR(TXJOB.i) + ' من ' + AR(TXJOB.total));
       if (location.hash === '#/i/' + it.id && !document.querySelector('.sheet')) txRefresh(it.id);
     }
@@ -333,7 +346,7 @@ txPick = function (it, resume) {
   note.textContent = 'التفريغ داخل الجهاز يعمل بلا إنترنت بعد أوّل تنزيل، لكنّه أبطأ على الهاتف.';
   rows.after(note);
   card.addEventListener('click', ev => {
-    const c = ev.target.closest('[data-mhcloud]'); if (c) { closeSheet(); mhCloudRun(it, c.dataset.mhcloud); return; }
+    const c = ev.target.closest('[data-mhcloud]'); if (c) { closeSheet(); mhCloudRun(it, c.dataset.mhcloud, resume); return; }
     if (ev.target.closest('[data-mhcloudset]')) { closeSheet(); mhTxKeySheet('groq', () => mhCloudRun(it, mhTxCloud())); }
   });
 };
@@ -370,16 +383,29 @@ function mhDictate(onFinal, onInterim, onState) {
    الشاشة تبقى مضاءة أثناء التفريغ — في الهاتف إذا انطفأت الشاشة
    جمّد المتصفّح الصفحة فتوقّف التفريغ وكأنّه لا يعمل.
    ================================================================ */
-let mhWake = null, mhWakeT = null;
+let mhWake = null, mhWakeT = null, mhWakeSeen = false;
 async function mhWakeOn() {
+  mhWakeSeen = false;                      /* المهمّة لا تُنشأ إلا بعد تجهيز الصوت — فلا نُطلق القفل قبل أن نراها */
   try { if ('wakeLock' in navigator && !mhWake) { mhWake = await navigator.wakeLock.request('screen'); mhWake.addEventListener('release', () => { mhWake = null; }); } } catch (e) {}
   clearInterval(mhWakeT);
-  mhWakeT = setInterval(() => { if (!TXJOB || TXJOB.state === 'done' || TXJOB.state === 'err') mhWakeOff(); }, 3000);
+  mhWakeT = setInterval(() => {
+    const live = TXJOB && TXJOB.state !== 'done' && TXJOB.state !== 'err';
+    if (live) { mhWakeSeen = true; if (!mhWake && document.visibilityState === 'visible') mhWakeOn(); return; }
+    if (mhWakeSeen) mhWakeOff();
+  }, 3000);
 }
 function mhWakeOff() { clearInterval(mhWakeT); try { if (mhWake) mhWake.release(); } catch (e) {} mhWake = null; }
+const _mhTxFail = txFail;
+txFail = function () { mhWakeOff(); return _mhTxFail.apply(this, arguments); };   /* فشل التجهيز قبل أن تُنشأ المهمّة */
 document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && TXJOB && TXJOB.state === 'run') mhWakeOn(); });
 const _mhTxRun = txRun;
-txRun = function () { mhWakeOn(); return _mhTxRun.apply(this, arguments); };
+txRun = function (it, model, resume) {
+  /* إكمالُ تفريغٍ سحابيّ بمحرّك محلّيّ: نحوّل موضع التوقّف إلى وحدات المحرّك المحلّيّ */
+  try { const old = resume && txOf(it.id);
+    if (old && old.how === 'cloud') { const last = old.segs && old.segs[old.segs.length - 1];
+      saveTx(it.id, Object.assign({}, old, { how: 'auto', next: last ? Math.floor(last.s / (TXCH - TXOV)) + 1 : 0, total: 0 })); } } catch (e) {}
+  mhWakeOn(); return _mhTxRun.apply(this, arguments);
+};
 const _mhCloudRun = mhCloudRun;
 mhCloudRun = function () { mhWakeOn(); return _mhCloudRun.apply(this, arguments); };
 /* تنبيهٌ صريح في نافذة التقدّم */

@@ -179,7 +179,13 @@ document.addEventListener('click', ev => {
    القراءة بالتقليب: صفحةٌ تملأ الشاشة وتُقلَّب بالسحب يمينًا ويسارًا
    ================================================================ */
 function mhPagedOn() { return S.get('rdMode', 'scroll') === 'flip'; }
-function mhRtl(box) { return getComputedStyle(box).direction === 'rtl' ? -1 : 1; }
+/* اتّجاه التمرير الأفقيّ يُقاس من مواضع الصفحات لا من اتّجاه الصفحة:
+   الصفحات تتزايد يمينًا (row-reverse داخل rtl) فالإزاحة موجبة في كلّ المتصفّحات */
+function mhRtl(box) {
+  const s = box.querySelectorAll('.pgslot, .pg');
+  if (s.length > 1) return s[0].getBoundingClientRect().left <= s[s.length - 1].getBoundingClientRect().left ? 1 : -1;
+  return getComputedStyle(box).direction === 'rtl' ? -1 : 1;
+}
 function mhPagedify(box) {
   if (!box.__pdf) return;
   box.classList.add('paged');
@@ -197,12 +203,17 @@ function mhPagedify(box) {
 }
 const _mhLayout = layoutPdf;
 layoutPdf = function (box, opt) {
+  const p0 = box.classList.contains('paged') ? pageAtTop(box) : 0;   /* نقرأ الصفحة قبل أن يعود العرض عموديًّا */
   box.classList.remove('paged');
   _mhLayout.apply(this, arguments);
+  const wantKeep = !!(opt && opt.keep);
+  if (p0 && wantKeep) box.__lastP = p0;
   if (mhPagedOn() && box.classList.contains('full')) {
-    const keep = (opt && opt.keep) ? (box.__lastP || 1) : ((ppos[box.dataset.item] || {}).p || 1);
+    const keep = wantKeep ? (box.__lastP || 1) : ((ppos[box.dataset.item] || {}).p || 1);
     mhPagedify(box);
     requestAnimationFrame(() => { box.scrollLeft = mhRtl(box) * (keep - 1) * box.clientWidth; showPg(box); });
+  } else if (p0 > 1 && wantKeep) {
+    const t = box.querySelector(`.pg[data-p="${p0}"]`); if (t) box.scrollTop = Math.max(0, t.offsetTop - 10);
   }
 };
 const _mhPageAtTop = pageAtTop;

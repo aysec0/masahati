@@ -12,11 +12,7 @@
 
 @ini_set('display_errors', '0');
 header_remove('X-Powered-By');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Headers: *');
-header('Access-Control-Expose-Headers: Content-Length, Content-Range, Accept-Ranges, Content-Type, Content-Disposition');
 header('X-Content-Type-Options: nosniff');
-if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'OPTIONS') { http_response_code(204); exit; }
 
 function fail($code, $msg) {
     http_response_code($code);
@@ -24,6 +20,27 @@ function fail($code, $msg) {
     echo json_encode(['ok' => false, 'error' => $msg], JSON_UNESCAPED_UNICODE);
     exit;
 }
+
+/* من يستعمل هذا الملفّ؟ موقعك نفسه ونسخة GitHub وما تضيفه هنا — لا مواقع الغير
+   (يُمنع الطلب حين يأتي باسم موقعٍ آخر؛ الطلبات بلا مصدر تمرّ لأنّ التنزيل المباشر منها) */
+$ORIGINS = [];   /* مثال: ['https://example.com'] */
+function origin_ok($o) {
+    global $ORIGINS;
+    if ($o === '') return true;
+    $h = strtolower((string)(parse_url($o, PHP_URL_HOST) ?? ''));
+    if ($h === '') return false;
+    $me = preg_replace('~:\d+$~', '', strtolower($_SERVER['HTTP_HOST'] ?? ''));
+    if ($h === $me || $h === 'localhost' || $h === '127.0.0.1' || preg_match('~\.github\.io$~', $h)) return true;
+    foreach ($ORIGINS as $x) if (strtolower((string)(parse_url($x, PHP_URL_HOST) ?? $x)) === $h) return true;
+    return false;
+}
+$origin = $_SERVER['HTTP_ORIGIN'] ?? ''; $referer = $_SERVER['HTTP_REFERER'] ?? '';
+if (!origin_ok($origin) || !origin_ok($referer)) fail(403, 'غير مسموح من هذا الموقع');
+header('Access-Control-Allow-Origin: ' . ($origin !== '' ? $origin : '*'));
+header('Vary: Origin');
+header('Access-Control-Allow-Headers: Range, Content-Type');
+header('Access-Control-Expose-Headers: Content-Length, Content-Range, Accept-Ranges, Content-Type, Content-Disposition');
+if (($_SERVER['REQUEST_METHOD'] ?? 'GET') === 'OPTIONS') { http_response_code(204); exit; }
 if (!function_exists('curl_init')) fail(500, 'curl غير متاح في الاستضافة');
 
 $id = $_GET['id'] ?? '';
@@ -135,7 +152,7 @@ if (isset($_GET['info'])) {
             'itag' => $f['itag'], 'kind' => $k, 'mime' => $m, 'ext' => $mm[1] ?? '',
             'q' => $f['qualityLabel'] ?? ($f['audioQuality'] ?? ''), 'h' => $f['height'] ?? null, 'fps' => $f['fps'] ?? null,
             'br' => $f['bitrate'] ?? null, 'size' => isset($f['contentLength']) ? (int)$f['contentLength'] : null,
-            'lang' => $f['audioTrack']['displayName'] ?? null, 'drc' => !empty($f['isDrc']),
+            'lang' => $f['audioTrack']['displayName'] ?? null, 'def' => $f['audioTrack']['audioIsDefault'] ?? true, 'drc' => !empty($f['isDrc']),
         ];
     }
     unset($f);
@@ -158,6 +175,17 @@ $fmt = null;
 foreach ($j['_formats'] as $f) if ((int)$f['itag'] === $itag) { $fmt = $f; break; }
 if (!$fmt) fail(404, 'الصيغة غير موجودة');
 
+/* نتأكّد أنّ الرابط ما زال صالحًا قبل إرسال الترويسات — وإلّا نستخرج من جديد */
+$probe = curl_init($fmt['url'] . '&range=0-0');
+curl_setopt_array($probe, [CURLOPT_NOBODY => true, CURLOPT_RETURNTRANSFER => true, CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_TIMEOUT => 10, CURLOPT_USERAGENT => $j['_ua']]);
+curl_exec($probe);
+if ((int)curl_getinfo($probe, CURLINFO_RESPONSE_CODE) >= 400) {
+    @unlink(sys_get_temp_dir() . '/mh_yt_' . $id . '.json');
+    $j = yt_get($id); $fmt = null;
+    foreach ($j['_formats'] as $f) if ((int)$f['itag'] === $itag) { $fmt = $f; break; }
+    if (!$fmt) fail(404, 'الصيغة غير موجودة');
+}
 $url = $fmt['url'];
 $total = yt_size($fmt, $j['_ua']);
 $mime = explode(';', $fmt['mimeType'] ?? 'application/octet-stream')[0];

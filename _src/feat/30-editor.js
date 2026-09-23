@@ -3,6 +3,16 @@
    وملء الشاشة لمن أراد المساحة، وميكروفونٌ في كل مكان تكتب فيه.
    ================================================================ */
 
+/* ---------- ترتيب الطبقات: ما يُفتح آخرًا يعلو ما قبله ----------
+   الورقة (sheet) في الأصل تحت نوافذنا، فكانت تختفي إن فُتحت من داخل نافذة
+   (كقائمة بطاقة الجدار). نرفعها فوق النافذة المفتوحة عند الحاجة. */
+let MH_Z = 150;
+const _mhSheet = sheet;
+sheet = function () {
+  const el = _mhSheet.apply(this, arguments);
+  if (el && document.querySelector('.mhmodal')) el.style.zIndex = ++MH_Z;
+  return el;
+};
 /* ---------- نافذة فوق كل شيء (لا تُغلق الورقة المفتوحة تحتها) ---------- */
 function mhModal(html, opt, wire) {
   /* تقبل دالّة الربط في الموضع الثاني أيضًا — كانت تُهمَل فتموت أزرار النافذة */
@@ -10,6 +20,7 @@ function mhModal(html, opt, wire) {
   opt = opt || {};
   const m = document.createElement('div');
   m.className = 'mhmodal' + (opt.full ? ' full' : '');
+  m.style.zIndex = ++MH_Z;                       /* الأحدث فوق الأقدم */
   m.innerHTML = `<div class="mhmcard">${html}</div>`;
   document.body.appendChild(m);
   const close = () => { m.remove(); if (opt.onClose) opt.onClose(); };
@@ -69,7 +80,7 @@ document.addEventListener('click', ev => {
 
 /* ---------- أدخل نصًّا في خانة (محرِّر أو حقل) ---------- */
 function mhInsert(target, text, html) {
-  if (!target || !text) return;
+  if (!target || !(text || html)) return;
   if (target.tagName === 'TEXTAREA' || target.tagName === 'INPUT') {
     const v = target.value; target.value = v + (v && !/\s$/.test(v) ? ' ' : '') + text;
     target.dispatchEvent(new Event('input', { bubbles: true }));
@@ -153,8 +164,11 @@ function mhVoice(target) {
     for (let i = 0; i < d.length; i++) { const x = i / d.length * wave.width, y = d[i] / 255 * wave.height; i ? wc.lineTo(x, y) : wc.moveTo(x, y); }
     wc.stroke(); if (rec || dict) requestAnimationFrame(draw);
   };
+  let t1 = 0, ac = null;
   const stopAll = () => {
+    if (!t1) t1 = Date.now();               /* طول التسجيل يُقاس عند الإيقاف لا عند الإرفاق */
     clearInterval(tick);
+    try { if (ac) { ac.close(); ac = null; } } catch (e) {}
     try { if (rec && rec.state !== 'inactive') rec.stop(); } catch (e) {}
     if (dict) { dict.stop(); dict = null; }
     if (stream) stream.getTracks().forEach(t => t.stop());
@@ -175,7 +189,7 @@ function mhVoice(target) {
           m.querySelector('#mhvA').hidden = false; rec = null;
         };
         rec.start(1000);
-        try { const ac = new (window.AudioContext || window.webkitAudioContext)(); an = ac.createAnalyser(); an.fftSize = 512; ac.createMediaStreamSource(stream).connect(an); draw(); } catch (e) {}
+        try { ac = new (window.AudioContext || window.webkitAudioContext)(); an = ac.createAnalyser(); an.fftSize = 512; ac.createMediaStreamSource(stream).connect(an); draw(); } catch (e) {}
       } catch (e) {
         if (!live) { toast('لم يُسمح بالميكروفون — اسمح به من إعدادات المتصفّح'); return; }
       }
@@ -186,7 +200,7 @@ function mhVoice(target) {
         mid => { if (txBox) txBox.textContent = said + (mid ? '… ' + mid : ''); },
         (st, err) => { if (st === 'err' && err === 'not-allowed') toast('اسمح بالميكروفون للإملاء'); });
     }
-    t0 = Date.now(); btn.classList.add('rec'); btn.innerHTML = MHI.stop;
+    t0 = Date.now(); t1 = 0; btn.classList.add('rec'); btn.innerHTML = MHI.stop;
     tick = setInterval(() => { T.textContent = mhFmtTime((Date.now() - t0) / 1000); }, 250);
   };
   btn.onclick = () => { if (btn.classList.contains('rec')) stopAll(); else start(); };
@@ -194,7 +208,7 @@ function mhVoice(target) {
   if (sw) sw.onclick = () => { live = !live; sw.classList.toggle('on', live); S.set('dictLive', live); };
   const saveRec = async () => {
     const key = uid('rec'); await putFile(key, blob);
-    const dur = Math.round((Date.now() - t0) / 1000);
+    const dur = Math.round(((t1 || Date.now()) - t0) / 1000);
     const r = { id: uid('r'), key, at: Date.now(), dur, label: mhCtxLabel(), h: location.hash, tx: '' };
     recs.unshift(r); saveRecs(); return r;
   };
@@ -220,7 +234,7 @@ function mhVoice(target) {
       const key = uid('f'); await putFile(key, blob);
       const sec = mhSecEnsure('secRecs', 'تسجيلاتي');
       sec.items.unshift({ id: uid('i'), type: 'audio', name: 'تسجيل — ' + mhCtxLabel() + ' — ' + new Date().toLocaleDateString('ar'),
-        file: key, size: blob.size, mime: blob.type, dur: Math.round((Date.now() - t0) / 1000), ts: Date.now() });
+        file: key, size: blob.size, mime: blob.type, dur: Math.round(((t1 || Date.now()) - t0) / 1000), ts: Date.now() });
       saveTree(); toast('حُفظ في مكتبتك ← تسجيلاتي'); m.close();
     }
   });
@@ -254,6 +268,9 @@ async function mhTranscribeBlob(blob, say) {
 /* تشغيل تسجيل من رابطه داخل الفائدة */
 async function mhPlayBlob(blob, title, sub) {
   try {
+    /* مقطعٌ عابر: لا يُنسَب موضعه ولا إتمامه إلى آخر عنصر شُغّل من المكتبة أو المصحف */
+    try { current = null; } catch (e) {}
+    try { if (typeof MHQ !== 'undefined') MHQ = null; } catch (e) {}
     au.src = URL.createObjectURL(blob); P.el.classList.add('up');
     P.title.innerHTML = `<b>${esc(title)}</b><small>${esc(sub || 'تسجيل صوتيّ')}</small>`; P.title.href = location.hash;
     au.playbackRate = S.get('rate', 1); await au.play();
@@ -300,3 +317,8 @@ bkFileKeys = function () {
   } catch (e) {}
   return [...keys];
 };
+
+/* صفحة كلّ التسجيلات (رابط «الكل» في لوحة تسجيلاتي) */
+mhRoute(h => h === '#/dict/recs', () =>
+  `${head('تسجيلاتي', `<a class="chip" href="#/notes">${ICON.back} فوائدي</a>`)}
+   <div class="nlist" style="margin:0 16px">${recs.length ? recs.map(mhRecRow).join('') : '<div class="empty">لا تسجيلات بعد.</div>'}</div>`);

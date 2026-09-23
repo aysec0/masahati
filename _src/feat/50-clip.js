@@ -109,6 +109,7 @@ async function mhRecordRange(blob, a, b, say) {
   el.pause(); rec.stop();
   const out = await new Promise(r => { rec.onstop = () => r(new Blob(chunks, { type: rec.mimeType || mt || 'audio/webm' })); });
   try { ctx.close(); } catch (e) {}
+  try { URL.revokeObjectURL(el.src); } catch (e) {}
   return out;
 }
 async function mhClipAudio(it, blob, c) {
@@ -179,6 +180,8 @@ async function mhClipVideo(it, blob, c) {
       const iv = setInterval(() => { const p = Math.min(100, (v.currentTime - c.a) / dur * 100); say(2 + p * 0.96);
         if (v.currentTime >= stopAt || v.ended) { clearInterval(iv); res(); } }, 100);
     });
+    try { v.pause(); } catch (e) {}
+    setTimeout(() => { try { URL.revokeObjectURL(v.src); } catch (e) {} }, 3000);
     v.pause(); rec.stop();
     const done = await new Promise(res => { rec.onstop = () => res(new Blob(chunks, { type: rec.mimeType || 'video/webm' })); });
     say(100, 'تمّ');

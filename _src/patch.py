@@ -8,7 +8,7 @@ SRC = ROOT / '_src' / 'masahati' / 'index.html'
 DST = ROOT / 'site' / 'index.html'
 html = SRC.read_text(encoding='utf-8')
 
-APP_VER = '3.3.0'
+APP_VER = '3.3.1'
 
 def rep(old, new, count=1):
     global html
@@ -462,6 +462,12 @@ rep("""const saveUI=()=>S.set('ui',UI);""",
 """const saveUI=()=>S.set('ui',UI);
 /* الصفحة الأولى أهدأ: شبكة «كل الأقسام» تُطفأ افتراضيًا (الأقسام كلّها في الشريط وقائمة «المزيد») — مرّة واحدة فقط */
 if(!S.get('simpleHome',false)){ UI.bits.quick=false; S.set('simpleHome',true); saveUI(); }""")
+
+# ---------------------------------------------------------------- التفريغ السحابيّ يُوصف كالآليّ
+rep("${d.how === 'auto' ? 'فُرِّغ آليًّا (' + esc(d.model || '') + ')", "${(d.how === 'auto' || d.how === 'cloud') ? 'فُرِّغ آليًّا (' + esc(d.model || '') + ')")
+
+# ---------------------------------------------------------------- التنبيه فوق النوافذ والأوراق كلّها
+rep("inset-inline:0;margin:auto;z-index:140;width:max-content", "inset-inline:0;margin:auto;z-index:300;width:max-content")
 
 DST.write_text(html, encoding='utf-8')
 print('built', DST, len(html), 'bytes')

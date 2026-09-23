@@ -69,7 +69,7 @@ mhRoute(h => /^#\/qari\/[^/]+$/.test(h), h => {
   const have = mhQariHave(rid);
   return `${head(rec.n, `<a class="chip" href="#/qari">${ICON.back} القرّاء</a>`)}
     <div class="qhead">
-      <button class="btn pri" data-qall="${rid}">${ICON.dl} نزّل المصحف كاملًا</button>
+      <button class="btn pri" data-qall="${rid}">${mhQariJob && mhQariJob.rid === rid ? 'إيقاف التنزيل' : ICON.dl + ' نزّل المصحف كاملًا'}</button>
       <button class="btn" data-qplayall="${rid}">${MHI.play} استمع بالترتيب</button>
       <span class="mhnote" id="qAllSt" style="flex:1 1 100%"></span>
     </div>
@@ -115,16 +115,15 @@ document.addEventListener('click', async ev => {
     if (key) dropFile(key); delete mhQari[rid][n]; saveQari();
     render(); return; }
   const p = ev.target.closest('[data-qplay]');
-  if (p) { const [rid, n] = p.dataset.qplay.split(':'); const key = (mhQari[rid] || {})[+n];
-    if (!key) return; const b = await getFile(key); const rec = QARIS.find(r => r.id === rid);
-    if (b) mhPlayBlob(b, 'سورة ' + SURAS[+n - 1], rec.n); return; }
+  if (p) { const [rid, n] = p.dataset.qplay.split(':'); const rec = QARIS.find(r => r.id === rid);
+    if (!(mhQari[rid] || {})[+n]) { toast('السورة غير محفوظة في هذا المتصفّح'); return; }
+    if (rec) mhQPlay(rec, +n); return; }
   const all = ev.target.closest('[data-qall]');
   if (all) { mhQariAll(all.dataset.qall); return; }
   const pa = ev.target.closest('[data-qplayall]');
   if (pa) { const rid = pa.dataset.qplayall; const have = Object.keys(mhQariHave(rid)).map(Number).sort((a, b) => a - b);
     if (!have.length) { toast('نزّل بعض السور أوّلًا'); return; }
-    const b = await getFile(mhQariHave(rid)[have[0]]); const rec = QARIS.find(r => r.id === rid);
-    if (b) mhPlayBlob(b, 'سورة ' + SURAS[have[0] - 1], rec.n); return; }
+    const rec = QARIS.find(r => r.id === rid); if (rec) mhQPlay(rec, have[0]); return; }
 });
 /* تنزيل المصحف كاملًا: سورةً بعد سورة، ويمكن إيقافه */
 let mhQariJob = null;
@@ -149,7 +148,7 @@ async function mhQariAll(rid) {
   const stopped = mhQariJob.stop; mhQariJob = null;
   if (btn) btn.textContent = ICON.dl.replace(/^/, '') + ' نزّل المصحف كاملًا', btn.innerHTML = `${ICON.dl} نزّل المصحف كاملًا`;
   if (st) st.textContent = stopped ? `توقّف — حُفظت ${AR(done)} سورة` : `اكتمل المصحف — ${AR(done)} سورة جديدة ✓`;
-  render();
+  if (location.hash === '#/qari/' + rid) render();
 }
 /* زرّ القرّاء داخل قسم المصحف */
 mhAfter(h => {
@@ -179,7 +178,7 @@ async function mhQPlay(rec, n) {
   n = Math.max(1, Math.min(114, n));
   const have = (mhQari[rec.id] || {})[n];
   let src = mhQariUrl(rec, n);
-  if (have) { const b = await getFile(have); if (b) src = URL.createObjectURL(b); }
+  if (have) { const u = await fileURL(have); if (u) src = u; }
   try { if (typeof current !== 'undefined') current = null; } catch (e) {}
   MHQ = { rec, n };
   au.src = src; au.playbackRate = S.get('rate', 1);
@@ -306,3 +305,11 @@ document.addEventListener('click', ev => {
   const n = MHQ ? MHQ.n : mhSurahAtPage(box ? pageAtTop(box) : 1);
   mhQPlay(mhQSel(), n); rdTip('سورة ' + SURAS[n - 1] + ' — ' + mhQSel().n);
 });
+
+/* ملفّات السور المنزَّلة تدخل النسخة الشاملة (فهرسها فيها، فلا تبقى بلا ملفّات بعد الاستعادة) */
+const _mhBkKeysQ = bkFileKeys;
+bkFileKeys = function () {
+  const k = new Set(_mhBkKeysQ());
+  try { Object.values(mhQari).forEach(o => Object.values(o || {}).forEach(x => { if (x) k.add(x); })); } catch (e) {}
+  return [...k];
+};

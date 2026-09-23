@@ -46,7 +46,8 @@ mhAfter(h => {
         const more = t.querySelector('[data-editsec]'); if (more) more.before(b); else t.appendChild(b);
       }
     });
-    [...ps].reverse().forEach(id => { const t = grid.querySelector(`.tile[data-sortid="${id}"]`); if (t) grid.prepend(t); });
+    /* ترتيبٌ مرئيّ فقط: ترتيب الشجرة الحقيقيّ يبقى، فلا يفسده السحب */
+    grid.querySelectorAll('.tile[data-sortid]').forEach(t => { const i = ps.indexOf(t.dataset.sortid); t.style.order = i < 0 ? '' : String(i - PIN_MAX); });
   }
   /* الملفّات المثبّتة: شريطٌ في الأعلى */
   if ((pf.length || ps.length) && !view.querySelector('.pinwrap')) {

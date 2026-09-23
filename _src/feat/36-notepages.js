@@ -16,6 +16,7 @@ function npPages(id) {
   return p.length ? p : [''];
 }
 let NPCUR = {};                       /* آخر صفحة فتحتها لكل مقرَّر (في هذه الجلسة) */
+let NP_FLUSH = null;                  /* آخر دالّة حفظ مربوطة بتغيّر المسار */
 
 mhAfter(h => {
   if (!/^#\/i\//.test(h)) return;
@@ -117,6 +118,7 @@ mhAfter(h => {
     if (Math.abs(dx) < 50) return;
     if (dx > 0 && cur < pages.length - 1) go(cur + 1, 'np-l'); else if (dx < 0 && cur > 0) go(cur - 1, 'np-r');
   });
-  addEventListener('hashchange', flush, { once: true });
+  if (NP_FLUSH) removeEventListener('hashchange', NP_FLUSH);
+  NP_FLUSH = flush; addEventListener('hashchange', flush, { once: true });
   show();
 });

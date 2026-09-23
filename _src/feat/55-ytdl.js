@@ -41,7 +41,7 @@ async function ytFetch(url, total, onp, signal) {
   for (;;) {
     try {
       const r = await fetch(url, { signal, cache: 'no-store', headers: got ? { Range: 'bytes=' + got + '-' } : {} });
-      if (!r.ok) throw new Error('HTTP ' + r.status);
+      if (!r.ok) { let m = 'HTTP ' + r.status; try { m = (await r.json()).error || m; } catch (e) {} throw new Error(m); }
       if (got && r.status !== 206) { parts.length = 0; got = 0; }
       if (!total) total = +r.headers.get('content-length') || 0;
       const rd = r.body.getReader();
@@ -63,7 +63,7 @@ async function ytFetch(url, total, onp, signal) {
 }
 
 /* ---------- ffmpeg داخل المتصفّح (يُحمَّل مرّة عند الحاجة) ---------- */
-let YTFF = null;
+let YTFF = null, YTFF_BUSY = false;
 /* نسخة الوحدات (ESM): العامل يُنشأ من رابط محلّي يستورد ملفّ الشبكة،
    لأنّ المتصفّح لا يشغّل عاملًا من نطاق آخر مباشرة */
 async function ytFF(onp) {
@@ -82,11 +82,11 @@ async function ytFF(onp) {
 }
 async function ytRun(inputs, args, outName, mime, onp) {
   const ff = await ytFF();
-  for (const [n, b] of inputs) await ff.writeFile(n, new Uint8Array(await b.arrayBuffer()));
+  for (const pair of inputs) { await ff.writeFile(pair[0], new Uint8Array(await pair[1].arrayBuffer())); pair[1] = null; }   /* نحرّر الذاكرة */
   const h = ({ progress }) => onp && onp(Math.max(0, Math.min(1, progress || 0)));
-  ff.on('progress', h);
+  ff.on('progress', h); YTFF_BUSY = true;
   try { const rc = await ff.exec(args); if (rc !== 0) throw new Error('فشلت المعالجة'); }
-  finally { ff.off('progress', h); }
+  finally { YTFF_BUSY = false; try { ff.off('progress', h); } catch (e) {} }
   const data = await ff.readFile(outName);
   for (const [n] of inputs) { try { await ff.deleteFile(n); } catch (e) {} }
   try { await ff.deleteFile(outName); } catch (e) {}
@@ -96,8 +96,8 @@ async function ytRun(inputs, args, outName, mime, onp) {
 /* ---------- اختيار الصيغ ---------- */
 function ytPlan(info) {
   const F = info.formats || [];
-  const aM4a = F.filter(f => f.kind === 'a' && f.ext === 'mp4' && !f.drc).sort((a, b) => (b.br || 0) - (a.br || 0));
-  const aWeb = F.filter(f => f.kind === 'a' && f.ext === 'webm' && !f.drc).sort((a, b) => (b.br || 0) - (a.br || 0));
+  const aM4a = F.filter(f => f.kind === 'a' && f.ext === 'mp4' && !f.drc && f.def !== false).sort((a, b) => (b.br || 0) - (a.br || 0));
+  const aWeb = F.filter(f => f.kind === 'a' && f.ext === 'webm' && !f.drc && f.def !== false).sort((a, b) => (b.br || 0) - (a.br || 0));
   const best = { m4a: aM4a[0], webm: aWeb[0] || aM4a[0] };
   const vids = [];
   const av = F.filter(f => f.kind === 'av').sort((a, b) => (b.h || 0) - (a.h || 0));
@@ -175,7 +175,7 @@ function ytPanelHTML(info, ctx) {
 
 function ytWire(root, info, ctx) {
   const $ = s => root.querySelector(s);
-  root.addEventListener('click', ev => {
+  root.onclick = ev => {                        /* لا يتراكم مع كلّ فحصٍ جديد في الصفحة نفسها */
     const t = ev.target.closest('[data-ytt]');
     if (t) {
       root.querySelectorAll('[data-ytt]').forEach(b => b.classList.toggle('on', b === t));
@@ -184,9 +184,10 @@ function ytWire(root, info, ctx) {
       return;
     }
     const c = ev.target.closest('[data-ytc]'); if (c) { ytCaptions(root, info, ctx, c.dataset.ytc); return; }
-    if (ev.target.closest('[data-ytx]')) { if (ctx.ac) ctx.ac.abort(); return; }
+    if (ev.target.closest('[data-ytx]')) { ctx.cancelled = true; if (ctx.ac) ctx.ac.abort();
+      if (YTFF_BUSY && YTFF) { try { YTFF.terminate(); } catch (e) {} YTFF = null; } return; }
     if (ev.target.closest('[data-ytstart]')) ytStart(root, info, ctx);
-  });
+  };
   $('#ytCut').onchange = e => { $('.ytcut').hidden = !e.target.checked; };
   $('#ytLib').onchange = e => { $('#ytSec').disabled = !e.target.checked; };
 }
@@ -224,12 +225,13 @@ async function ytStart(root, info, ctx) {
     const f = isAud ? pick.a : pick.v;
     const a = document.createElement('a');
     a.href = ytQ(info.id, 'itag=' + f.itag + '&dl=1&name=' + encodeURIComponent(name));
-    a.rel = 'noopener'; document.body.appendChild(a); a.click(); a.remove();
+    a.rel = 'noopener'; a.target = '_blank'; document.body.appendChild(a); a.click(); a.remove();
     ytProg(root, 1, 'بدأ التنزيل في متصفّحك — تابعه من قائمة التنزيلات.');
     return;
   }
 
   const btn = root.querySelector('[data-ytstart]'); btn.disabled = true;
+  ctx.cancelled = false; root.querySelector('[data-ytx]').hidden = false; root.querySelectorAll('.ytprog a').forEach(x => x.remove());
   root.querySelectorAll('.ytopts input,.ytopts select,.ytlist input,[data-ytt]').forEach(x => x.disabled = true);
   ctx.ac = new AbortController();
   const sig = ctx.ac.signal;
@@ -238,27 +240,29 @@ async function ytStart(root, info, ctx) {
       ytProg(root, t ? g / t : null, note || `${label}: ${mb(g)}${t ? ' من ' + mb(t) : ''}${ytSpeed(bps)}`), sig);
     let out;
     if (isAud) {
-      const src = await get(pick.a, 'تنزيل الصوت');
+      let src = await get(pick.a, 'تنزيل الصوت');
       if (!needFF) out = src;
       else {
         await ytFF((g, n) => ytProg(root, g / n, 'تحميل أداة المعالجة (مرّة واحدة): ' + mb(g) + ' من ' + mb(n)));
         const inN = 'in.' + (pick.a.ext === 'mp4' ? 'm4a' : 'webm'), outN = 'out.' + ext;
         const args = [...(cut ? ['-ss', String(cut.a), '-to', String(cut.b)] : []), '-i', inN, '-vn',
           ...(pick.mp3 ? ['-c:a', 'libmp3lame', '-b:a', '128k'] : ['-c', 'copy']), outN];
-        out = await ytRun([[inN, src]], args, outN, pick.mp3 ? 'audio/mpeg' : (ext === 'm4a' ? 'audio/mp4' : 'audio/webm'),
+        const inputs = [[inN, src]]; src = null;
+        out = await ytRun(inputs, args, outN, pick.mp3 ? 'audio/mpeg' : (ext === 'm4a' ? 'audio/mp4' : 'audio/webm'),
           f => ytProg(root, f, (pick.mp3 ? 'التحويل إلى MP3' : 'القصّ') + '… ' + AR(Math.round(f * 100)) + '٪'));
       }
     } else if (pick.fast && !cut) {
       out = await get(pick.v, 'تنزيل الفيديو');
     } else {
-      const vb = await get(pick.v, 'تنزيل الصورة');
-      const ab = pick.fast ? null : await get(pick.a, 'تنزيل الصوت');
+      let vb = await get(pick.v, 'تنزيل الصورة');
+      let ab = pick.fast ? null : await get(pick.a, 'تنزيل الصوت');
       await ytFF((g, n) => ytProg(root, g / n, 'تحميل أداة الدمج (مرّة واحدة): ' + mb(g) + ' من ' + mb(n)));
       const vN = 'v.' + (pick.fast ? 'mp4' : pick.v.ext), aN = ab ? 'a.' + (pick.a.ext === 'mp4' ? 'm4a' : 'webm') : null, outN = 'out.' + ext;
       const ss = cut ? ['-ss', String(cut.a), '-to', String(cut.b)] : [];
       const args = [...ss, '-i', vN, ...(ab ? [...ss, '-i', aN, '-map', '0:v:0', '-map', '1:a:0'] : []), '-c', 'copy',
         ...(ext === 'mp4' ? ['-movflags', '+faststart'] : []), outN];
-      out = await ytRun(ab ? [[vN, vb], [aN, ab]] : [[vN, vb]], args, outN, ext === 'mp4' ? 'video/mp4' : 'video/webm',
+      const inputs = ab ? [[vN, vb], [aN, ab]] : [[vN, vb]]; vb = ab = null;
+      out = await ytRun(inputs, args, outN, ext === 'mp4' ? 'video/mp4' : 'video/webm',
         f => ytProg(root, f, (ab ? 'الدمج' : 'القصّ') + '… ' + AR(Math.round(f * 100)) + '٪'));
     }
     if (!out || out.size < 1000) throw new Error('الملف الناتج فارغ');
@@ -284,7 +288,7 @@ async function ytStart(root, info, ctx) {
     }
     root.querySelector('[data-ytx]').hidden = true;
   } catch (e) {
-    ytProg(root, 0, (e.message === 'أُلغي' ? 'أُلغي التنزيل.' : 'تعذّر: ' + (e.message || e)));
+    ytProg(root, 0, (ctx.cancelled || e.message === 'أُلغي' ? 'أُلغي التنزيل.' : 'تعذّر: ' + (e.message || e)));
   } finally {
     btn.disabled = false; ctx.ac = null;
     root.querySelectorAll('.ytopts input,.ytopts select,.ytlist input,[data-ytt]').forEach(x => x.disabled = false);

@@ -2,7 +2,7 @@
    عامل خدمة مساحتي — يجعل الموقع يفتح بلا إنترنت ويحدّث نفسه
    غيّر رقم VER عند كل رفع جديد ليُبدَّل المخزون القديم.
    ============================================================ */
-const VER = 'masahati-v3.3.0';
+const VER = 'masahati-v3.3.1';
 const SHELL = VER + '-shell';
 const RUNTIME = VER + '-runtime';
 const PRECACHE = [

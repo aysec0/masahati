@@ -64,7 +64,7 @@ document.addEventListener('click', async ev => {
   if (add) { mhVaultAdd(add.dataset.vadd); return; }
   const cp = ev.target.closest('[data-vcopyb]'); if (cp) { mhCopy(cp.dataset.vcopyb, 'نُسخ'); return; }
   const rv = ev.target.closest('[data-vreveal]'); if (rv) { const f = mhVault.fields[+rv.dataset.vreveal];
-    rv.previousElementSibling.previousElementSibling.textContent = f.v; rv.remove(); return; }
+    const vv = rv.parentElement.querySelector('.vval'); if (vv) vv.textContent = f.v; rv.remove(); return; }
   const pr = ev.target.closest('[data-vpwreveal]'); if (pr) { const el = document.getElementById('vp' + pr.dataset.vpwreveal);
     el.textContent = mhVault.pw[+pr.dataset.vpwreveal].pass || '—'; return; }
   const dl = ev.target.closest('[data-vdel]');
@@ -135,6 +135,7 @@ function mhVaultLockSheet() {
 /* زرّ الخزنة داخل بوح */
 mhAfter(h => {
   if (h !== '#/boh') return;
+  try { if (typeof bohLocked === 'function' && bohLocked()) return; } catch (e) {}   /* لا تظهر الخزنة فوق قفل بوح */
   const view = document.getElementById('view'); if (!view || view.querySelector('.vaultcard')) return;
   const head0 = view.querySelector('.sechead') || view.querySelector('p');
   const d = document.createElement('a'); d.className = 'pcardx vaultcard'; d.href = '#/vault';

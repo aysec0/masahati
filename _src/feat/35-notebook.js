@@ -162,7 +162,11 @@ document.addEventListener('click', ev => {
   if (ev.target.closest('[data-nbnew]')) {
     const L = mhNbList(id);
     const p = nbAdd(id, { ttl: '', h: '', p: null });
-    const b = nbOf(id); if (b.order && b.order.length) { b.order.splice(mhNbAt(id) + 1, 0, p.id); saveBooks(); }
+    const b = nbOf(id);
+    if (b.order && b.order.length) {          /* بعد الصفحة المفتوحة في الترتيب الحقيقيّ (لا الظاهر) */
+      const cur = L.vis[mhNbAt(id)]; const i = cur ? b.order.indexOf(cur.key) : -1;
+      b.order.splice(i + 1, 0, p.id); saveBooks();
+    }
     S.set('nbMode', 'pages');
     mhNbAt(id, mhNbList(id).vis.findIndex(x => x.key === p.id));
     render();
@@ -245,8 +249,8 @@ function mhFlip(d) {
 addEventListener('resize', () => { if (document.getElementById('fbStage')) mhFlipPaint(); });
 addEventListener('keydown', e => {
   if (!/^#\/nb\//.test(location.hash || '') || e.target.closest('input,textarea,[contenteditable="true"]')) return;
-  if (e.key === 'ArrowLeft') { mhNbMode() === 'book' ? mhFlip(1) : mhNbStep(FB.id || location.hash.slice(5), 1); }
-  if (e.key === 'ArrowRight') { mhNbMode() === 'book' ? mhFlip(-1) : mhNbStep(FB.id || location.hash.slice(5), -1); }
+  if (e.key === 'ArrowLeft') { mhNbMode() === 'book' ? mhFlip(1) : mhNbStep(location.hash.slice(5), 1); }
+  if (e.key === 'ArrowRight') { mhNbMode() === 'book' ? mhFlip(-1) : mhNbStep(location.hash.slice(5), -1); }
 });
 /* ---------- ترتيب بالسحب: عامّ لأيّ قائمة ---------- */
 function mhSortable(list, rowSel, gripSel, onDone) {
@@ -277,10 +281,14 @@ function mhSortable(list, rowSel, gripSel, onDone) {
     if (!drag) return;
     ph.replaceWith(drag); drag.classList.remove('mhdrag'); drag.style.cssText = '';
     document.body.classList.remove('sorting'); drag = null;
+    removeEventListener('pointermove', move); removeEventListener('pointerup', up); removeEventListener('pointercancel', up);
     onDone([...list.querySelectorAll(rowSel)].map(x => x.dataset.key));
   };
-  addEventListener('pointermove', move, { passive: false });
-  addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  list.addEventListener('pointerdown', e => {                  /* تُربط عند بدء السحب وتُفكّ عند انتهائه */
+    if (!e.target.closest(gripSel)) return;
+    addEventListener('pointermove', move, { passive: false });
+    addEventListener('pointerup', up); addEventListener('pointercancel', up);
+  });
 }
 /* ---------- تصدير بالترتيب الذي اخترته ---------- */
 nbExport = function (id) {
